@@ -15,8 +15,10 @@ syclink
  |      |--application-files-go-here
  |
  |--spec
-     |--syclink
-         |--test-files-go-here
+ |   |--syclink
+ |       |--test-files-go-here
+ |--.rspec
+ |--.gitignore
 ````
 
 Organize the  source code with Git
