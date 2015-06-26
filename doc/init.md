@@ -56,5 +56,9 @@ For tests we want to use _RSpec_. To install RSpec issue this command
 
     $ gem install rspec
 
-This will install the latest version.
+This will install the latest version. To see results of RSpec in color add
+following line to _.rspec_ in the application's root directory
+
+    --color
+
 
