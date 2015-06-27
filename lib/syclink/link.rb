@@ -28,9 +28,8 @@ module SycLink
 
     def contains?(search)
       search = search.delete(' ')
-      instance_variables.reduce(true) do |result, variable|
-        result = result || search =~ send(variable).downcase.delete(' ')
-      end
+      target = instance_variables.map { |v| instance_variable_get v }.join
+      target.downcase.delete(' ').scan(search).size > 0
     end
 
     private
