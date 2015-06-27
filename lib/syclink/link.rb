@@ -20,8 +20,6 @@ module SycLink
 
     def match?(args)
       args.reduce(true) do |sum, attribute|
-        p attribute
-        p sum
         sum = sum && (send(attribute[0]) == attribute[1])
       end 
     end
