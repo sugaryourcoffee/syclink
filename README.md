@@ -50,7 +50,7 @@ A link may have a title, a descritption and a tag. title, description and tag
 are optional but a link obviously has to be provided. If no title is given the
 link is used as the title.
   
-    $ syclin http://example.com --title "Test page" --tag TEST
+    $ syclink http://example.com --title "Test page" --tag TEST
 
 It is also possible to add links from a file
 
