@@ -40,6 +40,7 @@ module SycLink
 
     it "should return true if search string is part of link attributes" do
       expect(@link_complete.contains?("example.com")).to be_true
+      expect(@link_complete.contains?("nothing")).to     be_false
     end
   end
 
