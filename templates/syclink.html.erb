@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+  </head>
+
+  <body>
+    <header id="page_header">
+        <h1><%= title %></h1>
+    </header>
+    <section id="tags">
+      <% links_group_by(:tag).each do |tag, links| %>
+        <article class="tag">
+          <header>
+            <h2><%= tag %></h2>
+          </header>
+          <table>
+            <thead>
+              <tr><th>URL</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <% links.each do |link| %>
+                <tr>
+                  <td><a target="_blank" href="<%= link.url %>">
+                      <%= link.title %></a>
+                  </td>
+                  <td><%= link.description %></td>
+                <tr>
+              <% end %>
+            </tbody>
+          </table>
+        </article>
+      <% end %>
+  </section>
+    <footer id="page_footer">
+      <p>
+        Copyright &copy; 2015 Sugar Your Coffee 
+        <em>Created at <%= Time.now %> by syclink</em>
+      </p>
+    </footer>
+  </body>
+</html>
