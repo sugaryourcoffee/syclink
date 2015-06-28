@@ -10,6 +10,15 @@ module SycLink
                          description: "An example website",
                          tag:         "Test" })
       @website = Website.new("Link List")
+      @template = <<-HERE.gsub(/^ {8}/, '')
+        <html>
+          <h1><%= title %></h1>
+          <% links.each do |link| %>
+            <a href='<%= link.url %>'><%= link.title %></a>
+            <%= link.description %> <%= link.tag %>
+          <% end %>
+        </html> 
+      HERE
     end
 
     it "should add link" do
@@ -31,9 +40,14 @@ module SycLink
       expect(@website.find_links("nothing")).to     eq []
     end
 
-    it "should create the html representation"
-
-    it "should load links from file"
+    it "should create the html representation" do
+      @website.add_link(@link)
+      html = @website.to_html(@template)
+      expect(html).to include("<a href='http://example.com'>")
+      expect(html).to include("Example")
+      expect(html).to include("An example website")
+      expect(html).to include("Test")
+    end
 
   end
 

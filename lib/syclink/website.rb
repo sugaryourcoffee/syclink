@@ -1,3 +1,5 @@
+require 'syclink/exporter'
+
 module SycLink
   
 
@@ -5,6 +7,8 @@ module SycLink
   # removed. It is also possible to search for links. And finally an html 
   # representation of the Website can be created.
   class Website
+
+    include Exporter
 
     attr_reader :links
     attr_reader :title
