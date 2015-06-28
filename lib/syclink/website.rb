@@ -1,4 +1,4 @@
-require 'syclink/exporter'
+require_relative 'exporter'
 
 module SycLink
   
