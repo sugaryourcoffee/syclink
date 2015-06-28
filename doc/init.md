@@ -17,6 +17,9 @@ syclink
  |--spec
  |   |--syclink
  |       |--test-files-go-here
+ |--templates
+ |   |--syclink.erb
+ |   |--syclink.css
  |--.rspec
  |--.gitignore
 ````
