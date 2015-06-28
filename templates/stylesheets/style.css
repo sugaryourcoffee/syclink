@@ -1,0 +1,36 @@
+header#page_header {
+  background-color: #888888;
+  color: #fff;
+  height: 68px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  padding: 10px 20px; }
+
+footer#page_footer {
+  background-color: #888888;
+  border-bottom: 10px solid #484848;
+  color: #fff;
+  height: 50px;
+  padding: 10px 20px;
+  margin: 25px 0px; }
+  footer#page_footer em {
+    text-align: right; }
+
+table {
+  border-collapse: collapse;
+  width: 80%; }
+  table a {
+    text-decoration: none; }
+    table a:hover {
+      text-decoration: underline; }
+  table th, table td {
+    border: none; }
+  table th {
+    background-color: #484848;
+    color: #fff; }
+  table tr:nth-of-type(even) {
+    background-color: #f3f3f3; }
+  table tr:nth-of-type(odd) {
+    background-color: #ddd; }
+
+/*# sourceMappingURL=style.css.map */
