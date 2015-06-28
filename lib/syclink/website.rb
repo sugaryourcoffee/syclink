@@ -33,6 +33,13 @@ module SycLink
     def find_links(search)
       links.select { |link| link.contains? search }
     end
+
+    # Groups the links on the provided attribute
+    def links_group_by(attribute)
+      links.map      { |link| { key: link.send(attribute), link: link } }
+           .group_by { |entry| entry[:key] }
+           .each     { |key, link| link.map! { |l| l[:link] }}
+    end
   end
 
 end

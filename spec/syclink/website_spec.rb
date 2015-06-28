@@ -49,6 +49,13 @@ module SycLink
       expect(html).to include("Test")
     end
 
+    it "should group links on tags" do
+      @website.add_link(@link)
+      @website.add_link(@link)
+      target = { "Test" => [@link, @link] }
+      expect(@website.links_group_by(:tag)).to eq target
+    end
+
   end
 
 end
