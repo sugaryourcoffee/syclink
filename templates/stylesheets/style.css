@@ -28,9 +28,7 @@ table {
   table th {
     background-color: #484848;
     color: #fff; }
-  table tr:nth-of-type(even) {
+  table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3; }
-  table tr:nth-of-type(odd) {
-    background-color: #ddd; }
 
 /*# sourceMappingURL=style.css.map */

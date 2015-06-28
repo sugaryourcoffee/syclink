@@ -39,13 +39,11 @@ table {  border-collapse: collapse;
     color:            #fff;
   }
 
-  tr {
-    &:nth-of-type(even) {
-      background-color: #f3f3f3;
-    }
-
-    &:nth-of-type(odd) {
-      background-color: #ddd;
+  tbody {
+    tr {
+      &:nth-of-type(even) {
+        background-color: #f3f3f3;
+      }
     }
   }
 }
