@@ -18,8 +18,10 @@ syclink
  |   |--syclink
  |       |--test-files-go-here
  |--templates
- |   |--syclink.erb
- |   |--syclink.css
+ |   |--syclink.html.erb
+ |   |--stylesheets
+ |       |--style.css.scss
+ |       |--style.css
  |--.rspec
  |--.gitignore
 ````
@@ -66,4 +68,15 @@ following line to _.rspec_ in the application's root directory
 
     --color
 
+Install Sass
+============
+As we will create a html file with links we need to style with CSS. But instead
+of using plain CSS we will use Scss. For that we need to install Sass
+
+    $ gem install sass
+
+Then we can write stylesheets in the sassy style and when done compile them
+to CSS with
+
+    $ sass templates/stylesheets/style.scss:templates/stylesheets/style.css
 
