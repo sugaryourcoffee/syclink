@@ -56,6 +56,13 @@ module SycLink
       expect(@website.links_group_by(:tag)).to eq target
     end
 
+    it "should list all tags" do
+      @website.add_link(@link)
+      @website.add_link(@link)
+      target = [ @link.tag ]
+      expect(@website.link_attribute_list(:tag)).to eq target
+    end
+
   end
 
 end
