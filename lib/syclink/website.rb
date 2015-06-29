@@ -40,6 +40,11 @@ module SycLink
            .group_by { |entry| entry[:key] }
            .each     { |key, link| link.map! { |l| l[:link] }}
     end
+
+    # List all attributes of the links
+    def link_attribute_list(attribute)
+      links.map { |link| link.send(attribute) }.uniq.sort
+    end
   end
 
 end
