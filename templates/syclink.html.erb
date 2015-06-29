@@ -10,35 +10,49 @@
     <header id="page_header">
         <h1><%= title %></h1>
     </header>
-    <section id="tags">
-      <% links_group_by(:tag).each do |tag, links| %>
-        <article class="tag">
-          <header>
-            <h2><%= tag %></h2>
+    <div class="container">
+      <section id="tags">
+        <% links_group_by(:tag).each do |tag, links| %>
+          <article class="tag">
+            <header>
+              <h2><%= tag %></h2>
+            </header>
+            <table>
+              <thead>
+                <tr><th>URL</th><th>Description</th></tr>
+              </thead>
+              <tbody>
+                <% links.each do |link| %>
+                  <tr>
+                    <td><a target="_blank" href="<%= link.url %>">
+                        <%= link.title %></a>
+                    </td>
+                    <td><%= link.description %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </article>
+        <% end %>
+      </section>
+      <section id="sidebar">
+        <article class="tag_list">
+          <header class="tag_list">
+            <h2>Tags</h2>
           </header>
-          <table>
-            <thead>
-              <tr><th>URL</th><th>Description</th></tr>
-            </thead>
-            <tbody>
-              <% links.each do |link| %>
-                <tr>
-                  <td><a target="_blank" href="<%= link.url %>">
-                      <%= link.title %></a>
-                  </td>
-                  <td><%= link.description %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+          <ul>
+            <% link_attribute_list(:tag).each do |tag| %>
+              <li><a href=<%= tag %>><%= tag %></a>
+            <% end %>
+          </ul>
         </article>
-      <% end %>
-  </section>
+      </section>
+    </div>
     <footer id="page_footer">
-      <p>
-        Copyright &copy; 2015 Sugar Your Coffee 
-        <em>Created at <%= Time.now %> by syclink</em>
-      </p>
+      <ul>
+        <li>Copyright &copy; 2015 Sugar Your Coffee</li>
+        <li>Created at <%= Time.now %> by syclink</li>
+      </ul>
     </footer>
   </body>
 </html>
