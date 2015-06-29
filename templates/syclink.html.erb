@@ -15,7 +15,7 @@
         <% links_group_by(:tag).each do |tag, links| %>
           <article class="tag">
             <header>
-              <h2><%= tag %></h2>
+              <h2 id="tag_<%= tag %>"><%= tag %></h2>
             </header>
             <table>
               <thead>
@@ -42,7 +42,7 @@
           </header>
           <ul>
             <% link_attribute_list(:tag).each do |tag| %>
-              <li><a href=<%= tag %>><%= tag %></a>
+              <li><a href="#tag_<%= tag %>"><%= tag %></a>
             <% end %>
           </ul>
         </article>
