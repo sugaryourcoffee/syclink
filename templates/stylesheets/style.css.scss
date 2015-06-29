@@ -11,24 +11,51 @@ footer#page_footer {
   background-color: #888888;
   border-bottom: 10px solid #484848;
   color: #fff;
-  height: 50px;
+  height: 30px;
   padding: 10px 20px;
-  margin: 25px 0px;
+  clear: both;
+  
+  ul {
+    list-style-type: none;
+    display: inline;
 
-  em {
-    text-align: right;
+    li {
+      float: left;
+      &:last-child {
+        float: right;
+      }
+    }
+  }
+}
+
+.container {
+  margin: 0px 25px;
+}
+
+section#tags {
+  float: left;
+  width: 80%;
+  margin: 0px 0px 25px;
+}
+
+section#sidebar {
+  float: right;
+  width: 20%;
+  margin: 0px 0px 25px;
+  ul {
+    list-style-type: none;
+  }
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
   }
 }
 
 table {  border-collapse: collapse;
-  width: 80%;
-
-  a {
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+  width: 100%;
 
   th, td { 
     border: none;

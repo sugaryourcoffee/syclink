@@ -10,19 +10,40 @@ footer#page_footer {
   background-color: #888888;
   border-bottom: 10px solid #484848;
   color: #fff;
-  height: 50px;
+  height: 30px;
   padding: 10px 20px;
-  margin: 25px 0px; }
-  footer#page_footer em {
-    text-align: right; }
+  clear: both; }
+  footer#page_footer ul {
+    list-style-type: none;
+    display: inline; }
+    footer#page_footer ul li {
+      float: left; }
+      footer#page_footer ul li:last-child {
+        float: right; }
+
+.container {
+  margin: 0px 25px; }
+
+section#tags {
+  float: left;
+  width: 80%;
+  margin: 0px 0px 25px; }
+
+section#sidebar {
+  float: right;
+  width: 20%;
+  margin: 0px 0px 25px; }
+  section#sidebar ul {
+    list-style-type: none; }
+
+a {
+  text-decoration: none; }
+  a:hover {
+    text-decoration: underline; }
 
 table {
   border-collapse: collapse;
-  width: 80%; }
-  table a {
-    text-decoration: none; }
-    table a:hover {
-      text-decoration: underline; }
+  width: 100%; }
   table th, table td {
     border: none; }
   table th {
