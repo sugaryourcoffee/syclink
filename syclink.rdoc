@@ -1,0 +1,6 @@
+= syclink
+
+Generate this with
+    syclink rdoc
+After you have described your command line interface
+
