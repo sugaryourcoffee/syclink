@@ -2,7 +2,9 @@ module SycLink
 
   class Link
 
-    attr_accessor :url, :name, :description, :tag
+    ATTRS = [:url, :name, :description, :tag]
+
+    attr_accessor *ATTRS
 
     def initialize(url, params = {})
       @url         = url
@@ -13,13 +15,13 @@ module SycLink
     end
 
     def update(args)
-      args.each do |attribute, value|
+      select_defined(args).each do |attribute, value|
         send("#{attribute}=", value)
       end
     end
 
     def match?(args)
-      args.reduce(true) do |sum, attribute|
+      select_defined(args).reduce(true) do |sum, attribute|
         sum = sum && (send(attribute[0]) == attribute[1])
       end 
     end
@@ -34,6 +36,10 @@ module SycLink
 
     def defaults(url)
       { name: url, description: "", tag: "untagged" }
+    end
+
+    def select_defined(args)
+      args.select { |k, v| (ATTRS.include? k) && !v.nil? }
     end
   end
 
