@@ -10,6 +10,7 @@ rescue LoadError
 end
 
 include GLI::App
+include SycLink::Infrastructure
 
 # syclink's configuration directory
 syclink_directory             = File.expand_path("~/.syc/syclink")
@@ -53,7 +54,7 @@ unless File.exists? syclink_stylesheets_directory
 end
 
 unless File.exists? syclink_file
-  FileUtils.touch syclink_file
+  File.open(syclink_file, 'w') { |f| YAML.dump({ }, f) }
 else
   config = YAML.load_file(syclink_file)
 end
@@ -93,12 +94,8 @@ command :add do |c|
 
   c.action do |global_options,options,args|
 
-    # Your command logic here
-     
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
+    @designer.add_link(args, options)
 
-    puts "add command ran"
   end
 end
 
@@ -171,15 +168,21 @@ command :website do |c|
 end
 
 pre do |global,command,options,args|
-  # Pre logic here
-  # Return true to proceed; false to abort and not call the
-  # chosen command
-  # Use skips_pre before a command to skip this block
-  # on that command only
+  @designer = SycLink::Designer.new
+  global[:website] ||= config[:default_website]
+  help_now! "You need to provide a website name '-w WEBSITE'" if global[:website].nil?
+
+  if File.exists? yaml_file(syclink_website_directory, global[:website])
+    @designer.load_website(yaml_file(syclink_website_directory, 
+                                     global[:website]))
+  else
+    @designer.new_website(global[:website])
+  end
   true
 end
 
 post do |global,command,options,args|
+  @designer.save_website(syclink_website_directory)
   # Post logic here
   # Use skips_post before a command to skip this
   # block on that command only
