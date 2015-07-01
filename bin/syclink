@@ -72,22 +72,19 @@ arg_name 'WEBSITE'
 flag [:w,:website]
 
 desc 'Add a link to the website'
-arg_name 'LINK'
+arg_name 'URL'
 command :add do |c|
 
   c.desc 'Name of the link'
   c.arg_name 'NAME'
-  c.default_value 'default'
   c.flag [:n, :name]
 
   c.desc 'Description of the link'
   c.arg_name 'DESCRIPTION'
-  c.default_value ''
   c.flag [:d, :description]
 
   c.desc 'Tag the link is associated to'
   c.arg_name 'TAG'
-  c.default_value 'General'
   c.flag [:t, :tag]
 
   c.action do |global_options,options,args|
@@ -98,7 +95,7 @@ command :add do |c|
 end
 
 desc 'Add links from a file to the website'
-arg_name 'LINK_FILE'
+arg_name 'FILE'
 command :file do |c|
 
   c.action do |global_options,options,args|
@@ -109,22 +106,19 @@ command :file do |c|
 end
 
 desc 'Update a link'
-arg_name 'LINK'
+arg_name 'URL'
 command :update do |c|
 
   c.desc 'Name of the link'
   c.arg_name 'NAME'
-  c.default_value 'default'
   c.flag [:n, :name]
 
   c.desc 'Description of the link'
   c.arg_name 'DESCRIPTION'
-  c.default_value ''
   c.flag [:d, :description]
 
   c.desc 'Tag the link is associated to'
   c.arg_name 'TAG'
-  c.default_value 'General'
   c.flag [:t, :tag]
 
   c.action do |global_options,options,args|
@@ -135,7 +129,7 @@ command :update do |c|
 end
 
 desc 'Remove a link'
-arg_name 'LINK'
+arg_name 'URL'
 command :delete do |c|
   c.action do |global_options,options,args|
     puts "delete command ran"
@@ -143,18 +137,36 @@ command :delete do |c|
 end
 
 desc 'Invoke a link'
-arg_name 'LINK'
+arg_name 'URL'
 command :list do |c|
   c.action do |global_options,options,args|
     puts "list command ran"
   end
 end
 
-desc 'List or search links'
-arg_name 'SEARCH_STRING'
+desc 'List and optionally filter links'
 command :search do |c|
+
+  c.desc 'Link\'s URL'
+  c.arg_name 'URL'
+  c.flag [:l, :link]
+
+  c.desc 'Name of the link'
+  c.arg_name 'NAME'
+  c.flag [:n, :name]
+
+  c.desc 'Description of the link'
+  c.arg_name 'DESCRIPTION'
+  c.flag [:d, :description]
+
+  c.desc 'Tag the link is associated to'
+  c.arg_name 'TAG'
+  c.flag [:t, :tag]
+
   c.action do |global_options,options,args|
-    puts "search command ran"
+    
+    @designer.list_links(options)
+
   end
 end
 

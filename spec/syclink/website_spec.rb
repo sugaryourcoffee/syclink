@@ -6,7 +6,7 @@ module SycLink
     
     before do
       @link = Link.new("http://example.com",
-                       { title:       "Example",
+                       { name:       "Example",
                          description: "An example website",
                          tag:         "Test" })
       @website = Website.new("Link List")
@@ -14,7 +14,7 @@ module SycLink
         <html>
           <h1><%= title %></h1>
           <% links.each do |link| %>
-            <a href='<%= link.url %>'><%= link.title %></a>
+            <a href='<%= link.url %>'><%= link.name %></a>
             <%= link.description %> <%= link.tag %>
           <% end %>
         </html> 
@@ -31,6 +31,13 @@ module SycLink
       @website.add_link(@link)
       @website.remove_link(@link)
       expect(@website.links).to eq []
+    end
+
+    it "should list links based on attributes" do
+      @website.add_link(@link)
+      expect(@website.list_links({name: "not there"}).size).to eq 0
+      expect(@website.list_links({name: "Example"}).size).to   eq 1
+      expect(@website.list_links.size).to                       eq 1
     end
 
     it "should find links based on search string" do

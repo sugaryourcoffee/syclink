@@ -11,7 +11,7 @@ module SycLink
 
     it "should add a link" do
       @designer.add_link("http://example.com",
-                         { title: "Example",
+                         { name: "Example",
                            description: "An example website",
                            tag: "Test"  })
 
@@ -32,7 +32,7 @@ module SycLink
 
     it "should find a link" do
       @designer.add_link("http://example.com",
-                         { title: "Example",
+                         { name: "Example",
                            description: "An example website",
                            tag: "Test" })
       expect(@designer.find_links("http://example.com")).to be_truthy
@@ -40,16 +40,38 @@ module SycLink
 
     it "should update a link" do
       @designer.add_link("http://example.com",
-                         { title: "Example",
+                         { name: "Example",
                            description: "An example website",
                            tag: "Test" })
       @designer.update_link("http://example.com",
-                            { title: "Reality",
+                            { name: "Reality",
                               description: "A reality website",
                               tag: "Reality" })
 
       expect(@designer.find_links("http://example.com")
-                      .first.title).to eq "Reality"
+                      .first.name).to eq "Reality"
+    end
+
+    it "should list all links" do
+      @designer.add_link("http://example.com",
+                         { name: "Example",
+                           description: "An example website",
+                           tag: "Test" })
+
+      expect(@designer.list_links).to eq @designer.website.links
+    end
+
+    it "should list links based on attributes" do
+      @designer.add_link("http://example.com",
+                         { name: "Example",
+                           description: "An example website",
+                           tag: "Test" })
+      @designer.add_link("http://example.com",
+                         { name: "Reality",
+                           description: "A reality website",
+                           tag: "Reality" })
+
+      expect(@designer.list_links({name: "Reality"}).size).to eq 1
     end
 
     it "should save, load and delete a website" do

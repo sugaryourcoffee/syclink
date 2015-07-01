@@ -2,12 +2,12 @@ module SycLink
 
   class Link
 
-    attr_accessor :url, :title, :description, :tag
+    attr_accessor :url, :name, :description, :tag
 
     def initialize(url, params = {})
       @url         = url
       params       = defaults(url).merge(params)
-      @title       = params[:title]
+      @name        = params[:name]
       @description = params[:description]
       @tag         = params[:tag]
     end
@@ -33,7 +33,7 @@ module SycLink
     private
 
     def defaults(url)
-      { title: url, description: "", tag: "untagged" }
+      { name: url, description: "", tag: "untagged" }
     end
   end
 

@@ -28,11 +28,16 @@ module SycLink
     # are added to the websie
     def add_links_from_file(file)
       File.foreach(file) do |line|
-        url, title, description, tag = line.split(';')
-        website.add_link(Link.new(url, { title: title,
+        url, name, description, tag = line.split(';')
+        website.add_link(Link.new(url, { name: name,
                                          description: description,
                                          tag: tag }))
       end
+    end
+
+    # List links contained in the website and optionally filter on attributes
+    def list_links(args = {})
+      website.list_links(args)
     end
 
     # Finds links based on a search string

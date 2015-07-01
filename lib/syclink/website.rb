@@ -29,6 +29,15 @@ module SycLink
       links.delete(link)
     end
 
+    # List links that match the attributes
+    def list_links(args = {})
+      if args.empty?
+        links
+      else
+        links.select { |link| link.match? args }
+      end
+    end
+
     # Finds all links that contain the search string
     def find_links(search)
       links.select { |link| link.contains? search }
