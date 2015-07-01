@@ -1,5 +1,6 @@
 require_relative 'website'
 require_relative 'link'
+require_relative 'infrastructure'
 require 'yaml'
 
 module SycLink
@@ -7,6 +8,8 @@ module SycLink
   # Creates a designer that acts as a proxy between the user and the website.
   # The designer will create a website with the provided title.
   class Designer
+
+    include Infrastructure
 
     # The website the designer is working on
     attr_accessor :website
@@ -35,7 +38,7 @@ module SycLink
     # Saves the website to the specified directory with the downcased name of
     # the website and the extension 'website'. The website is save as YAML
     def save_website(directory)
-      File.open(yaml_file(directory), 'w') do |f|
+      File.open(yaml_file(directory, website.title), 'w') do |f|
         YAML.dump(website, f)
       end
     end
@@ -48,7 +51,9 @@ module SycLink
 
     # Deletes the website if it already exists
     def delete_website(directory)
-      FileUtils.rm(yaml_file(directory)) if File.exists? yaml_file(directory)
+      if File.exists? yaml_file(directory, website.title)
+        FileUtils.rm(yaml_file(directory, website.title)) 
+      end
     end
 
     # Creates the html representation of the website. The website is saved to
@@ -62,17 +67,6 @@ module SycLink
       end 
     end
  
-    # Retrieves the filename of the website for saving, loading and deleting
-    def yaml_file(directory = '.')
-      "#{directory}/#{website.title.downcase.gsub(/\s/, '-')}.website"
-    end
-
-    # Creates an html filename to save the html representation of the website
-    # to
-    def html_file(directory = '.')
-      "#{directory}/#{website.title.downcase.gsub(/\s/, '-')}.html"
-    end
-
   end
 
 end
