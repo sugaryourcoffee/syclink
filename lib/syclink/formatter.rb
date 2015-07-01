@@ -40,16 +40,19 @@ module SycLink
     end
 
     def print_header(header, formatter)
-      puts sprintf(formatter, *header)
+      puts cut(sprintf(formatter, *header), 80)
     end
 
     def print_horizontal_line(line, separator, widths)
-      puts widths.map { |width| line * width }.join(separator)
+      puts cut(widths.map { |width| line * width }.join(separator), 80)
     end
 
     def print_table(columns, formatter)
-      columns.transpose.each { |row| puts sprintf(formatter, *row) }
+      columns.transpose.each { |row| puts cut(sprintf(formatter, *row), 80) }
     end
 
+    def cut(string, size)
+      string[0..size-1]
+    end
   end
 end
