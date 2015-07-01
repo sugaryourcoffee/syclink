@@ -23,15 +23,19 @@ Command Line
 ------------
 Following list comprises the commands available
 
-* List all websites
-* Create a new website
-* Add a link
-* Update a link
-* Delete a link
-* Invoke a link
-* List all links
-* Search links
-* Generate HTML representation of the website
+_Website commands_
+* website list    - list alle website or search for websites
+* website add     - Create a new website
+* website default - Set the default website to operate on
+* website remove  - Remove website
+* website make    - Make a HTML representation of the website
+
+_Link commands_
+* add    - Add a link
+* update - Update a link
+* remove - Remove a link
+* invoke - Invoke a link
+* list   - List all links or search for links
 
 Commands
 ========

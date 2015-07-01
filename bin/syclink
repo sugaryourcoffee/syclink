@@ -12,15 +12,17 @@ end
 include GLI::App
 
 # syclink's configuration directory
-syclink_directory = File.expand_path("~/.syc/syclink")
+syclink_directory             = File.expand_path("~/.syc/syclink")
 # syclink's configuration file
-syclink_file               = File.join(syclink_directory, "syclink.rc")
+syclink_file                  = File.join(syclink_directory, "syclink.rc")
 # syclink's template directory
-syclink_template_directory = File.join(syclink_directory, "templates/")
+syclink_template_directory    = File.join(syclink_directory, "templates/")
 # syclink's website directory
-syclink_website_directory  = File.join(syclink_directory, "website/")
+syclink_website_directory     = File.join(syclink_directory, "website/")
+# syclink's html directory
+syclink_html_directory        = File.join(syclink_directory, "html/")
 # syclink's stylesheet directory
-syclink_stylesheets_directory = File.join(syclink_website_directory, 
+syclink_stylesheets_directory = File.join(syclink_html_directory, 
                                           "stylesheets/")
 
 unless File.exists? syclink_directory
@@ -37,6 +39,10 @@ end
 
 unless File.exists? syclink_website_directory
   Dir.mkdir syclink_website_directory
+end
+
+unless File.exists? syclink_html_directory
+  Dir.mkdir syclink_html_directory
 end
 
 unless File.exists? syclink_stylesheets_directory
@@ -59,13 +65,10 @@ version SycLink::VERSION
 subcommand_option_handling :normal
 arguments :strict
 
-desc 'Describe some switch here'
-switch [:s,:switch]
-
-desc 'Describe some flag here'
+desc 'Website to operate on'
 default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
+arg_name 'WEBSITE'
+flag [:w,:website]
 
 desc 'Add a link to the website'
 arg_name 'LINK | LINK_FILE'
@@ -90,9 +93,6 @@ command :add do |c|
 
   c.action do |global_options,options,args|
 
-    p global_options
-    p options
-    p args
     # Your command logic here
      
     # If you have any errors, just raise them
@@ -102,36 +102,72 @@ command :add do |c|
   end
 end
 
-desc 'Describe update here'
-arg_name 'Describe arguments to update here'
+desc 'Update a link'
+arg_name 'LINK'
 command :update do |c|
   c.action do |global_options,options,args|
     puts "update command ran"
   end
 end
 
-desc 'Describe delete here'
-arg_name 'Describe arguments to delete here'
+desc 'Remove a link'
+arg_name 'LINK'
 command :delete do |c|
   c.action do |global_options,options,args|
     puts "delete command ran"
   end
 end
 
-desc 'Describe list here'
-arg_name 'Describe arguments to list here'
+desc 'Invoke a link'
+arg_name 'LINK'
 command :list do |c|
   c.action do |global_options,options,args|
     puts "list command ran"
   end
 end
 
-desc 'Describe search here'
-arg_name 'Describe arguments to search here'
+desc 'List or search links'
+arg_name 'SEARCH_STRING'
 command :search do |c|
   c.action do |global_options,options,args|
     puts "search command ran"
   end
+end
+
+desc "Operate on websites"
+command :website do |c|
+  c.desc 'list all websites or search for websites'
+  c.command :list do |s|
+    s.action do |global_options,options,args|
+    end
+  end
+
+  c.desc 'Create new website'
+  c.command :add do |s|
+    s.action do |global_options,options,args|
+    end
+  end
+
+  c.desc 'Set default website to operate on'
+  c.command :default do |s|
+    s.action do |global_options,options,args|
+    end
+  end
+
+  c.desc 'Remove website'
+  c.command :remove do |s|
+    s.action do |global_options,options,args|
+    end
+  end
+
+  
+  c.desc 'Make html representation of website'
+  c.command :make do |s|
+    s.action do |global_options,options,args|
+    end
+  end
+
+  c.default_command :make
 end
 
 pre do |global,command,options,args|
