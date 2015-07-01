@@ -72,7 +72,7 @@ arg_name 'WEBSITE'
 flag [:w,:website]
 
 desc 'Add a link to the website'
-arg_name 'LINK | LINK_FILE'
+arg_name 'LINK'
 command :add do |c|
   c.desc 'Read links from CSV file'
   c.switch [:f, :file]
@@ -95,6 +95,17 @@ command :add do |c|
   c.action do |global_options,options,args|
 
     @designer.add_link(args, options)
+
+  end
+end
+
+desc 'Add links from a file to the website'
+arg_name 'LINK_FILE'
+command :file do |c|
+
+  c.action do |global_options,options,args|
+
+    @designer.add_links_from_file(args[0])
 
   end
 end
