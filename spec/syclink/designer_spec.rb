@@ -30,6 +30,28 @@ module SycLink
       FileUtils.rm("links.tmp")
     end
 
+    it "should find a link" do
+      @designer.add_link("http://example.com",
+                         { title: "Example",
+                           description: "An example website",
+                           tag: "Test" })
+      expect(@designer.find_links("http://example.com")).to be_truthy
+    end
+
+    it "should update a link" do
+      @designer.add_link("http://example.com",
+                         { title: "Example",
+                           description: "An example website",
+                           tag: "Test" })
+      @designer.update_link("http://example.com",
+                            { title: "Reality",
+                              description: "A reality website",
+                              tag: "Reality" })
+
+      expect(@designer.find_links("http://example.com")
+                      .first.title).to eq "Reality"
+    end
+
     it "should save, load and delete a website" do
       @designer.add_link("http://example.com",
                          { tag: "Loader" })

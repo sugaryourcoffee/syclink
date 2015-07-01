@@ -74,8 +74,6 @@ flag [:w,:website]
 desc 'Add a link to the website'
 arg_name 'LINK'
 command :add do |c|
-  c.desc 'Read links from CSV file'
-  c.switch [:f, :file]
 
   c.desc 'Name of the link'
   c.arg_name 'NAME'
@@ -94,7 +92,7 @@ command :add do |c|
 
   c.action do |global_options,options,args|
 
-    @designer.add_link(args, options)
+    @designer.add_link(args[0], options)
 
   end
 end
@@ -113,8 +111,26 @@ end
 desc 'Update a link'
 arg_name 'LINK'
 command :update do |c|
+
+  c.desc 'Name of the link'
+  c.arg_name 'NAME'
+  c.default_value 'default'
+  c.flag [:n, :name]
+
+  c.desc 'Description of the link'
+  c.arg_name 'DESCRIPTION'
+  c.default_value ''
+  c.flag [:d, :description]
+
+  c.desc 'Tag the link is associated to'
+  c.arg_name 'TAG'
+  c.default_value 'General'
+  c.flag [:t, :tag]
+
   c.action do |global_options,options,args|
-    puts "update command ran"
+
+    @designer.update_link(args[0], options)
+
   end
 end
 

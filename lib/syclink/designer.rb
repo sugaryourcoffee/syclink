@@ -35,6 +35,17 @@ module SycLink
       end
     end
 
+    # Finds links based on a search string
+    def find_links(search)
+      website.find_links(search)
+    end
+
+    # Updates a link. The link is identified by the URL. If there is more than
+    # one link with the same URL, only the first link is updated
+    def update_link(url, args)
+      website.find_links(url).first.update(args)
+    end
+
     # Saves the website to the specified directory with the downcased name of
     # the website and the extension 'website'. The website is save as YAML
     def save_website(directory)
