@@ -145,11 +145,11 @@ command :list do |c|
 end
 
 desc 'List and optionally filter links'
-command :search do |c|
+command :list do |c|
 
   c.desc 'Link\'s URL'
   c.arg_name 'URL'
-  c.flag [:l, :link]
+  c.flag [:u, :url]
 
   c.desc 'Name of the link'
   c.arg_name 'NAME'
@@ -165,7 +165,7 @@ command :search do |c|
 
   c.action do |global_options,options,args|
     
-    @designer.list_links(options)
+    p @designer.list_links(options)
 
   end
 end
