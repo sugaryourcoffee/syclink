@@ -164,10 +164,16 @@ command :list do |c|
   c.arg_name 'TAG'
   c.flag [:t, :tag]
 
+  c.desc 'Table columns to print'
+  c.default_value 'url, name, description, tag'
+  c.arg_name 'URL, NAME, DESCRIPTION, TAG'
+  c.flag [:c, :columns]
+
   c.action do |global_options,options,args|
     
-    SycLink::Formatter.table(@designer.list_links(options), 
-                             [:url, :name, :description, :tag])
+    allowed_cols = %w{ url name description tag } 
+    cols = options[:c].delete(' ').downcase.split(',') & allowed_cols
+    SycLink::Formatter.table(@designer.list_links(options), cols)
 
   end
 end
@@ -219,11 +225,16 @@ pre do |global,command,options,args|
   else
     @designer.new_website(global[:website])
   end
+
+  puts
+
   true
 end
 
 post do |global,command,options,args|
   @designer.save_website(syclink_website_directory)
+
+  puts
   # Post logic here
   # Use skips_post before a command to skip this
   # block on that command only
