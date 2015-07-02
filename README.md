@@ -35,7 +35,8 @@ _Link commands_
 * update - Update a link
 * remove - Remove a link
 * invoke - Invoke a link
-* list   - List all links or search for links
+* list   - List all links with an optional filter
+* find   - Find links based on a search string
 
 Commands
 ========
