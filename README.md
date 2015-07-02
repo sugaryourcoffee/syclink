@@ -25,7 +25,7 @@ Following list comprises the commands available
 
 _Website commands_
 * website list    - list alle website or search for websites
-* website add     - Create a new website
+* website new     - Create a new website
 * website default - Set the default website to operate on
 * website remove  - Remove website
 * website make    - Make a HTML representation of the website
