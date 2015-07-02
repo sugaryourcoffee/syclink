@@ -129,6 +129,22 @@ command :update do |c|
   end
 end
 
+desc 'Find a link'
+arg_name 'FIND_STRING'
+command :find do |c|
+
+  c.desc 'Table columns to print'
+  c.default_value 'url, name, description, tag'
+  c.arg_name 'URL, NAME, DESCRIPTION, TAG'
+  c.flag [:c, :columns]
+
+  c.action do |global_options,options,args|
+
+    print_links(@designer.find_links(args[0].downcase), options[:c])
+
+  end
+end
+
 desc 'Remove a link'
 arg_name 'URL'
 command :delete do |c|
@@ -171,9 +187,7 @@ command :list do |c|
 
   c.action do |global_options,options,args|
     
-    allowed_cols = %w{ url name description tag } 
-    cols = options[:c].delete(' ').downcase.split(',') & allowed_cols
-    SycLink::Formatter.table(@designer.list_links(options), cols)
+    print_links(@designer.list_links(options), options[:c])
 
   end
 end
@@ -244,6 +258,12 @@ on_error do |exception|
   # Error logic here
   # return false to skip default error handling
   true
+end
+
+def print_links(links, columns)
+  allowed_cols = %w{ url name description tag } 
+  cols = columns.delete(' ').downcase.split(',') & allowed_cols
+  SycLink::Formatter.table(links, cols)
 end
 
 exit run(ARGV)
