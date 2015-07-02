@@ -149,7 +149,7 @@ desc 'Remove one or more links'
 arg_name 'URL[URL,URL]'
 command :delete do |c|
   c.action do |global_options,options,args|
-    @designer.delete_link(args)
+    @designer.remove_links(args)
   end
 end
 
@@ -195,13 +195,24 @@ end
 desc "Operate on websites"
 command :website do |c|
   c.desc 'list all websites or search for websites'
+  c.arg_name 'WEBSITE'
   c.command :list do |s|
+
+    s.desc 'List only the exactly matching website'
+    s.switch [:e, :exact]
+
     s.action do |global_options,options,args|
+      if options[:e]
+        puts Dir.glob(File.join(syclink_website_directory, 
+                                "#{args[0]}.website"))
+      else
+        puts Dir.glob(File.join(syclink_website_directory, "*.website"))
+      end
     end
   end
 
   c.desc 'Create new website'
-  c.command :add do |s|
+  c.command :new do |s|
     s.action do |global_options,options,args|
     end
   end
