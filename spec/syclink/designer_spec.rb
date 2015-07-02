@@ -74,6 +74,17 @@ module SycLink
       expect(@designer.list_links({name: "Reality"}).size).to eq 1
     end
 
+    it "should delete a link" do
+      @designer.add_link("http://example.com",
+                         { tag: "Example", name: "Link" })
+      @designer.add_link("http://reality.com",
+                         { tag: "Reality", name: "URL" })
+       
+      expect(@designer.list_links.size).to eq 2
+      @designer.remove_links(["http://reality.com"])
+      expect(@designer.list_links.size).to eq 1
+    end
+
     it "should save, load and delete a website" do
       @designer.add_link("http://example.com",
                          { tag: "Loader" })

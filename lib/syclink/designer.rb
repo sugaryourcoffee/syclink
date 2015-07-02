@@ -51,6 +51,14 @@ module SycLink
       website.find_links(url).first.update(args)
     end
 
+    # Deletes one or more links from the website. Returns the deleted links.
+    # Expects the links provided in an array
+    def remove_links(urls)
+      urls.map { |url| list_links({ url: url }) }.flatten.compact.each do |link|
+        website.remove_link(link)
+      end
+    end
+
     # Saves the website to the specified directory with the downcased name of
     # the website and the extension 'website'. The website is save as YAML
     def save_website(directory)
