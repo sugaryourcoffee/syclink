@@ -86,7 +86,7 @@ module SycLink
     # templates/syclink.html.erb
     def create_website(directory, template_filename)
       template = File.read(template_filename)
-      File.open(html_file(directory), 'w') do |f|
+      File.open(html_file(directory, website.title), 'w') do |f|
         f.puts website.to_html(template)
       end 
     end
