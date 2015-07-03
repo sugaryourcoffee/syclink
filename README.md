@@ -24,14 +24,15 @@ Command Line
 Following list comprises the commands available
 
 _Website commands_
-* website list    - list all websites or search for websites
+* website show    - show all websites or search for websites
 * website remove  - Remove website
 * website create  - Create a HTML representation of the website
 
 _Link commands_
 * add    - Add a link
+* file   - Add links from a file
 * update - Update a link
-* remove - Remove a link 
+* delete - Delete a link 
 * list   - List all links with an optional filter
 * find   - Find links based on a search string
 
@@ -183,7 +184,9 @@ To create a website the steps are as follows
 * create the html representation
 
     $ syclink -w example add "http://example.com" --tag EXAMPLE
+
     $ syclink add "http://github.com" --tag DEVELOPMENT
+
     $ syclink website create
 
 
