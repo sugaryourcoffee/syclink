@@ -8,7 +8,7 @@ module SycLink
 
     def initialize(url, params = {})
       @url         = url
-      params       = defaults(url).merge(params)
+      params       = defaults(url).merge(select_defined(params))
       @name        = params[:name]
       @description = params[:description]
       @tag         = params[:tag]
