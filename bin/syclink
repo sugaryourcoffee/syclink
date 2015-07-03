@@ -56,9 +56,9 @@ end
 
 unless File.exists? syclink_file
   File.open(syclink_file, 'w') { |f| YAML.dump({ }, f) }
-else
-  config = YAML.load_file(syclink_file)
 end
+
+config = YAML.load_file(syclink_file)
 
 program_desc 'Create a link list and display it as an html page'
 
@@ -203,23 +203,10 @@ command :website do |c|
 
     s.action do |global_options,options,args|
       if options[:e]
-        puts Dir.glob(File.join(syclink_website_directory, 
-                                "#{args[0]}.website"))
+        puts Dir.glob(yaml_file(syclink_website_directory, args[0]))
       else
         puts Dir.glob(File.join(syclink_website_directory, "*.website"))
       end
-    end
-  end
-
-  c.desc 'Create new website'
-  c.command :new do |s|
-    s.action do |global_options,options,args|
-    end
-  end
-
-  c.desc 'Set default website to operate on'
-  c.command :default do |s|
-    s.action do |global_options,options,args|
     end
   end
 
@@ -228,7 +215,6 @@ command :website do |c|
     s.action do |global_options,options,args|
     end
   end
-
   
   c.desc 'Make html representation of website'
   c.command :make do |s|
@@ -241,14 +227,29 @@ end
 
 pre do |global,command,options,args|
   @designer = SycLink::Designer.new
-  global[:website] ||= config[:default_website]
-  help_now! "You need to provide a website name '-w WEBSITE'" if global[:website].nil?
+  global[:website] = config[:default_website] if config[:default_website]
 
   if File.exists? yaml_file(syclink_website_directory, global[:website])
     @designer.load_website(yaml_file(syclink_website_directory, 
                                      global[:website]))
   else
-    @designer.new_website(global[:website])
+    print "Website #{global[:website]} doesn't exist. Create it (y/n)?"
+    if STDIN.gets.chomp =~ /y/i 
+      puts; puts "Creating #{global[:website]}"
+      @designer.new_website(global[:website])
+    else
+      exit(0)
+    end
+
+    unless config && (global[:website] == config[:default_website])
+      print "Want to make #{global[:website]} the default (y/n)?"
+      if STDIN.gets.chomp =~ /y/i
+        puts; puts "Making #{global[:website]} the default website"
+        File.open(syclink_file, 'w') do |f| 
+          YAML.dump({ default_website: global[:website] }, f) 
+        end
+      end
+    end
   end
 
   puts
