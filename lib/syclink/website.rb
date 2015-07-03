@@ -1,5 +1,6 @@
 require_relative 'exporter'
 
+# Module that creates a link list and generates an html representation
 module SycLink
   
 
@@ -10,7 +11,9 @@ module SycLink
 
     include Exporter
 
+    # The links of the website
     attr_reader :links
+    # The title of the website
     attr_reader :title
 
     # Create a new Website

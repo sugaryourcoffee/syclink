@@ -1,5 +1,6 @@
 require_relative 'designer'
 
+# Module that creates a link list and generates an html representation
 module SycLink
   designer = Designer.new
   designer.new_website("SYC LINK")

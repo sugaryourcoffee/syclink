@@ -1,6 +1,7 @@
 require_relative 'website'
 require_relative 'link'
 
+# Module that creates a link list and generates an html representation
 module SycLink
 
   website = SycLink::Website.new("Test")

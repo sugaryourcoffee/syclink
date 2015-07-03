@@ -1,5 +1,7 @@
+# Module that creates a link list and generates an html representation
 module SycLink
 
+  # Helper methods to setup the infrastructure for syclink
   module Infrastructure
 
     # Creates a directory if it does not exist

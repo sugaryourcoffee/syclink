@@ -3,6 +3,7 @@ require_relative 'link'
 require_relative 'infrastructure'
 require 'yaml'
 
+# Module that creates a link list and generates an html representation
 module SycLink
 
   # Creates a designer that acts as a proxy between the user and the website.
