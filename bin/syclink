@@ -144,14 +144,6 @@ command :delete do |c|
   end
 end
 
-desc 'Invoke a link'
-arg_name 'URL'
-command :list do |c|
-  c.action do |global_options,options,args|
-    puts "list command ran"
-  end
-end
-
 desc 'List and optionally filter links'
 command :list do |c|
 
