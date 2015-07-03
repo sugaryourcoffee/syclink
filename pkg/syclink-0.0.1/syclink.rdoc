@@ -1,0 +1,39 @@
+= syclink
+
+NAME
+    syclink - Create a link list and display it as an html page
+
+SYNOPSIS
+    syclink [global options] command [command options] [arguments...]
+
+VERSION
+    0.0.1
+
+GLOBAL OPTIONS
+    --help                - Show this message
+    --version             - Display the program version
+    -w, --website=WEBSITE - Website to operate on (default: none)
+
+COMMANDS
+    add     - Add a link to the website
+    delete  - Remove one or more links
+    file    - Add links from a file to the website
+    find    - Find a link
+    help    - Shows a list of commands or help for one command
+    list    - List and optionally filter links
+    update  - Update a link
+    website - Operate on websites
+
+NAME
+    website - Operate on websites
+
+SYNOPSIS
+    syclink [global options] website [create]
+    syclink [global options] website remove WEBSITE_PATTERN
+    syclink [global options] website show [-e|--exact] WEBSITE
+
+COMMANDS
+    create - Create html representation of website (default)
+    remove - Remove one or more websites
+    show   - Show all websites or search for websites
+

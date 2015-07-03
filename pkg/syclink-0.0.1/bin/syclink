@@ -1,0 +1,290 @@
+#!/usr/bin/env ruby
+require 'gli'
+begin # XXX: Remove this begin/rescue before distributing your app
+require 'syclink'
+rescue LoadError
+  STDERR.puts "In development, you need to use `bundle exec bin/syclink` to run your app"
+  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
+  STDERR.puts "Feel free to remove this message from bin/syclink now"
+  exit 64
+end
+
+include GLI::App
+include SycLink::Infrastructure
+include SycLink::Formatter
+
+# Commands that need to have a website and a designer object
+WEBSITE_COMMANDS = [ :create, :add, :file, :update, :delete, :list, :find ]
+
+# syclink's configuration directory
+syclink_directory             = File.expand_path("~/.syc/syclink")
+# syclink's configuration file
+syclink_file                  = File.join(syclink_directory, "syclink.rc")
+# syclink's template directory
+syclink_template_directory    = File.join(syclink_directory, "templates/")
+# syclink's html template"
+syclink_html_template         = File.join(syclink_template_directory, 
+                                          "syclink.html.erb")
+# syclink's website directory
+syclink_website_directory     = File.join(syclink_directory, "website/")
+# syclink's html directory
+syclink_html_directory        = File.join(syclink_directory, "html/")
+# syclink's stylesheet directory
+syclink_stylesheets_directory = File.join(syclink_html_directory, 
+                                          "stylesheets/")
+
+create_directory_if_missing(syclink_directory)
+
+create_directory_if_missing(syclink_template_directory)
+copy_file_if_missing(File.join(File.dirname(__FILE__), 
+                               '../templates/syclink.html.erb'),
+                     syclink_template_directory)
+
+create_directory_if_missing(syclink_website_directory)
+
+create_directory_if_missing(syclink_html_directory)
+
+create_directory_if_missing(syclink_stylesheets_directory)
+copy_file_if_missing(File.join(File.dirname(__FILE__), 
+                               '../templates/stylesheets/style.css'), 
+                     syclink_stylesheets_directory)
+copy_file_if_missing(File.join(File.dirname(__FILE__), 
+                               '../templates/stylesheets/style.css.scss'),
+                     syclink_stylesheets_directory)
+
+config = load_config(syclink_file)
+
+program_desc 'Create a link list and display it as an html page'
+
+version SycLink::VERSION
+
+subcommand_option_handling :normal
+arguments :strict
+
+desc 'Website to operate on'
+arg_name 'WEBSITE'
+flag [:w,:website]
+
+desc 'Add a link to the website'
+arg_name 'URL'
+command :add do |c|
+
+  c.desc 'Name of the link'
+  c.arg_name 'NAME'
+  c.flag [:n, :name]
+
+  c.desc 'Description of the link'
+  c.arg_name 'DESCRIPTION'
+  c.flag [:d, :description]
+
+  c.desc 'Tag the link is associated to'
+  c.arg_name 'TAG'
+  c.flag [:t, :tag]
+
+  c.action do |global_options,options,args|
+
+    @designer.add_link(args[0], options)
+
+  end
+end
+
+desc 'Add links from a file to the website'
+arg_name 'FILE'
+command :file do |c|
+
+  c.action do |global_options,options,args|
+
+    @designer.add_links_from_file(args[0])
+
+  end
+end
+
+desc 'Update a link'
+arg_name 'URL'
+command :update do |c|
+
+  c.desc 'Name of the link'
+  c.arg_name 'NAME'
+  c.flag [:n, :name]
+
+  c.desc 'Description of the link'
+  c.arg_name 'DESCRIPTION'
+  c.flag [:d, :description]
+
+  c.desc 'Tag the link is associated to'
+  c.arg_name 'TAG'
+  c.flag [:t, :tag]
+
+  c.action do |global_options,options,args|
+
+    @designer.update_link(args[0], options)
+
+  end
+end
+
+desc 'Find a link'
+arg_name 'FIND_STRING'
+command :find do |c|
+
+  c.desc 'Table columns to print'
+  c.default_value 'url, name, description, tag'
+  c.arg_name 'URL, NAME, DESCRIPTION, TAG'
+  c.flag [:c, :columns]
+
+  c.action do |global_options,options,args|
+
+    print_links(@designer.find_links(args[0].downcase), options[:c])
+
+  end
+end
+
+desc 'Remove one or more links'
+arg_name 'URL[URL,URL]'
+command :delete do |c|
+  c.action do |global_options,options,args|
+    @designer.remove_links(args)
+  end
+end
+
+desc 'List and optionally filter links'
+command :list do |c|
+
+  c.desc 'Link\'s URL'
+  c.arg_name 'URL'
+  c.flag [:u, :url]
+
+  c.desc 'Name of the link'
+  c.arg_name 'NAME'
+  c.flag [:n, :name]
+
+  c.desc 'Description of the link'
+  c.arg_name 'DESCRIPTION'
+  c.flag [:d, :description]
+
+  c.desc 'Tag the link is associated to'
+  c.arg_name 'TAG'
+  c.flag [:t, :tag]
+
+  c.desc 'Table columns to print'
+  c.default_value 'url, name, description, tag'
+  c.arg_name 'URL, NAME, DESCRIPTION, TAG'
+  c.flag [:c, :columns]
+
+  c.action do |global_options,options,args|
+    
+    print_links(@designer.list_links(options), options[:c])
+
+  end
+end
+
+desc "Operate on websites"
+command :website do |c|
+  c.desc 'Show all websites or search for websites'
+  c.arg_name 'WEBSITE'
+  c.skips_pre
+  c.skips_post
+  c.command :show do |s|
+
+    s.desc 'Show only the exactly matching website'
+    s.switch [:e, :exact]
+
+    s.action do |global_options,options,args|
+      if options[:e]
+        puts Dir.glob(yaml_file(syclink_website_directory, args[0]))
+      else
+        puts Dir.glob(File.join(syclink_website_directory, "*.website"))
+      end
+    end
+  end
+
+  c.desc 'Remove one or more websites'
+  c.arg_name 'WEBSITE_PATTERN'
+  c.skips_pre
+  c.skips_post
+  c.command :remove do |s|
+    s.action do |global_options,options,args|
+      websites = Dir.glob(File.join(syclink_website_directory, 
+                                    "#{args[0]}.website"))
+      html_files = Dir.glob(File.join(syclink_html_directory, 
+                                      "#{args[0]}.html"))
+      puts "About to delete:"
+      puts; puts "Websites"
+      puts "--------"
+      puts websites
+      puts; puts "HTML-Files"
+      puts "----------"
+      puts html_files
+      puts; print "Delete websites and corresponding html files (y/n)? "
+      if STDIN.gets.chomp =~ /y/i
+        websites.each { |website| FileUtils.rm website }
+        html_files.each { |html_file| FileUtils.rm html_file }
+      end
+    end
+  end
+  
+  c.desc 'Create html representation of website'
+  c.command [:create] do |s|
+    s.action do |global_options,options,args|
+      @designer.create_website(syclink_html_directory, syclink_html_template)
+    end
+  end
+
+  c.default_command :create
+end
+
+pre do |global,command,options,args|
+  
+  if WEBSITE_COMMANDS.include?(command.name)
+    @designer = SycLink::Designer.new
+    global[:website] ||= config[:default_website]
+
+    if File.exists? yaml_file(syclink_website_directory, global[:website])
+      @designer.load_website(yaml_file(syclink_website_directory, 
+                                       global[:website]))
+    else
+      print "Website #{global[:website]} doesn't exist. Create it (y/n)? "
+      if STDIN.gets.chomp =~ /y/i 
+        puts; puts "Creating #{global[:website]}"
+        @designer.new_website(global[:website])
+      else
+        exit(0)
+      end
+
+      if (global[:website] != config[:default_website])
+        print "Want to make #{global[:website]} the default (y/n)? "
+        if STDIN.gets.chomp =~ /y/i
+          puts; puts "Making #{global[:website]} the default website"
+          File.open(syclink_file, 'w') do |f| 
+            YAML.dump({ default_website: global[:website] }, f) 
+          end
+        end
+      end
+      
+    end
+    
+  end
+
+  true
+end
+
+post do |global,command,options,args|
+  if WEBSITE_COMMANDS.include? command.name
+    @designer.save_website(syclink_website_directory)
+  end
+end
+
+on_error do |exception|
+  if exception.message == "exit"
+    false
+  else
+    true
+  end
+end
+
+def print_links(links, columns)
+  allowed_cols = %w{ url name description tag } 
+  cols = columns.delete(' ').downcase.split(',') & allowed_cols
+  SycLink::Formatter.table(links, cols)
+end
+
+exit run(ARGV)
