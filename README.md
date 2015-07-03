@@ -53,7 +53,7 @@ Before the command `add` is executed the website is created. In this
 case a website called 'my-new-website' is created in the default directory at
 `~/.syc/syclink/websites/my-new-website.website
 
-Commands that require a website are `add`, `update`, `remove`, `list`, `find`
+Commands that require a website are `add`, `update`, `delete`, `list`, `find`
 and `website create`.
 
 If no website is specified the default website is used.
@@ -64,8 +64,8 @@ A link may have a title, a description and a tag. Title, description and tag
 are optional but a link obviously has to be provided. If no title is given the
 link is used as the title.
   
-    $ syclink add http://example.com --title "Test page" --tag TEST \
-                                     --description 'For testing purposes'
+    $ syclink add --title "Test page" --tag TEST \
+                  --description 'For testing purposes' http://example.com 
 
 It is also possible to add links from a file
 
@@ -76,7 +76,7 @@ Update a link
 To update a link the URL has to be specified. If more than one link has the 
 same URL only the first link is updated.
 
-    $ syclink update http://example.com --title "Example"
+    $ syclink update --title "Example" http://example.com 
 
 Remove a Link
 -------------
@@ -103,7 +103,7 @@ command searches all attributes of the links and is searching for the occurance
 of the search string within the attributes. So the search is not list only 
 exact matches.
 
-    $ syclink find 'example' --columns 'url,tag'
+    $ syclink find --columns 'url,tag' 'example' 
 
     url                | tag
     -------------------+-----
@@ -183,10 +183,9 @@ To create a website the steps are as follows
 * add links to a website
 * create the html representation
 
+Following is showing the above sequence in commands
+
     $ syclink -w example add "http://example.com" --tag EXAMPLE
-
     $ syclink add "http://github.com" --tag DEVELOPMENT
-
     $ syclink website create
-
 
