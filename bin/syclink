@@ -13,6 +13,9 @@ include GLI::App
 include SycLink::Infrastructure
 include SycLink::Formatter
 
+# Commands that need to have a website and a designer object
+WEBSITE_COMMANDS = [ :create, :add, :file, :update, :delete, :list, :find ]
+
 # syclink's configuration directory
 syclink_directory             = File.expand_path("~/.syc/syclink")
 # syclink's configuration file
@@ -59,7 +62,6 @@ subcommand_option_handling :normal
 arguments :strict
 
 desc 'Website to operate on'
-default_value 'the default'
 arg_name 'WEBSITE'
 flag [:w,:website]
 
@@ -177,11 +179,13 @@ end
 
 desc "Operate on websites"
 command :website do |c|
-  c.desc 'list all websites or search for websites'
+  c.desc 'Show all websites or search for websites'
   c.arg_name 'WEBSITE'
-  c.command :list do |s|
+  c.skips_pre
+  c.skips_post
+  c.command :show do |s|
 
-    s.desc 'List only the exactly matching website'
+    s.desc 'Show only the exactly matching website'
     s.switch [:e, :exact]
 
     s.action do |global_options,options,args|
@@ -195,6 +199,8 @@ command :website do |c|
 
   c.desc 'Remove one or more websites'
   c.arg_name 'WEBSITE_PATTERN'
+  c.skips_pre
+  c.skips_post
   c.command :remove do |s|
     s.action do |global_options,options,args|
       websites = Dir.glob(File.join(syclink_website_directory, 
@@ -227,52 +233,52 @@ command :website do |c|
 end
 
 pre do |global,command,options,args|
-  @designer = SycLink::Designer.new
-  global[:website] = config[:default_website] if config[:default_website]
+  
+  if WEBSITE_COMMANDS.include?(command.name)
+    @designer = SycLink::Designer.new
+    global[:website] ||= config[:default_website]
 
-  if File.exists? yaml_file(syclink_website_directory, global[:website])
-    @designer.load_website(yaml_file(syclink_website_directory, 
-                                     global[:website]))
-  else
-    print "Website #{global[:website]} doesn't exist. Create it (y/n)? "
-    if STDIN.gets.chomp =~ /y/i 
-      puts; puts "Creating #{global[:website]}"
-      @designer.new_website(global[:website])
+    if File.exists? yaml_file(syclink_website_directory, global[:website])
+      @designer.load_website(yaml_file(syclink_website_directory, 
+                                       global[:website]))
     else
-      return true
-    end
+      print "Website #{global[:website]} doesn't exist. Create it (y/n)? "
+      if STDIN.gets.chomp =~ /y/i 
+        puts; puts "Creating #{global[:website]}"
+        @designer.new_website(global[:website])
+      else
+        exit(0)
+      end
 
-    unless config && (global[:website] == config[:default_website])
-      print "Want to make #{global[:website]} the default (y/n)? "
-      if STDIN.gets.chomp =~ /y/i
-        puts; puts "Making #{global[:website]} the default website"
-        File.open(syclink_file, 'w') do |f| 
-          YAML.dump({ default_website: global[:website] }, f) 
+      if (global[:website] != config[:default_website])
+        print "Want to make #{global[:website]} the default (y/n)? "
+        if STDIN.gets.chomp =~ /y/i
+          puts; puts "Making #{global[:website]} the default website"
+          File.open(syclink_file, 'w') do |f| 
+            YAML.dump({ default_website: global[:website] }, f) 
+          end
         end
       end
+      
     end
+    
   end
-
-  puts
 
   true
 end
 
 post do |global,command,options,args|
-  unless command.name == :remove
+  if WEBSITE_COMMANDS.include? command.name
     @designer.save_website(syclink_website_directory)
   end
-
-  puts
-  # Post logic here
-  # Use skips_post before a command to skip this
-  # block on that command only
 end
 
 on_error do |exception|
-  # Error logic here
-  # return false to skip default error handling
-  true
+  if exception.message == "exit"
+    false
+  else
+    true
+  end
 end
 
 def print_links(links, columns)
