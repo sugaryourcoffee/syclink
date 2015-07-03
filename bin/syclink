@@ -19,6 +19,9 @@ syclink_directory             = File.expand_path("~/.syc/syclink")
 syclink_file                  = File.join(syclink_directory, "syclink.rc")
 # syclink's template directory
 syclink_template_directory    = File.join(syclink_directory, "templates/")
+# syclink's html template"
+syclink_html_template         = File.join(syclink_template_directory, 
+                                          "syclink.html.erb")
 # syclink's website directory
 syclink_website_directory     = File.join(syclink_directory, "website/")
 # syclink's html directory
@@ -27,38 +30,26 @@ syclink_html_directory        = File.join(syclink_directory, "html/")
 syclink_stylesheets_directory = File.join(syclink_html_directory, 
                                           "stylesheets/")
 
-unless File.exists? syclink_directory
-  Dir.mkdir syclink_directory
-end
+create_directory_if_missing(syclink_directory)
 
-unless File.exists? syclink_template_directory
-  Dir.mkdir syclink_template_directory
-  FileUtils.cp File.join(File.dirname(__FILE__),
-                         '../templates/syclink.html.erb'), 
-               syclink_template_directory
-end
+create_directory_if_missing(syclink_template_directory)
+copy_file_if_missing(File.join(File.dirname(__FILE__), 
+                               '../templates/syclink.html.erb'),
+                     syclink_template_directory)
 
+create_directory_if_missing(syclink_website_directory)
 
-unless File.exists? syclink_website_directory
-  Dir.mkdir syclink_website_directory
-end
+create_directory_if_missing(syclink_html_directory)
 
-unless File.exists? syclink_html_directory
-  Dir.mkdir syclink_html_directory
-end
+create_directory_if_missing(syclink_stylesheets_directory)
+copy_file_if_missing(File.join(File.dirname(__FILE__), 
+                               '../templates/stylesheets/style.css'), 
+                     syclink_stylesheets_directory)
+copy_file_if_missing(File.join(File.dirname(__FILE__), 
+                               '../templates/stylesheets/style.css.scss'),
+                     syclink_stylesheets_directory)
 
-unless File.exists? syclink_stylesheets_directory
-  Dir.mkdir syclink_stylesheets_directory
-  FileUtils.cp File.join(File.dirname(__FILE__),
-                         '../templates/stylesheets/style.css.scss'),
-               syclink_stylesheets_directory
-end
-
-unless File.exists? syclink_file
-  File.open(syclink_file, 'w') { |f| YAML.dump({ }, f) }
-end
-
-config = YAML.load_file(syclink_file)
+config = load_config(syclink_file)
 
 program_desc 'Create a link list and display it as an html page'
 
@@ -210,19 +201,37 @@ command :website do |c|
     end
   end
 
-  c.desc 'Remove website'
+  c.desc 'Remove one or more websites'
+  c.arg_name 'WEBSITE_PATTERN'
   c.command :remove do |s|
     s.action do |global_options,options,args|
+      websites = Dir.glob(File.join(syclink_website_directory, 
+                                    "#{args[0]}.website"))
+      html_files = Dir.glob(File.join(syclink_html_directory, 
+                                      "#{args[0]}.html"))
+      puts "About to delete:"
+      puts; puts "Websites"
+      puts "--------"
+      puts websites
+      puts; puts "HTML-Files"
+      puts "----------"
+      puts html_files
+      puts; print "Delete websites and corresponding html files (y/n)? "
+      if STDIN.gets.chomp =~ /y/i
+        websites.each { |website| FileUtils.rm website }
+        html_files.each { |html_file| FileUtils.rm html_file }
+      end
     end
   end
   
-  c.desc 'Make html representation of website'
-  c.command :make do |s|
+  c.desc 'Create html representation of website'
+  c.command :create do |s|
     s.action do |global_options,options,args|
+      @designer.create_website(syclink_html_directory, syclink_html_template)
     end
   end
 
-  c.default_command :make
+  c.default_command :create
 end
 
 pre do |global,command,options,args|
@@ -233,16 +242,16 @@ pre do |global,command,options,args|
     @designer.load_website(yaml_file(syclink_website_directory, 
                                      global[:website]))
   else
-    print "Website #{global[:website]} doesn't exist. Create it (y/n)?"
+    print "Website #{global[:website]} doesn't exist. Create it (y/n)? "
     if STDIN.gets.chomp =~ /y/i 
       puts; puts "Creating #{global[:website]}"
       @designer.new_website(global[:website])
     else
-      exit(0)
+      return true
     end
 
     unless config && (global[:website] == config[:default_website])
-      print "Want to make #{global[:website]} the default (y/n)?"
+      print "Want to make #{global[:website]} the default (y/n)? "
       if STDIN.gets.chomp =~ /y/i
         puts; puts "Making #{global[:website]} the default website"
         File.open(syclink_file, 'w') do |f| 
@@ -258,7 +267,9 @@ pre do |global,command,options,args|
 end
 
 post do |global,command,options,args|
-  @designer.save_website(syclink_website_directory)
+  unless command.name == :remove
+    @designer.save_website(syclink_website_directory)
+  end
 
   puts
   # Post logic here
