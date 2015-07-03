@@ -19,7 +19,9 @@ module SycLink
     # Loads the configuration from a file
     def load_config(file)
       unless File.exists? file
-        File.open(file, 'w') { |f| YAML.dump({ }, f) }
+        File.open(file, 'w') do |f| 
+          YAML.dump({ default_website: 'default' }, f) 
+        end
       end
       YAML.load_file(file)
     end
