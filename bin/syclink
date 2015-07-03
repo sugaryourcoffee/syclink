@@ -223,7 +223,7 @@ command :website do |c|
   end
   
   c.desc 'Create html representation of website'
-  c.command :create do |s|
+  c.command [:create] do |s|
     s.action do |global_options,options,args|
       @designer.create_website(syclink_html_directory, syclink_html_template)
     end
