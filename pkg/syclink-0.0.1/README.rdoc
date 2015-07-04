@@ -1,9 +1,0 @@
-= syclink
-
-syclink can be used to create link list and turn them into an html 
-representation.
-
-Detailed information about the usage can be found at link:README.md 
-
-:include:syclink.rdoc
-
