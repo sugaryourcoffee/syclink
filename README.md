@@ -203,43 +203,11 @@ The database can be explored with _sqlite3_ from the command line
     $ sqlite3 places.sqlite
     >
 
-To retrieve url, title, description and bookmark which in our case is a tag
-we can issue the command
+We want to retrieve url, title, description, tag, key and bookmark. tag, key 
+and bookmark are good candidates for tags for the application.
 
-````
-sqlite> select p.id, p.url, p.title, b.id, b.fk, b.parent, b.title, 
-   ...> k.keyword, a.content from moz_bookmarks b 
-   ...> left outer join moz_keywords k on b.keyword_id = k.id 
-   ...> left outer join moz_items_annos a on a.item_id = b.id 
-   ...> join moz_places p on p.id = b.fk where p.url like "http%";
+At the command prompt of SQLite3 We can issue the query
 
-1|https://www.mozilla.org/en-US/firefox/central/||6|1|3|Getting Started||
-2|http://www.ubuntu.com/||8|2|7|Ubuntu||
-3|http://wiki.ubuntu.com/||9|3|7|Ubuntu Wiki (community-edited website)||
-4|https://answers.launchpad.net/ubuntu/+addquestion||10|4|7|\
-Make a Support Request to the Ubuntu Community||
-5|http://www.debian.org/||11|5|7|Debian (Ubuntu is based on Debian)||
-6|https://one.ubuntu.com/||12|6|7|Ubuntu One - The personal cloud that \
-brings your digital life together||
-7|https://www.mozilla.org/en-US/firefox/help/||14|7|13|Help and Tutorials||
-8|https://www.mozilla.org/en-US/firefox/customize/||15|8|13|Customize Firefox|
-|
-9|https://www.mozilla.org/en-US/contribute/||16|9|13|Get Involved||
-10|https://www.mozilla.org/en-US/about/||17|10|13|About Us||
-4717|http://codekata.com/|CodeKata|30|4717|5|CodeKata|liklo|How do you get \
-to be a great musician? It helps to know the theory,
-and to understand the mechanics of your instrument. It helps to have
-talent. But …
-399|http://localhost:3000/|Secondhand | Home|34|399|2|Secondhand | Home||
-12870|https://www.sqlite.org/cli.html|Command Line Shell For SQLite|35|12870|\
-5|Command Line Shell For SQLite|dark|What is this sqlite all about?
-4717|http://codekata.com/|CodeKata|37|4717|36|||
-12870|https://www.sqlite.org/cli.html|Command Line Shell For SQLite|39|12870|\
-38|||
-12883|http://ruby.bastardsbook.com/chapters/sql/#h-2-5|SQL | The Bastards \
-Book of Ruby|40|12883|5|SQL | The Bastards Book of Ruby||
-12883|http://ruby.bastardsbook.com/chapters/sql/#h-2-5|SQL | The Bastards \
-Book of Ruby|42|12883|41|||
 ````
 sqlite> select p.id, p.url, p.title, b.id, b.fk, b.parent, b.title, 
    ...> k.keyword, a.content, b_t.title from moz_bookmarks b 
