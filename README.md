@@ -189,3 +189,35 @@ Following is showing the above sequence in commands
     $ syclink add "http://github.com" --tag DEVELOPMENT
     $ syclink website create
 
+Importing Bookmarks from Webrowsers
+===================================
+
+Firefox
+-------
+The bookmarks of _Firefox_ are located in the user's home folder in
+`~/.mozilla/SOME_CRYPTIC_NAME.default/places.sqlite`.
+
+The database can be explored with _sqlite3_ from the command line
+
+    $ cd ~/.mozilla/SOME_CRYPTIC_NAME.default/
+    $ sqlite3 places.sqlite
+    >
+
+To retrieve url, title, description and bookmark which in our case is a tag
+we can issue the command
+
+````
+sqlite> select p.url, p.title, r.root_name, b.title 
+   ...> from moz_places p inner join moz_bookmarks b on p.id = b.fk 
+   ...> inner join moz_bookmarks_roots r on b.parent = r.folder_id;
+place:folder=BOOKMARKS_MENU&folder=UNFILED_BOOKMARKS&folder=TOOLBAR&\
+queryType=1&sort=12&maxResults=10&excludeQueries=1||menu|Recently Bookmarked
+place:type=6&sort=14&maxResults=10||menu|Recent Tags
+http://localhost:3000/|Secondhand | Home|menu|Secondhand | Home
+place:sort=8&maxResults=10||toolbar|Most Visited
+https://www.mozilla.org/en-US/firefox/central/||toolbar|Getting Started
+http://codekata.com/|CodeKata|unfiled|CodeKata
+https://www.sqlite.org/cli.html|Command Line Shell For SQLite|unfiled|\
+Command Line Shell For SQLite
+````
+We are not interested in the URLs that start with `place:`.
