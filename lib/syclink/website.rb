@@ -1,4 +1,5 @@
 require_relative 'exporter'
+require_relative 'formatter'
 
 # Module that creates a link list and generates an html representation
 module SycLink
@@ -10,6 +11,7 @@ module SycLink
   class Website
 
     include Exporter
+    include Formatter
 
     # The links of the website
     attr_reader :links
@@ -44,6 +46,23 @@ module SycLink
     # Finds all links that contain the search string
     def find_links(search)
       links.select { |link| link.contains? search }
+    end
+
+    # Merge links based on the provided attribue to one link by combining the 
+    # values. The first link will be updated and the obsolete links are deleted
+    # and will be returned
+    def merge_links_on(attribute, concat_string = ',')
+      links_group_by(attribute)
+           .select { |key, link_list| links.size > 1 }
+           .map do |key, link_list| 
+              merge_attributes = Link::ATTRS - [attribute]
+              link_list.first
+                   .update(Hash[extract_columns(link_list, merge_attributes)
+                                .map { |c| c.uniq.join(concat_string) }
+                                .collect { |v| [merge_attributes.shift, v] }])
+              link_list.shift
+              link_list.each { |link| links.delete(link) }
+            end
     end
 
     # Groups the links on the provided attribute

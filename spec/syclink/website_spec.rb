@@ -5,10 +5,18 @@ module SycLink
   describe Website do
     
     before do
-      @link = Link.new("http://example.com",
-                       { name:       "Example",
-                         description: "An example website",
-                         tag:         "Test" })
+      @link  = Link.new("http://example.com",
+                        { name:       "Example",
+                          description: "An example website",
+                          tag:         "Test" })
+      @link2 = Link.new("http://example.com",
+                        { name:       "Challenge",
+                          description: "An example website",
+                          tag:         "Tag" })
+      @link3 = Link.new("http://challenge.com",
+                        { name:       "Challenge",
+                          description: "An example website",
+                          tag:         "Tag" })
       @website = Website.new("Link List")
       @template = <<-HERE.gsub(/^ {8}/, '')
         <html>
@@ -46,6 +54,17 @@ module SycLink
       expect(@website.find_links("website")).to     eq [@link]
       expect(@website.find_links("nothing")).to     eq []
     end
+
+    it "should merge links with same url" do
+      @website.add_link(@link)
+      @website.add_link(@link2)
+      @website.add_link(@link3)
+      expect(@website.links.size).to eq 3
+      @website.merge_links_on(:url, "+")
+      expect(@website.links.size).to eq 2
+    end
+
+    it "should export links to csv"
 
     it "should create the html representation" do
       @website.add_link(@link)
