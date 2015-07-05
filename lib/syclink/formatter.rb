@@ -27,10 +27,10 @@ module SycLink
     end
 
     # Determines max column widths for each column based on the data and header
-    # columns
+    # columns.
     def max_column_widths(columns, header)
       row_column_widths = columns.map do |c| 
-        c.reduce(0) { |m, v| [m, v.length].max }
+        c.reduce(0) { |m, v| [m, v.nil? ? 0 : v.length].max }
       end
 
       header_column_widths = header.map { |h| h.length }
