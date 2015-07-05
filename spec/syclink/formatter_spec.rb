@@ -21,8 +21,9 @@ module SycLink
                 [ "col1333",  "col2333", "col333",   nil        ],
                 [ "col14444", nil,       nil,        "col44444" ] ]
 
-      @widths        = [ 8, 7, 7, 8 ]
-      @scaled_widths = [ 7, 6, 6, 7 ]
+      @widths          = [ 8, 7, 7, 8 ]
+      @scaled_widths   = [ 7, 6, 6, 7 ]
+      @expanded_widths = [ 13, 12, 12, 13 ]
 
       @formatter  = "%-8s | %-7s | %-7s | %-8s"
     end
@@ -37,6 +38,12 @@ module SycLink
     it "should scale the max column widhts to fit max row width" do
       expect(max_column_widths(@cols, @header, 
                                max_row_width: 25)).to eq @scaled_widths
+    end
+
+    it "should expand the rows" do
+      expect(max_column_widths(@cols, @header,
+                               max_row_width: 50,
+                               expand:        true)).to eq @expanded_widths
     end
 
     it "should create a formatter string" do
