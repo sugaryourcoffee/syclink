@@ -64,7 +64,17 @@ module SycLink
       expect(@website.links.size).to eq 2
     end
 
-    it "should export links to csv"
+    it "should export links to csv" do
+      @website.add_link(@link)
+      @website.add_link(@link3)
+
+      result = <<-HERE.gsub(/^ {8}|\n$/, '')
+        http://example.com;Example;An example website;Test
+        http://challenge.com;Challenge;An example website;Tag
+      HERE
+ 
+      expect(@website.to_csv).to eq result
+    end
 
     it "should create the html representation" do
       @website.add_link(@link)

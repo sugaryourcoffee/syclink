@@ -12,6 +12,12 @@ module SycLink
       renderer.result(binding)
     end
 
+    # Takes an array of row values and converts them to a csv string. Expects
+    # that the importing class is having a method rows.
+    def to_csv
+      rows.map { |row| row.join(';') }.join("\n")
+    end
+
   end
 
 end
