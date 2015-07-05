@@ -1,4 +1,4 @@
-require 'syclink/designer.rb'
+require 'syclink/designer'
 
 module SycLink
 
