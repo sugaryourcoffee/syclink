@@ -42,6 +42,11 @@ module SycLink
       expect(@link_complete.contains?("example.com")).to be_truthy
       expect(@link_complete.contains?("nothing")).to     be_falsey
     end
+
+    it "should return the values of the link" do
+      expect(@link_complete.row).to eq [ "http://example.com", "Example",
+                                         "For testing purposes", "Test" ]
+    end
   end
 
 end
