@@ -55,18 +55,17 @@ module SycLink
 
     # Prints the table's header
     def print_header(header, formatter)
-      puts cut(sprintf(formatter, *header), 80)
+      puts sprintf(formatter, *header)
     end
 
     # Prints a horizontal line below the header
     def print_horizontal_line(line, separator, widths)
-      puts cut(widths.map { |width| line * width }.join(separator), 80)
+      puts widths.map { |width| line * width }.join(separator)
     end
 
     # Prints columns in a table format
     def print_table(columns, formatter)
-      columns.transpose.each { |row| puts cut(sprintf(formatter, *row), 
-                                              80) }
+      columns.transpose.each { |row| puts sprintf(formatter, *row) }
     end
 
     # Cuts the string down to the specified size
