@@ -45,6 +45,11 @@ module SycLink
       target.downcase.delete(' ').scan(search).size > 0
     end
 
+    # Return the values of the link in an array
+    def row
+      [ url, name, description, tag ]
+    end
+
     private
 
     # Specifies the default values
