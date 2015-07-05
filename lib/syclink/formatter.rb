@@ -4,10 +4,14 @@ module SycLink
   # Methods to print data in a formatted way
   module Formatter
 
-    # Based on the rows provided and the header values a table is printed
-    def table(rows, header)
+    # Based on the rows provided and the header values a table is printed. If
+    # the options :expand and or :max_row_width are specified the rows are 
+    # scaled accordingly. If :expand is false the rows will be cut so they fit 
+    # the :max_row_width. Otherwise if the rows are less than :max_row_width 
+    # the rows are expanded to :max_row_width.
+    def table(rows, header, opts = {})
       columns = extract_columns(rows, header)
-      widths  = max_column_widths(columns, header)
+      widths  = max_column_widths(columns, header, opts)
       formatter = formatter_string(widths, " | ")
       print_header(header, formatter)
       print_horizontal_line("-", "-+-", widths)
@@ -28,16 +32,18 @@ module SycLink
 
     # Determines max column widths for each column based on the data and header
     # columns.
-    def max_column_widths(columns, header)
+    def max_column_widths(columns, header, opts = {})
       row_column_widths = columns.map do |c| 
         c.reduce(0) { |m, v| [m, v.nil? ? 0 : v.length].max }
       end
 
       header_column_widths = header.map { |h| h.length }
 
-      row_column_widths.zip(header_column_widths).map do |column|
+      widths = row_column_widths.zip(header_column_widths).map do |column|
         column.reduce(0) { |m, v| [m, v].max }
       end
+
+      scale_widths(widths, opts)
     end
 
     # Creates a formatter string based on the widths and the column separator
@@ -59,12 +65,29 @@ module SycLink
 
     # Prints columns in a table format
     def print_table(columns, formatter)
-      columns.transpose.each { |row| puts cut(sprintf(formatter, *row), 80) }
+      columns.transpose.each { |row| puts cut(sprintf(formatter, *row), 
+                                              80) }
     end
 
     # Cuts the string down to the specified size
     def cut(string, size)
       string[0..size-1]
+    end
+
+    # Scales the widths in regard to opts[:max_row_width] and opts[:expand]. If
+    # :expand is true and :max_row_width is set the rows are expanded to the
+    # :max_row_width if the rows are shorter than max_row_width. If the rows are
+    # larger than :max_row_width the rows are scaled to not exceed the 
+    # :max_row_width. If :max_row_width is not set the rows are not scaled.
+    def scale_widths(widths, opts = {})
+      return widths unless opts[:max_row_width]
+
+      row_width = widths.inject(:+)
+
+      return widths if !opts[:expand] && row_width <= opts[:max_row_width]
+
+      scale = 1.0*opts[:max_row_width]/row_width
+      widths.map { |width| (scale * width).round }
     end
   end
 end

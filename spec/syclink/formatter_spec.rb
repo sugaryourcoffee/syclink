@@ -15,12 +15,16 @@ module SycLink
                      [ "col31111", "col3222", "col333",   nil       ],
                      [ "col41",    "col422",  nil,       "col44444" ] ]
       @rows = row_values.map { |row| Row.new(*row) }
+
       @cols = [ [ "col11",    nil,       "col31111", "col41"    ],
                 [ nil,        nil,       "col3222",  "col422"   ],
                 [ "col1333",  "col2333", "col333",   nil        ],
                 [ "col14444", nil,       nil,        "col44444" ] ]
-      @formatter = "%-8s | %-7s | %-7s | %-8s"
-      @widths = [ 8, 7, 7, 8 ]
+
+      @widths        = [ 8, 7, 7, 8 ]
+      @scaled_widths = [ 7, 6, 6, 7 ]
+
+      @formatter  = "%-8s | %-7s | %-7s | %-8s"
     end
 
     it "should transform the rows to columns" do
@@ -30,8 +34,14 @@ module SycLink
       expect(max_column_widths(@cols, @header)).to eq @widths
     end
 
+    it "should scale the max column widhts to fit max row width" do
+      expect(max_column_widths(@cols, @header, 
+                               max_row_width: 25)).to eq @scaled_widths
+    end
+
     it "should create a formatter string" do
       expect(formatter_string(@widths, " | ")).to eq @formatter
     end
+
   end
 end
