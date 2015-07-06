@@ -7,7 +7,7 @@ module SycLink
     
     QUERY_STRING = "select p.url, p.title, b.title, a.content, k.keyword, b_t.title from moz_bookmarks b left outer join moz_keywords k on b.keyword_id = k.id left outer join moz_items_annos a on a.item_id = b.id left outer join moz_bookmarks b_t on b.parent = b_t.id join moz_places p on p.id = b.fk where p.url like 'http%';"
 
-    attr_reader :import
+    attr_accessor :import
 
     def initialize(data = [])
       @import = data
