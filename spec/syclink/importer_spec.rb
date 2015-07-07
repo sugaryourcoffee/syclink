@@ -1,4 +1,4 @@
-require 'syclink/importer'
+require 'syclink/firefox'
 
 module SycLink
 
@@ -10,7 +10,7 @@ module SycLink
         @import = [ [ "http://a.com", "a", "at", "a site", nil,  "aa" ],
                     [ "http://b.com", "b", "bt", nil,      "ab", "bb" ],
                     [ "http://c.com", nil, "ct", "b site", "bc", nil  ] ] 
-        @firefox = Importer.new(@import)
+        @firefox = Firefox.new(@import)
       end
 
       it "and create rows" do
