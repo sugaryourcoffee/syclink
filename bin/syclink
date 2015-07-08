@@ -133,7 +133,12 @@ command :find do |c|
 
   c.action do |global_options,options,args|
 
-    print_links(@designer.find_links(args[0].downcase), options[:c])
+    if args[0].nil?
+      STDERR.puts "Warning: You need to specify a FIND_STRING"
+      STDERR.puts "If you want to list all links use 'syclink list'"
+    else
+      print_links(@designer.find_links(args[0]), options[:c])
+    end
 
   end
 end
