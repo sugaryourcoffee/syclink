@@ -28,6 +28,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rspec (~> 3.3)
+  rspec (= 3.3.0)
   sass (= 3.4.15)
   syclink!

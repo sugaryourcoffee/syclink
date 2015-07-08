@@ -18,7 +18,7 @@ spec = Gem::Specification.new do |s|
   s.rdoc_options << '--title' << 'test' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << 'syclink'
-  s.add_development_dependency('rspec', '~>3.3')
+  s.add_development_dependency('rspec', '3.3.0')
   s.add_development_dependency('sass', '3.4.15')
   s.add_runtime_dependency('gli','2.13.1')
 end
