@@ -39,8 +39,10 @@ module SycLink
     end
 
     it "should return true if search string is part of link attributes" do
-      expect(@link_complete.contains?("example.com")).to be_truthy
-      expect(@link_complete.contains?("nothing")).to     be_falsey
+      expect(@link_complete.contains?("example.com")).to        be_truthy
+      expect(@link_complete.contains?("nothing")).to            be_falsey
+      expect(@link_complete.contains?("http://example.com")).to be_truthy
+      expect(@link_complete.contains?("HTTP://EXAMPLE.com")).to be_truthy
     end
 
     it "should return the values of the link" do

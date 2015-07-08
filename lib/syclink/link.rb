@@ -40,7 +40,7 @@ module SycLink
     # attributes. If the search string is found true is returned otherwise
     # false
     def contains?(search)
-      search = search.delete(' ')
+      search = search.delete(' ').downcase
       target = instance_variables.map { |v| instance_variable_get v }.join
       target.downcase.delete(' ').scan(search).size > 0
     end
