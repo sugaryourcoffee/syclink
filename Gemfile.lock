@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    syclink (0.0.1)
+    syclink (0.0.2)
       gli (= 2.13.1)
 
 GEM
@@ -28,6 +28,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rspec
-  sass
+  rspec (~> 3.3)
+  sass (= 3.4.15)
   syclink!
