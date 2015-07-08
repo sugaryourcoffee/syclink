@@ -1,4 +1,5 @@
 require 'syclink/firefox'
+require 'syclink/internet_explorer'
 
 module SycLink
 
@@ -32,9 +33,37 @@ module SycLink
 
     end
 
-    it "should import Internet Explorer bookmarks"
+    describe "Internet Explorer" do
 
-    it "should import Chrome bookmarks"
+      before do
+        @ie_directory = File.join(File.dirname(__FILE__), 'ie/')
+        @result = [ [ "http://example.com", "ie", "", "" ],
+                    [ "http://example.com", "ie", "", "one"],
+                    [ "http://example.com", "ie", "", "one,two"] ]
+
+        @ie = InternetExplorer.new
+      end
+
+      it "should import bookmarks" do
+        expect(@ie.read(@ie_directory)).to eq @result
+      end
+
+      it "should read rows" do
+        expect(@ie.rows).to eq @result
+      end
+
+      it "should create links" do
+        links = @ie.links
+        expect(links.first.url).to         eq @result.first[0]
+        expect(links.first.name).to        eq @result.first[1]
+        expect(links.first.description).to eq @result.first[2]
+        expect(links.first.tag).to         eq @result.first[3]
+      end
+    end
+
+    describe "should import Chrome bookmarks" do
+      it "should import Chrome bookmarks"
+    end
 
   end
 
