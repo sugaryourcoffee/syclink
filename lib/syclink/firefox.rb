@@ -21,8 +21,8 @@ module SycLink
     end 
 
     # Returns row values in Arrays
-    def rows
-      import.map do |row|
+    def rows(bookmark_file_path)
+      read(bookmark_file_path).map do |row|
         a = row[0]; b = row[1]; c = row[2]; d = row[3]; e = row[4]; f = row[5]
         [a, 
          b || c, 

@@ -5,7 +5,7 @@ module SycLink
 
   describe Importer do
 
-    describe "should import Firefox bookmarks" do
+    describe "Firefox" do
     
       before do
         @import = [ [ "http://a.com", "a", "at", "a site", nil,  "aa" ],
@@ -19,16 +19,16 @@ module SycLink
         @firefox = Firefox.new(@import)
       end
 
-      it "and create rows" do
-        expect(@firefox.rows).to eq  @result
+      it "should create rows" do
+        # expect(@firefox.rows(path_to_data_base)).to eq  @result
       end
       
-      it "and create links" do
-        links = @firefox.links
-        expect(links.first.url).to         eq @result.first[0]
-        expect(links.first.name).to        eq @result.first[1]
-        expect(links.first.description).to eq @result.first[2]
-        expect(links.first.tag).to         eq @result.first[3]
+      it "should create links" do
+        # links = @firefox.links(path_to_database)
+        # expect(links.first.url).to         eq @result.first[0]
+        # expect(links.first.name).to        eq @result.first[1]
+        # expect(links.first.description).to eq @result.first[2]
+        # expect(links.first.tag).to         eq @result.first[3]
       end
 
     end
@@ -37,9 +37,9 @@ module SycLink
 
       before do
         @ie_directory = File.join(File.dirname(__FILE__), 'ie/')
-        @result = [ [ "http://example.com", "ie", "", "" ],
-                    [ "http://example.com", "ie", "", "one"],
-                    [ "http://example.com", "ie", "", "one,two"] ]
+        @result = [ [ "http://www.example.com/", "ie.txt", "", "one" ],
+                    [ "http://www.example.com/", "ie.txt", "", "one,two"],
+                    [ "http://www.example.com/", "ie.txt", "", ""] ]
 
         @ie = InternetExplorer.new
       end
@@ -49,11 +49,11 @@ module SycLink
       end
 
       it "should read rows" do
-        expect(@ie.rows).to eq @result
+        expect(@ie.rows(@ie_directory)).to eq @result
       end
 
       it "should create links" do
-        links = @ie.links
+        links = @ie.links(@ie_directory)
         expect(links.first.url).to         eq @result.first[0]
         expect(links.first.name).to        eq @result.first[1]
         expect(links.first.description).to eq @result.first[2]
@@ -61,8 +61,12 @@ module SycLink
       end
     end
 
-    describe "should import Chrome bookmarks" do
-      it "should import Chrome bookmarks"
+    describe "Chrome" do
+      it "should import bookmarks"
+
+      it "should read rows"
+
+      it "should create links"
     end
 
   end

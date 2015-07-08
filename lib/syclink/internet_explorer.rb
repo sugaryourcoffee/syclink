@@ -10,18 +10,27 @@ module SycLink
     def read(path_to_internet_explorer_bookmarks)
       files = Dir.glob(File.join(path_to_internet_explorer_bookmarks, "**/*"))
       
-      p files
-      import = files.map do |file|
+      regex = Regexp.new("(?<=#{path_to_internet_explorer_bookmarks}).*")
+
+      files.map do |file|
         unless File.directory? file
           url = File.read(file).scan(/(?<=\nURL=)(.*)$/).flatten.first
           name = File.basename(file)
           description = ""
-          tag         = File.dirname(file).gsub("/", ",")
-          puts "#{url} - #{name} - #{description} - #{tag}"
+          tag         = extract_tags(File.dirname(file).scan(regex).flatten)
           [url, name, description, tag]
         end
       end.compact
     end
 
+    private
+
+    def extract_tags(tag_string)
+      if tag_string.empty?
+        ""
+      else
+        tag_string.first.gsub("/", ",")
+      end
+    end
   end
 end

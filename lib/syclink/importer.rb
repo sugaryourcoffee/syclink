@@ -22,13 +22,13 @@ module SycLink
 
     # Links values returned in an Array. Default implementation returns values
     # from #read.
-    def rows
-      import
+    def rows(bookmark_file_path)
+      read(bookmark_file_path)
     end
 
     # Links returned as Link objects
-    def links
-      rows.map do |row|
+    def links(bookmark_file_path)
+      rows(bookmark_file_path).map do |row|
         attributes = Link::ATTRS.dup - [:url]
         Link.new(row.shift, Hash[row.map { |v| [attributes.shift, v] }])
       end
