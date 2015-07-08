@@ -9,15 +9,18 @@ module SycLink
     # Reads the links from the Internet Explorer's bookmarks directory
     def read(path_to_internet_explorer_bookmarks)
       files = Dir.glob(File.join(path_to_internet_explorer_bookmarks, "**/*"))
+      
+      p files
       import = files.map do |file|
         unless File.directory? file
           url = File.read(file).scan(/(?<=\nURL=)(.*)$/).flatten.first
           name = File.basename(file)
           description = ""
           tag         = File.dirname(file).gsub("/", ",")
+          puts "#{url} - #{name} - #{description} - #{tag}"
           [url, name, description, tag]
-        end.compact
-      end
+        end
+      end.compact
     end
 
   end
