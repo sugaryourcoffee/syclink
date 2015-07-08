@@ -36,6 +36,11 @@ _Link commands_
 * list   - List all links with an optional filter
 * find   - Find links based on a search string
 
+_Import commands_
+* import mf - Import Mozilla Firefox bookmarks
+* import gc - Import Google Chrome bookmarks
+* import ie - Import Internet Explorer bookumarks
+
 Commands
 ========
 Following the commands and how to use them is explained based on examples.
