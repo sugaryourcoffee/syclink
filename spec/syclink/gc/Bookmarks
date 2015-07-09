@@ -1,0 +1,61 @@
+{
+   "checksum": "d4c5b2eab81ffec9fd7ee32adc737f47",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13080868119736416",
+            "id": "6",
+            "name": "Secondhand | Home",
+            "type": "url",
+            "url": "http://syc.dyndns.org:8080/"
+         } ],
+         "date_added": "13080868063104819",
+         "date_modified": "13080868410234100",
+         "id": "1",
+         "name": "Bookmarks bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [ {
+            "date_added": "13080868410234100",
+            "id": "7",
+            "name": "Apptrack | Home",
+            "type": "url",
+            "url": "http://syc.dyndns.org:8081/"
+         }, {
+            "children": [ {
+               "date_added": "13080868539248336",
+               "id": "8",
+               "name": "sycsvpro -- BestGems",
+               "type": "url",
+               "url": "http://bestgems.org/gems/sycsvpro"
+            }, {
+               "date_added": "13080868634462619",
+               "id": "10",
+               "name": "RubyGems.org | your community gem host",
+               "type": "url",
+               "url": "https://rubygems.org/profiles/sugaryourcoffee"
+            } ],
+            "date_added": "13080868578365360",
+            "date_modified": "13080868634462619",
+            "id": "9",
+            "name": "Gems",
+            "type": "folder"
+         } ],
+         "date_added": "13080868063104839",
+         "date_modified": "13080868539248336",
+         "id": "2",
+         "name": "Other bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13080868063104842",
+         "date_modified": "0",
+         "id": "3",
+         "name": "Mobile bookmarks",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}
