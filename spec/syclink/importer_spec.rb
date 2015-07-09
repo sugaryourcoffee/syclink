@@ -1,4 +1,5 @@
 require 'syclink/firefox'
+require 'syclink/chrome'
 require 'syclink/internet_explorer'
 
 module SycLink
@@ -62,9 +63,22 @@ module SycLink
     end
 
     describe "Chrome" do
-      it "should import bookmarks"
 
-      it "should read rows"
+      before do
+        @gc_bookmarks = File.join(File.dirname(__FILE__), 'gc/Bookmarks')
+        @gc = Chrome.new
+      end
+
+      it "should import bookmarks" do
+        bookmarks = @gc.read(@gc_bookmarks)
+        expect(bookmarks["checksum"]).not_to be_nil
+        expect(bookmarks["roots"]).not_to    be_nil
+        expect(bookmarks["version"]).not_to  be_nil
+      end
+
+      it "should read rows" do
+        # expect(@gc.rows(@gc_bookmarks)).to eq @gc_result
+      end
 
       it "should create links"
     end
