@@ -66,30 +66,12 @@ module SycLink
 
       before do
         @gc_bookmarks = File.join(File.dirname(__FILE__), 'gc/Bookmarks')
-        @read_result = [["Bookmarks bar", 
-                         [["Secondhand | Home", 
-                           "http://syc.dyndns.org:8080/"]
-                         ]
-                        ], 
-                        ["Other bookmarks", 
-                         [["Apptrack | Home", 
-                           "http://syc.dyndns.org:8081/"], 
-                          ["Gems", 
-                           [["sycsvpro -- BestGems", 
-                             "http://bestgems.org/gems/sycsvpro"],
-                            ["RubyGems.org | your community gem host", 
-                             "https://rubygems.org/profiles/sugaryourcoffee"]
-                           ]
-                          ]
-                         ]
-                        ], 
-                        ["Mobile bookmarks", []]
-                       ]
+
         @rows_result = [["http://syc.dyndns.org:8080/",
                          "Secondhand | Home",
                          "",
                          "Bookmarks bar"],
-                        ["http://syc.dyndns.org/8081/",
+                        ["http://syc.dyndns.org:8081/",
                          "Apptrack | Home",
                          "",
                          "Other bookmarks"],
@@ -105,14 +87,20 @@ module SycLink
       end
 
       it "should import bookmarks" do
-        expect(@gc.read(@gc_bookmarks)).to eq @read_result
+        expect(@gc.read(@gc_bookmarks)).to eq @rows_result
       end
 
       it "should read rows" do
         expect(@gc.rows(@gc_bookmarks)).to eq @rows_result
       end
 
-      it "should create links"
+      it "should create links" do
+        links = @gc.links(@gc_bookmarks)
+        expect(links.first.url).to         eq @rows_result.first[0]
+        expect(links.first.name).to        eq @rows_result.first[1]
+        expect(links.first.description).to eq @rows_result.first[2]
+        expect(links.first.tag).to         eq @rows_result.first[3]
+      end
     end
 
   end
