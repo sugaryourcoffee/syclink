@@ -66,18 +66,50 @@ module SycLink
 
       before do
         @gc_bookmarks = File.join(File.dirname(__FILE__), 'gc/Bookmarks')
+        @read_result = [["Bookmarks bar", 
+                         [["Secondhand | Home", 
+                           "http://syc.dyndns.org:8080/"]
+                         ]
+                        ], 
+                        ["Other bookmarks", 
+                         [["Apptrack | Home", 
+                           "http://syc.dyndns.org:8081/"], 
+                          ["Gems", 
+                           [["sycsvpro -- BestGems", 
+                             "http://bestgems.org/gems/sycsvpro"],
+                            ["RubyGems.org | your community gem host", 
+                             "https://rubygems.org/profiles/sugaryourcoffee"]
+                           ]
+                          ]
+                         ]
+                        ], 
+                        ["Mobile bookmarks", []]
+                       ]
+        @rows_result = [["http://syc.dyndns.org:8080/",
+                         "Secondhand | Home",
+                         "",
+                         "Bookmarks bar"],
+                        ["http://syc.dyndns.org/8081/",
+                         "Apptrack | Home",
+                         "",
+                         "Other bookmarks"],
+                        ["http://bestgems.org/gems/sycsvpro",
+                         "sycsvpro -- BestGems",
+                         "",
+                         "Other bookmarks,Gems"],
+                        ["https://rubygems.org/profiles/sugaryourcoffee",
+                         "RubyGems.org | your community gem host",
+                         "",
+                         "Other bookmarks,Gems"]]
         @gc = Chrome.new
       end
 
       it "should import bookmarks" do
-        bookmarks = @gc.read(@gc_bookmarks)
-        expect(bookmarks["checksum"]).not_to be_nil
-        expect(bookmarks["roots"]).not_to    be_nil
-        expect(bookmarks["version"]).not_to  be_nil
+        expect(@gc.read(@gc_bookmarks)).to eq @read_result
       end
 
       it "should read rows" do
-        # expect(@gc.rows(@gc_bookmarks)).to eq @gc_result
+        expect(@gc.rows(@gc_bookmarks)).to eq @rows_result
       end
 
       it "should create links"
