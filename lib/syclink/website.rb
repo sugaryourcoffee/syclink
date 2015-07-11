@@ -72,6 +72,17 @@ module SycLink
            .each     { |key, link| link.map! { |l| l[:link] }}
     end
 
+    # Create multiple Links based on the attribute provided. The specified 
+    # spearator will splitt the attribute value in distinct values and for each
+    # different value a Link will be created
+    def links_duplicate_on(attribute, separator)
+      links.map do  |link|
+        link.send(attribute).split(separator).collect do |value|
+          link.dup.update(Hash[attribute, value])
+        end
+      end.flatten
+    end
+
     # Return an array of all link values as rows
     def rows
       links.map { |link| link.row }

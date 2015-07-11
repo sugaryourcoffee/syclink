@@ -17,6 +17,10 @@ module SycLink
                         { name:       "Challenge",
                           description: "An example website",
                           tag:         "Tag" })
+      @link4 = Link.new("http://challenge.com",
+                        { name:       "Challenge",
+                          description: "An example website",
+                          tag:         "One,Two" })
       @website = Website.new("Link List")
       @template = <<-HERE.gsub(/^ {8}/, '')
         <html>
@@ -90,6 +94,19 @@ module SycLink
       @website.add_link(@link)
       target = { "Test" => [@link, @link] }
       expect(@website.links_group_by(:tag)).to eq target
+    end
+
+    it "should duplicate links on multiple tags" do
+      @website.add_link(@link4)
+
+      links = @website.links_duplicate_on(:tag, ',')
+
+      expect(links.size).to eq 2
+
+      expect(links.first.url).to         eq "http://challenge.com"
+      expect(links.first.name).to        eq "Challenge"
+      expect(links.first.description).to eq "An example website"
+      expect(links.first.tag).to         eq "One"
     end
 
     it "should list all tags" do
