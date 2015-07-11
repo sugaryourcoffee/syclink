@@ -21,11 +21,13 @@ module SycLink
       @tag         = params[:tag]
     end
 
-    # Updates the attributes of the link specified by args
+    # Updates the attributes of the link specified by args and returns the
+    # updated link
     def update(args)
       select_defined(args).each do |attribute, value|
         send("#{attribute}=", value)
       end
+      self
     end
 
     # Checks whether the link matches the values provided by args and returns
