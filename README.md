@@ -27,8 +27,8 @@ _Website commands_
 * website show    - show all websites or search for websites
 * website remove  - Remove website
 * website create  - Create a HTML representation of the website
-* website check   - Check from links that are not active anymore
-* webiste edit    - Open the YAML file for editing
+* website check   - Check from links that are not active anymore (pending)
+* website edit    - Open the YAML file for editing (pending)
 
 _Link commands_
 * add    - Add a link
@@ -39,13 +39,14 @@ _Link commands_
 * find   - Find links based on a search string
 
 _Import commands_
-* import mf - Import Mozilla Firefox bookmarks
-* import gc - Import Google Chrome bookmarks
-* import ie - Import Internet Explorer bookumarks
+* import mf  - Import Mozilla Firefox bookmarks
+* import gc  - Import Google Chrome bookmarks
+* import ie  - Import Internet Explorer bookmarks
+* import dir - Import links to files from a directory
 
 _Export commands_
-* export xml  - Export links in XML fromat
-* export json - Export links in JSON format
+* export xml  - Export links in XML fromat (pending)
+* export json - Export links in JSON format (pending)
 * export csv  - Export links in csv format
 
 Commands
