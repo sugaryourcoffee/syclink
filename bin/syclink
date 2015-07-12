@@ -237,6 +237,101 @@ command :website do |c|
   c.default_command :create
 end
 
+desc "Import links from Firefox, Chrome, Internet Explorer or directory"
+command "import" do |c|
+
+  c.desc 'Import links from Mozilla Firefox'
+  c.arg_name 'PATH_TO_FIREFOX_DATABASE'
+  c.command :mf do |s|
+
+    s.action do |global_options,options,args|
+      unless File.exists? args[0]
+        STDERR.puts <<-HERE.gsub(/^ {10}/, '')
+          Error: #{args[0]} doesn't exist!
+          Firefox stores its bookmarks in a SQLite3 database called
+          places.sqlite. With Ubuntu this database is usually located in
+          '~/.mozilla/firefox/*.default/places.sqlite'. 
+          If you are on Windows
+          the file is located in the user's home directory 
+          '~/AppData/Roaming/Mozilla/Profiles/*.default/places.sqlite'.
+        HERE
+        exit(0)
+      else
+        @designer.import_links(SycLink::Firefox.new(args.shift))
+      end
+    end
+  end
+
+  c.desc 'Import links from Google Chrome'
+  c.arg_name 'PATH_TO_CHROME_BOOKMARKS'
+  c.command :gc do |s|
+
+    s.action do |global_options,options,args|
+      unless File.exists? args[0]
+        STDERR.puts <<-HERE.gsub(/^ {10}/, '')
+          Error: #{args[0]} doesn't exist!
+          Google Chrome stores its bookmarks in a JSON file called
+          Bookmarks. With Ubuntu this file is usually located in
+          '~/.config/chromium/Default/Bookmarks'. 
+          If you are on Windows
+          the file is located in the user's home directory 
+          '~/AppData/Local/Google/Chrome/User Data/Bookmarks'.
+        HERE
+        exit(0)
+      else
+        @designer.import_links(SycLink::Chrome.new(args.shift))
+      end
+    end
+  end
+
+  c.desc 'Import links from Internet Explorer'
+  c.arg_name 'PATH_TO_INTERNET_EXPLORER_BOOKMARKS'
+  c.command :ie do |s|
+
+    s.action do |global_options,options,args|
+      unless File.exists? args[0]
+        STDERR.puts <<-HERE.gsub(/^ {10}/, '')
+          Error: #{args[0]} doesn't exist!
+          Internet Explorer stores its bookmarks in a directory structure.
+          the bookmarks are located in the user's home directory 
+          '~/AppData/Favorites'.
+        HERE
+        exit(0)
+      else
+        @designer.import_links(SycLink::InternetExplorer.new(args.shift))
+      end
+    end
+  end
+
+  c.desc 'Import links from a Directory'
+  c.long_desc <<-HERE.gsub(/^ {4}/, '')
+    The PATH_TO_DIRECTORY can have patterns that allows to import specific
+    files.
+
+    Examples:
+
+    PATH_TO_DIRECTORY/**/*.pdf will import all pdf-files in the directories and
+    sub-directory
+
+    PATH_TO_DIRECTORY/**/* will import all files and sub-directories
+  HERE
+
+  c.arg_name 'PATH_TO_DIRECTORY'
+  c.command :dir do |s|
+
+    s.action do |global_options,options,args|
+      unless File.exists? args[0]
+        STDERR.puts <<-HERE.gsub(/^ {8}/, '')
+          Error: #{args[0]} doesn't exist!
+        HERE
+        exit(0)
+      else
+        @designer.import_links(SycLink::InternetExplorer.new(args.shift))
+      end
+    end
+  end
+end
+
 pre do |global,command,options,args|
   
   if WEBSITE_COMMANDS.include?(command.name)
