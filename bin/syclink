@@ -326,7 +326,7 @@ command "import" do |c|
         HERE
         exit(0)
       else
-        @designer.import_links(SycLink::InternetExplorer.new(args.shift))
+        @designer.import_links(SycLink::FileImporter.new(args.shift))
       end
     end
   end
