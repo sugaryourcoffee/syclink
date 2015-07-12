@@ -17,20 +17,11 @@ module SycLink
           url = File.read(file).scan(/(?<=\nURL=)(.*)$/).flatten.first
           name = File.basename(file)
           description = ""
-          tag         = extract_tags(File.dirname(file).scan(regex).flatten)
+          tag         = extract_tags(File.dirname(file).scan(regex))
           [url, name, description, tag]
         end
       end.compact
     end
 
-    private
-
-    def extract_tags(tag_string)
-      if tag_string.empty?
-        ""
-      else
-        tag_string.first.gsub("/", ",")
-      end
-    end
   end
 end

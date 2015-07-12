@@ -33,6 +33,16 @@ module SycLink
         Link.new(row.shift, Hash[row.map { |v| [attributes.shift, v] }])
       end
     end
+
+    protected
+
+    def extract_tags(tag_string)
+      if tag_string.empty?
+        ""
+      else
+        tag_string.first.gsub("/", ",")
+      end
+    end
   end
 
 end
