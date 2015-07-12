@@ -52,6 +52,15 @@ module SycLink
       website.find_links(url).first.update(args)
     end
 
+    def update_links_from_file(file)
+      File.foreach(file) do |line|
+        url, name, description, tag = line.chomp.split(';')
+        website.find_links(url).first.update({ name:        name,
+                                               description: description,
+                                               tag:         tag })
+      end
+    end
+
     # Deletes one or more links from the website. Returns the deleted links.
     # Expects the links provided in an array
     def remove_links(urls)

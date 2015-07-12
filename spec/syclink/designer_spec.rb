@@ -52,6 +52,30 @@ module SycLink
                       .first.name).to eq "Reality"
     end
 
+    it "should update links from a file" do
+      links = [ "http://example.com;Example;An example website;Test",
+                "http://test.de;test;A test website;Test",
+                "http://challenge.org;challenge;A challenge website;Challenge" ]
+      File.write("links.tmp", links.join("\n"))
+
+      @designer.add_links_from_file("links.tmp")
+      expect(@designer.website.links.size).to eq 3
+
+      links = [ "http://example.com;example.com;An example website;Example",
+                "http://test.de;test;A test website;Test,What",
+                "http://challenge.org;challenge;Challenge website;Challenge" ]
+      File.write("links.tmp", links.join("\n"))
+
+      @designer.update_links_from_file("links.tmp")
+      expect(@designer.website.links.size).to eq 3
+      expect(@designer.website.links[0].name).to        eq "example.com"
+      expect(@designer.website.links[1].tag).to         eq "Test,What"
+      expect(@designer.website.links[2].description).to eq "Challenge website"
+
+
+      FileUtils.rm("links.tmp")
+    end
+
     it "should list all links" do
       @designer.add_link("http://example.com",
                          { name: "Example",
