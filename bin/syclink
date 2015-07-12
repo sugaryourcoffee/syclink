@@ -14,7 +14,8 @@ include SycLink::Infrastructure
 include SycLink::Formatter
 
 # Commands that need to have a website and a designer object
-WEBSITE_COMMANDS = [ :create, :add, :file, :update, :delete, :list, :find ]
+WEBSITE_COMMANDS = [ :create, :add, :file, :update, :delete, :list, :find,
+                     :dir, :mf, :gc, :ie ]
 
 # syclink's configuration directory
 syclink_directory             = File.expand_path("~/.syc/syclink")
@@ -238,7 +239,7 @@ command :website do |c|
 end
 
 desc "Import links from Firefox, Chrome, Internet Explorer or directory"
-command "import" do |c|
+command :import do |c|
 
   c.desc 'Import links from Mozilla Firefox'
   c.arg_name 'PATH_TO_FIREFOX_DATABASE'
@@ -330,6 +331,18 @@ command "import" do |c|
       end
     end
   end
+end
+
+desc 'Export to csv'
+command :export do |c|
+
+  c.desc 'Export links to csv'
+  c.command :csv do |s|
+
+    s.action do |global_options,options,args|
+    end
+  end
+
 end
 
 pre do |global,command,options,args|
