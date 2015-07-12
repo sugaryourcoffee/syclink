@@ -31,12 +31,14 @@ _Website commands_
 * website edit    - Open the YAML file for editing (pending)
 
 _Link commands_
-* add    - Add a link
-* file   - Add links from a file
-* update - Update a link
-* delete - Delete a link 
-* list   - List all links with an optional filter
-* find   - Find links based on a search string
+* add link    - Add a link
+* add file    - Add links from a file
+* update link - Update a link
+* update file - Update links saved to a file
+* delete link - Delete a link 
+* delete file - Delete links saved to a file
+* list        - List all links with an optional filter
+* find        - Find links based on a search string
 
 _Import commands_
 * import mf  - Import Mozilla Firefox bookmarks
