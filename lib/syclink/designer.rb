@@ -43,6 +43,11 @@ module SycLink
       end
     end
 
+    # Export links to specified format
+    def export(format)
+      website.export_csv
+    end
+
     # List links contained in the website and optionally filter on attributes
     def list_links(args = {})
       website.list_links(args)

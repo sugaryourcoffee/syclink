@@ -7,10 +7,10 @@ module SycLink
   class InternetExplorer < Importer
 
     # Reads the links from the Internet Explorer's bookmarks directory
-    def read(path_to_internet_explorer_bookmarks)
-      files = Dir.glob(File.join(path_to_internet_explorer_bookmarks, "**/*"))
+    def read
+      files = Dir.glob(File.join(path, "**/*"))
       
-      regex = Regexp.new("(?<=#{path_to_internet_explorer_bookmarks}).*")
+      regex = Regexp.new("(?<=#{path}).*")
 
       files.map do |file|
         unless File.directory? file

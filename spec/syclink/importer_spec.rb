@@ -18,7 +18,7 @@ module SycLink
                     [ "http://b.com", "b",  "",       "ab,bb" ],
                     [ "http://c.com", "ct", "b site", "bc"    ] ]
 
-        @firefox = Firefox.new(@import)
+        # @firefox = Firefox.new(@import)
       end
 
       it "should create rows" do
@@ -38,24 +38,24 @@ module SycLink
     describe "Internet Explorer" do
 
       before do
-        @ie_directory = File.join(File.dirname(__FILE__), 'ie/')
+        ie_directory = File.join(File.dirname(__FILE__), 'ie/')
         @result = [ [ "http://www.example.com/", "ie.txt", "", "one" ],
                     [ "http://www.example.com/", "ie.txt", "", "one,two"],
                     [ "http://www.example.com/", "ie.txt", "", ""] ]
 
-        @ie = InternetExplorer.new
+        @ie = InternetExplorer.new(ie_directory)
       end
 
       it "should import bookmarks" do
-        expect(@ie.read(@ie_directory)).to eq @result
+        expect(@ie.read).to eq @result
       end
 
       it "should read rows" do
-        expect(@ie.rows(@ie_directory)).to eq @result
+        expect(@ie.rows).to eq @result
       end
 
       it "should create links" do
-        links = @ie.links(@ie_directory)
+        links = @ie.links
         expect(links.first.url).to         eq @result.first[0]
         expect(links.first.name).to        eq @result.first[1]
         expect(links.first.description).to eq @result.first[2]
@@ -66,7 +66,7 @@ module SycLink
     describe "Chrome" do
 
       before do
-        @gc_bookmarks = File.join(File.dirname(__FILE__), 'gc/Bookmarks')
+        gc_bookmarks = File.join(File.dirname(__FILE__), 'gc/Bookmarks')
 
         @rows_result = [["http://syc.dyndns.org:8080/",
                          "Secondhand | Home",
@@ -84,19 +84,19 @@ module SycLink
                          "RubyGems.org | your community gem host",
                          "",
                          "Other bookmarks,Gems"]]
-        @gc = Chrome.new
+        @gc = Chrome.new(gc_bookmarks)
       end
 
       it "should import bookmarks" do
-        expect(@gc.read(@gc_bookmarks)).to eq @rows_result
+        expect(@gc.read).to eq @rows_result
       end
 
       it "should read rows" do
-        expect(@gc.rows(@gc_bookmarks)).to eq @rows_result
+        expect(@gc.rows).to eq @rows_result
       end
 
       it "should create links" do
-        links = @gc.links(@gc_bookmarks)
+        links = @gc.links
         expect(links.first.url).to         eq @rows_result.first[0]
         expect(links.first.name).to        eq @rows_result.first[1]
         expect(links.first.description).to eq @rows_result.first[2]
@@ -118,23 +118,26 @@ module SycLink
                        "one.pdf", "", ""]]
         @txt_files = [["/home/pierre/Work/syclink/spec/syclink/fi/a.txt",
                        "a.txt", "", ""]]
-        @fi = FileImporter.new
       end
 
       it "should import pdf filenames" do
-        expect(@fi.read(File.join(@file_dir, "**/*.pdf"))).to eq @pdf_files
+        fi = FileImporter.new(File.join(@file_dir, "**/*.pdf"))
+        expect(fi.read).to eq @pdf_files
       end
 
       it "should import a fully qualified text-file" do
-        expect(@fi.read(File.join(@file_dir, "a.txt"))).to eq @txt_files
+        fi = FileImporter.new(File.join(@file_dir, "a.txt"))
+        expect(fi.read).to eq @txt_files
       end
 
       it "should read rows" do
-        expect(@fi.rows(File.join(@file_dir, "**/*.pdf"))).to eq @pdf_files
+        fi = FileImporter.new(File.join(@file_dir, "**/*.pdf"))
+        expect(fi.rows).to eq @pdf_files
       end
 
       it "should create links" do
-        links = @fi.links(File.join(@file_dir, "**/*.pdf"))
+        fi = FileImporter.new(File.join(@file_dir, "**/*.pdf"))
+        links = fi.links
 
         expect(links.first.url).to         eq @pdf_files.first[0]
         expect(links.first.name).to        eq @pdf_files.first[1]

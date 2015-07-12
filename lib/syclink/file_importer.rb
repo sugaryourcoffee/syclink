@@ -2,10 +2,10 @@ module SycLink
 
   class FileImporter < Importer
 
-    def read(root_to_files)
-      root_dir = File.dirname(root_to_files).scan(/^[^\*|\?]*/).first
+    def read
+      root_dir = File.dirname(path).scan(/^[^\*|\?]*/).first
       regex = Regexp.new("(?<=#{root_dir}).*")
-      Dir.glob(root_to_files).map do |file|
+      Dir.glob(path).map do |file|
         url = file
         name = File.basename(file)
         description = ""

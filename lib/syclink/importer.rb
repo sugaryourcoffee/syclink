@@ -6,29 +6,30 @@ module SycLink
   # To be subclassed for link importers.
   class Importer
     
-    # Raw data of imported links
-    attr_accessor :import
+    # Path to bookmarks file
+    attr_accessor :path
 
-    # Optionally loading raw data
-    def initialize(data = [])
-      @import = data
+    # Creates a new Importer and sets the path to the bookmarks file
+    def initialize(path_to_bookmarks)
+      @path = path_to_bookmarks
     end
 
     # To be overridden! 
-    # Read the raw data from the bookmarks file.
-    def read(bookmark_file_path)
+    # Read the raw data from the bookmarks file. The bookmarks file has to be
+    # provided during initialization with #initialize
+    def read
       raise NotImplementedError
     end 
 
     # Links values returned in an Array. Default implementation returns values
     # from #read.
-    def rows(bookmark_file_path)
-      read(bookmark_file_path)
+    def rows
+      read
     end
 
     # Links returned as Link objects
-    def links(bookmark_file_path)
-      rows(bookmark_file_path).map do |row|
+    def links
+      rows.map do |row|
         attributes = Link::ATTRS.dup - [:url]
         Link.new(row.shift, Hash[row.map { |v| [attributes.shift, v] }])
       end

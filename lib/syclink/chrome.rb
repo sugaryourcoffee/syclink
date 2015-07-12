@@ -7,8 +7,8 @@ module SycLink
   class Chrome < Importer
 
     # Reads the content of the Google Chrome bookmarks file
-    def read(path_to_bookmarks)
-      serialized = File.read(path_to_bookmarks)
+    def read
+      serialized = File.read(path)
       extract_links(JSON.parse(serialized)).flatten.each_slice(4).to_a
     end
 
