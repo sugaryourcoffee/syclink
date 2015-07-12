@@ -36,6 +36,13 @@ module SycLink
       end
     end
 
+    # Accepts and SycLink::Importer to import Links and add them to the website
+    def import_links(importer)
+      importer.links.each do |link|
+        website.add_link(link)
+      end
+    end
+
     # List links contained in the website and optionally filter on attributes
     def list_links(args = {})
       website.list_links(args)
