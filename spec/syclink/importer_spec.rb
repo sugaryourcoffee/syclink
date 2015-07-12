@@ -1,6 +1,7 @@
 require 'syclink/firefox'
 require 'syclink/chrome'
 require 'syclink/internet_explorer'
+require 'syclink/file_importer'
 
 module SycLink
 
@@ -100,6 +101,45 @@ module SycLink
         expect(links.first.name).to        eq @rows_result.first[1]
         expect(links.first.description).to eq @rows_result.first[2]
         expect(links.first.tag).to         eq @rows_result.first[3]
+      end
+    end
+
+    describe "File" do
+
+      before do
+        @file_dir = File.join(File.dirname(__FILE__), 'fi/')
+        @pdf_files = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf", 
+                       "three.pdf", "", "b"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
+                       "four.pdf", "", "b,a"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
+                       "two.pdf", "", "a"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
+                       "one.pdf", "", ""]]
+        @txt_files = [["/home/pierre/Work/syclink/spec/syclink/fi/a.txt",
+                       "a.txt", "", ""]]
+        @fi = FileImporter.new
+      end
+
+      it "should import pdf filenames" do
+        expect(@fi.read(File.join(@file_dir, "**/*.pdf"))).to eq @pdf_files
+      end
+
+      it "should import a fully qualified text-file" do
+        expect(@fi.read(File.join(@file_dir, "a.txt"))).to eq @txt_files
+      end
+
+      it "should read rows" do
+        expect(@fi.rows(File.join(@file_dir, "**/*.pdf"))).to eq @pdf_files
+      end
+
+      it "should create links" do
+        links = @fi.links(File.join(@file_dir, "**/*.pdf"))
+
+        expect(links.first.url).to         eq @pdf_files.first[0]
+        expect(links.first.name).to        eq @pdf_files.first[1]
+        expect(links.first.description).to eq @pdf_files.first[2]
+        expect(links.first.tag).to         eq @pdf_files.first[3]
       end
     end
 
