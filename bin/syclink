@@ -14,7 +14,7 @@ include SycLink::Infrastructure
 include SycLink::Formatter
 
 # Commands that need to have a website and a designer object
-WEBSITE_COMMANDS = [ :create, :add, :file, :update, :delete, :list, :find,
+WEBSITE_COMMANDS = [ :create, :link, :file, :update, :delete, :list, :find,
                      :dir, :mf, :gc, :ie, :csv ]
 
 # syclink's configuration directory
@@ -66,37 +66,40 @@ desc 'Website to operate on'
 arg_name 'WEBSITE'
 flag [:w,:website]
 
-desc 'Add a link to the website'
-arg_name 'URL'
+desc 'Add a link from command line or links from a file to the website'
 command :add do |c|
 
-  c.desc 'Name of the link'
-  c.arg_name 'NAME'
-  c.flag [:n, :name]
+  c.desc 'Add a link from the command line to the website'
+  c.arg_name 'URL'
+  c.command :link do |s|
+    s.desc 'Name of the link'
+    s.arg_name 'NAME'
+    s.flag [:n, :name]
 
-  c.desc 'Description of the link'
-  c.arg_name 'DESCRIPTION'
-  c.flag [:d, :description]
+    s.desc 'Description of the link'
+    s.arg_name 'DESCRIPTION'
+    s.flag [:d, :description]
 
-  c.desc 'Tag the link is associated to'
-  c.arg_name 'TAG'
-  c.flag [:t, :tag]
+    s.desc 'Tag the link is associated to'
+    s.arg_name 'TAG'
+    s.flag [:t, :tag]
 
-  c.action do |global_options,options,args|
+    s.action do |global_options,options,args|
 
-    @designer.add_link(args[0], options)
+      @designer.add_link(args[0], options)
 
+    end
   end
-end
 
-desc 'Add links from a file to the website'
-arg_name 'FILE'
-command :file do |c|
+  c.desc 'Add links from a file to the website'
+  c.arg_name 'FILE'
+  c.command :file do |s|
 
-  c.action do |global_options,options,args|
+    s.action do |global_options,options,args|
 
-    @designer.add_links_from_file(args[0])
+      @designer.add_links_from_file(args[0])
 
+    end
   end
 end
 
