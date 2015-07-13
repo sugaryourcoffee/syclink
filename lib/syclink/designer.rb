@@ -29,7 +29,7 @@ module SycLink
     # are added to the websie
     def add_links_from_file(file)
       File.foreach(file) do |line|
-        url, name, description, tag = line.split(';')
+        url, name, description, tag = line.chomp.split(';')
         website.add_link(Link.new(url, { name: name,
                                          description: description,
                                          tag: tag }))
