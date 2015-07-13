@@ -15,7 +15,7 @@ include SycLink::Formatter
 
 # Commands that need to have a website and a designer object
 WEBSITE_COMMANDS = [ :create, :add, :file, :update, :delete, :list, :find,
-                     :dir, :mf, :gc, :ie ]
+                     :dir, :mf, :gc, :ie, :csv ]
 
 # syclink's configuration directory
 syclink_directory             = File.expand_path("~/.syc/syclink")
@@ -333,6 +333,7 @@ command :export do |c|
   c.command :csv do |s|
 
     s.action do |global_options,options,args|
+      puts @designer.export(:csv)
     end
   end
 

@@ -45,7 +45,12 @@ module SycLink
 
     # Export links to specified format
     def export(format)
-      website.export_csv
+      message = "to_#{format.downcase}"
+      if website.respond_to? message
+        website.send(message)
+      else
+        raise "cannot export to #{format}"
+      end
     end
 
     # List links contained in the website and optionally filter on attributes
