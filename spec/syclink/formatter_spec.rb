@@ -36,13 +36,12 @@ module SycLink
     end
 
     it "should scale the max column widhts to fit max row width" do
-      expect(max_column_widths(@cols, @header, 
-                               max_row_width: 25)).to eq @scaled_widths
+      expect(max_column_widths(@cols, @header, width: 25)).to eq @scaled_widths
     end
 
     it "should expand the rows" do
       expect(max_column_widths(@cols, @header,
-                               max_row_width: 50,
+                               width: 50,
                                expand:        true)).to eq @expanded_widths
     end
 

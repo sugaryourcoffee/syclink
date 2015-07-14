@@ -5,10 +5,10 @@ module SycLink
   module Formatter
 
     # Based on the rows provided and the header values a table is printed. If
-    # the options :expand and or :max_row_width are specified the rows are 
+    # the options :expand and or :width are specified the rows are 
     # scaled accordingly. If :expand is false the rows will be cut so they fit 
-    # the :max_row_width. Otherwise if the rows are less than :max_row_width 
-    # the rows are expanded to :max_row_width.
+    # the :width. Otherwise if the rows are less than :width 
+    # the rows are expanded to :width.
     def table(rows, header, opts = {})
       columns = extract_columns(rows, header)
       widths  = max_column_widths(columns, header, opts)
@@ -73,19 +73,19 @@ module SycLink
       string[0..size-1]
     end
 
-    # Scales the widths in regard to opts[:max_row_width] and opts[:expand]. If
-    # :expand is true and :max_row_width is set the rows are expanded to the
-    # :max_row_width if the rows are shorter than max_row_width. If the rows are
-    # larger than :max_row_width the rows are scaled to not exceed the 
-    # :max_row_width. If :max_row_width is not set the rows are not scaled.
+    # Scales the widths in regard to opts[:width] and opts[:expand]. If
+    # :expand is true and :width is set the rows are expanded to the
+    # :width if the rows are shorter than width. If the rows are
+    # larger than :width the rows are scaled to not exceed the 
+    # :width. If :width is not set the rows are not scaled.
     def scale_widths(widths, opts = {})
-      return widths unless opts[:max_row_width]
+      return widths unless opts[:width]
 
       row_width = widths.inject(:+)
 
-      return widths if !opts[:expand] && row_width <= opts[:max_row_width]
+      return widths if !opts[:expand] && row_width <= opts[:width]
 
-      scale = 1.0*opts[:max_row_width]/row_width
+      scale = 1.0*opts[:width]/row_width
       widths.map { |width| (scale * width).round }
     end
   end
