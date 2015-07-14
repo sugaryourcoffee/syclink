@@ -103,25 +103,41 @@ command :add do |c|
   end
 end
 
-desc 'Update a link'
-arg_name 'URL'
+desc 'Update a link from command line or links from file'
 command :update do |c|
 
-  c.desc 'Name of the link'
-  c.arg_name 'NAME'
-  c.flag [:n, :name]
+  c.desc 'Update a link from the command line'
+  c.arg_name 'URL'
+  c.command :link do |s|
 
-  c.desc 'Description of the link'
-  c.arg_name 'DESCRIPTION'
-  c.flag [:d, :description]
+    s.desc 'Name of the link'
+    s.arg_name 'NAME'
+    s.flag [:n, :name]
 
-  c.desc 'Tag the link is associated to'
-  c.arg_name 'TAG'
-  c.flag [:t, :tag]
+    s.desc 'Description of the link'
+    s.arg_name 'DESCRIPTION'
+    s.flag [:d, :description]
 
-  c.action do |global_options,options,args|
+    s.desc 'Tag the link is associated to'
+    s.arg_name 'TAG'
+    s.flag [:t, :tag]
 
-    @designer.update_link(args[0], options)
+    s.action do |global_options,options,args|
+
+      @designer.update_link(args[0], options)
+
+    end
+  end
+
+  c.desc "Update links by reading from file"
+  c.arg_name 'FILE'
+  c.command :file do |s|
+
+    s.action do |global_options,options,args|
+
+      @designer.update_links_from_file(args[0])
+
+    end
 
   end
 end
