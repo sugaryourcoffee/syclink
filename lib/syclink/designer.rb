@@ -29,6 +29,7 @@ module SycLink
     # are added to the websie
     def add_links_from_file(file)
       File.foreach(file) do |line|
+        next if line.chomp.empty?
         url, name, description, tag = line.chomp.split(';')
         website.add_link(Link.new(url, { name: name,
                                          description: description,
@@ -71,6 +72,7 @@ module SycLink
 
     def update_links_from_file(file)
       File.foreach(file) do |line|
+        next if line.chomp.empty?
         url, name, description, tag = line.chomp.split(';')
         website.find_links(url).first.update({ name:        name,
                                                description: description,
