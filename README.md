@@ -39,6 +39,7 @@ _Link commands_
 * delete file - Delete links saved to a file
 * list        - List all links with an optional filter
 * find        - Find links based on a search string
+* merge       - Merge multiple links with same URL
 
 _Import commands_
 * import mf  - Import Mozilla Firefox bookmarks
