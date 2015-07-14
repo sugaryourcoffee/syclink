@@ -35,8 +35,7 @@ _Link commands_
 * add file    - Add links from a file
 * update link - Update a link
 * update file - Update links saved to a file
-* delete link - Delete a link 
-* delete file - Delete links saved to a file
+* delete      - Delete one or more links
 * list        - List all links with an optional filter
 * find        - Find links based on a search string
 * merge       - Merge multiple links with same URL
