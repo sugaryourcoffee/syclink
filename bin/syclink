@@ -171,9 +171,10 @@ command :find do |c|
 end
 
 desc 'Remove one or more links'
-arg_name 'URL[URL,URL]'
+arg_name 'URL [URL URL]'
 command :delete do |c|
   c.action do |global_options,options,args|
+    p args
     @designer.remove_links(args)
   end
 end
