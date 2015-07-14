@@ -55,7 +55,7 @@ copy_file_if_missing(File.join(File.dirname(__FILE__),
 
 config = load_config(syclink_file)
 
-program_desc 'Create a link list and display it as an html page'
+program_desc 'Create a link-list and display it as an html page'
 
 version SycLink::VERSION
 
@@ -158,13 +158,21 @@ command :find do |c|
   c.arg_name 'URL, NAME, DESCRIPTION, TAG'
   c.flag [:c, :columns]
 
+  c.desc 'Table width'
+  c.arg_name 'WIDTH'
+  c.flag [:w, :width], :type => Integer
+
+  c.desc 'Expand table to full width of specified WIDTH'
+  c.default_value true
+  c.switch [:e, :expand]
+
   c.action do |global_options,options,args|
 
     if args[0].nil?
       STDERR.puts "Warning: You need to specify a FIND_STRING"
       STDERR.puts "If you want to list all links use 'syclink list'"
     else
-      print_links(@designer.find_links(args[0]), options[:c])
+      print_links(@designer.find_links(args[0]), options[:c], options)
     end
 
   end
@@ -203,9 +211,17 @@ command :list do |c|
   c.arg_name 'URL, NAME, DESCRIPTION, TAG'
   c.flag [:c, :columns]
 
+  c.desc 'Table width'
+  c.arg_name 'WIDTH'
+  c.flag [:w, :width], :type => Integer
+
+  c.desc 'Expand table to full width of specified WIDTH'
+  c.default_value true
+  c.switch [:e, :expand]
+
   c.action do |global_options,options,args|
     
-    print_links(@designer.list_links(options), options[:c])
+    print_links(@designer.list_links(options), options[:c], options)
 
   end
 end
@@ -415,10 +431,10 @@ on_error do |exception|
   end
 end
 
-def print_links(links, columns)
+def print_links(links, columns, opts = {})
   allowed_cols = %w{ url name description tag } 
   cols = columns.delete(' ').downcase.split(',') & allowed_cols
-  SycLink::Formatter.table(links, cols)
+  SycLink::Formatter.table(links, cols, opts)
 end
 
 exit run(ARGV)
