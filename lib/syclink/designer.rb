@@ -80,6 +80,11 @@ module SycLink
       end
     end
 
+    # Merge links with same URL
+    def merge_links
+      website.merge_links_on(:url)
+    end
+
     # Deletes one or more links from the website. Returns the deleted links.
     # Expects the links provided in an array
     def remove_links(urls)

@@ -15,7 +15,7 @@ include SycLink::Formatter
 
 # Commands that need to have a website and a designer object
 WEBSITE_COMMANDS = [ :create, :link, :file, :update, :delete, :list, :find,
-                     :dir, :mf, :gc, :ie, :csv ]
+                     :dir, :mf, :gc, :ie, :csv, :merge ]
 
 # syclink's configuration directory
 syclink_directory             = File.expand_path("~/.syc/syclink")
@@ -139,6 +139,13 @@ command :update do |c|
 
     end
 
+  end
+end
+
+desc 'Merge links with same URL'
+command :merge do |c|
+  c.action do |global_options,options,args|
+    @designer.merge_links
   end
 end
 
