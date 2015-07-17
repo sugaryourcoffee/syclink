@@ -39,9 +39,9 @@ module SycLink
 
       before do
         ie_directory = File.join(File.dirname(__FILE__), 'ie/')
-        @result = [ [ "http://www.example.com/", "ie.txt", "", "one" ],
-                    [ "http://www.example.com/", "ie.txt", "", "one,two"],
-                    [ "http://www.example.com/", "ie.txt", "", ""] ]
+        @result = [ [ "http://www.example.com/", "ie.url", "", "one" ],
+                    [ "http://www.example.com/", "ie.url", "", "one,two"],
+                    [ "http://www.example.com/", "ie.url", "", ""] ]
 
         @ie = InternetExplorer.new(ie_directory)
       end

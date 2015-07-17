@@ -13,7 +13,7 @@ module SycLink
       regex = Regexp.new("(?<=#{path}).*")
 
       files.map do |file|
-        unless File.directory? file
+        unless ((File.directory? file) || (File.extname(file).upcase != ".URL"))
           url = File.read(file).scan(/(?<=\nURL=)(.*)$/).flatten.first
           name = File.basename(file)
           description = ""
