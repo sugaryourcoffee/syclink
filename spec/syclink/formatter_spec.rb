@@ -25,7 +25,7 @@ module SycLink
       @scaled_widths   = [ 7, 6, 6, 7 ]
       @expanded_widths = [ 13, 12, 12, 13 ]
 
-      @formatter  = "%-8s | %-7s | %-7s | %-8s"
+      @formatter  = "%-8.8s | %-7.7s | %-7.7s | %-8.8s"
     end
 
     it "should transform the rows to columns" do
