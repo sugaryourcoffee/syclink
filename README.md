@@ -183,7 +183,18 @@ should be used a `level` switch can be used.
 
     $ syclink import dir --level 2
 
-Will only use two parent directories as tags.
+will only use two parent directories as tags. It is also possible to specify
+tags to use during import. In this case if level is 1 and also 1 tag is 
+specified this tag is the only tag used.
+
+    $ syclink import dir --level 1 --tags Books PATH/TO/BOOKS
+
+If the level is greater than tags specified the difference between tags 
+specified and levels is the number of parent directories added as tags
+
+    $ syclink import dir --level 2 --tags Books PATH/TO/BOOKS
+
+If there is a file in PATH/TO/BOOKS/RUBY then Books and RUBY is used as tags.
 
 Firefox
 -------
