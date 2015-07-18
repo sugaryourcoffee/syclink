@@ -116,12 +116,32 @@ module SycLink
                        "two.pdf", "", "a"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
                        "one.pdf", "", ""]]
+        @pdf_zero = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf", 
+                       "three.pdf", "", ""], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
+                       "four.pdf", "", ""], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
+                       "two.pdf", "", ""], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
+                       "one.pdf", "", ""]]
         @txt_files = [["/home/pierre/Work/syclink/spec/syclink/fi/a.txt",
                        "a.txt", "", ""]]
         @any_files = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
                        "three.pdf", "", "b"],
                       ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
                        "four.pdf", "", "b,a"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
+                       "two.pdf", "", "a"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/a.txt", 
+                       "a.txt", "", ""], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
+                       "one.pdf", "", ""], 
+                      ["http://www.example.com/", 
+                       "ie", "", "c"]]     
+        @any_level = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
+                       "three.pdf", "", "b"],
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
+                       "four.pdf", "", "a"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
                        "two.pdf", "", "a"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a.txt", 
@@ -160,6 +180,16 @@ module SycLink
         expect(links.first.name).to        eq @pdf_files.first[1]
         expect(links.first.description).to eq @pdf_files.first[2]
         expect(links.first.tag).to         eq @pdf_files.first[3]
+      end
+
+      it "should use only the parent directory as the tag" do
+        fi = FileImporter.new(File.join(@file_dir, "**/*"), level: 1)
+        expect(fi.read).to eq @any_level
+      end
+
+      it "should not import tags" do
+        fi = FileImporter.new(File.join(@file_dir, "**/*.pdf"), level: 0)
+        expect(fi.read).to eq @pdf_zero
       end
     end
 

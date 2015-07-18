@@ -340,6 +340,16 @@ command :import do |c|
   c.arg_name 'PATH_TO_INTERNET_EXPLORER_BOOKMARKS'
   c.command :ie do |s|
 
+    s.desc 'Number of tags to consider'
+    s.long_desc <<-HERE.gsub(/^ {6}/, '')
+      Each parent directory starting at the PATH_TO_INTERNET_EXPLORER_BOOKMARKS
+      is considered a tag. If no level flag is specified all tags are imported.
+      Otherwise only the count of tags are imported that are specified by the
+      level flag. A level of 0 will import no tags.
+    HERE
+    s.arg_name 'LEVEL 0..N'
+    s.flag [:l, :level]
+
     s.action do |global_options,options,args|
       unless File.exists? args[0]
         STDERR.puts <<-HERE.gsub(/^ {10}/, '')
@@ -350,7 +360,8 @@ command :import do |c|
         HERE
         exit(0)
       else
-        @designer.import_links(SycLink::InternetExplorer.new(args.shift))
+        @designer.import_links(SycLink::InternetExplorer.new(args.shift,
+                                                             options))
       end
     end
   end
@@ -371,8 +382,19 @@ command :import do |c|
   c.arg_name 'PATH_TO_DIRECTORY'
   c.command :dir do |s|
 
+    s.desc 'Number of tags to consider'
+    s.long_desc <<-HERE.gsub(/^ {6}/, '')
+      Each parent directory starting at the PATH_TO_DIRECTORY is considered a 
+      tag. If no level flag is specified all tags are imported. Otherwise only 
+      the count of tags are imported that are specified by the level flag. A 
+      level of 0 will import no tags.
+    HERE
+    s.arg_name 'LEVEL 0..N'
+    s.flag [:l, :level]
+
     s.action do |global_options,options,args|
-      @designer.import_links(SycLink::FileImporter.new(args.shift))
+      @designer.import_links(SycLink::FileImporter.new(args.shift),
+                                                       options)
     end
   end
 end

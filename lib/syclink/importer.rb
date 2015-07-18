@@ -8,10 +8,14 @@ module SycLink
     
     # Path to bookmarks file
     attr_accessor :path
+    # Options for importing
+    attr_accessor :opts
 
-    # Creates a new Importer and sets the path to the bookmarks file
-    def initialize(path_to_bookmarks)
+    # Creates a new Importer and sets the path to the bookmarks file. Opts may
+    # be :level which indicates to which levels tags should be imported.
+    def initialize(path_to_bookmarks, opts = {})
       @path = path_to_bookmarks
+      @opts = opts
     end
 
     # To be overridden! 
@@ -37,11 +41,16 @@ module SycLink
 
     protected
 
+    # Extracts the tags from a tag string. If a level is provided during 
+    # initialization the level is restricting the count of tags imported based
+    # on the level value
     def extract_tags(tag_string)
-      if tag_string.empty?
+      if tag_string.empty? || opts[:level] == 0
         ""
       else
-        tag_string.first.gsub("/", ",")
+        tags = tag_string.first.split('/')
+        level = [opts[:level] || tags.size, tags.size].min
+        tags[-level..-1].join(',')
       end
     end
   end
