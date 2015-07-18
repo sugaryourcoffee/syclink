@@ -125,7 +125,7 @@ module SycLink
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
                        "one.pdf", "", "Default"]]
         @txt_files = [["/home/pierre/Work/syclink/spec/syclink/fi/a.txt",
-                       "a.txt", "", ""]]
+                       "a.txt", "", "Default"]]
         @any_files = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
                        "three.pdf", "", "b"],
                       ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
@@ -150,6 +150,18 @@ module SycLink
                        "one.pdf", "", "Default"], 
                       ["http://www.example.com/", 
                        "ie", "", "c"]]     
+        @pdf_tags  = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
+                       "three.pdf", "", "Prime,Second"],
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
+                       "four.pdf", "", "Prime,Second"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
+                       "two.pdf", "", "Prime,Second"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/a.txt", 
+                       "a.txt", "", "Prime,Second"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
+                       "one.pdf", "", "Prime,Second"], 
+                      ["http://www.example.com/", 
+                       "ie", "", "Prime,Second"]]     
       end
 
       it "should import pdf filenames" do
@@ -190,6 +202,12 @@ module SycLink
       it "should not import tags" do
         fi = FileImporter.new(File.join(@file_dir, "**/*.pdf"), level: 0)
         expect(fi.read).to eq @pdf_zero
+      end
+
+      it "should specify tags during import" do
+        fi = FileImporter.new(File.join(@file_dir, "**/*"), 
+                              level: 1, tags: "Prime,Second")
+        expect(fi.read).to eq @pdf_tags
       end
     end
 

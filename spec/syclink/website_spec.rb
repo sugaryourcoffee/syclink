@@ -122,7 +122,7 @@ module SycLink
       expect(@website.link_attribute_list(:tag)).to eq target
     end
 
-    it "should list allt tags and multiple tags separated to single tags" do
+    it "should list all tags and multiple tags separated to single tags" do
       @website.add_link(@link)
       @website.add_link(@link4)
       target = [@link.tag, @link4.tag.split(',')].flatten.sort
