@@ -62,9 +62,9 @@ exist yet the user is asked whether to create it and whether to set it as the
 default website. This is done with commands that require a website to operate
 on.
 
-    $ syclink -w my-new-website add "http://example.com"
+    $ syclink -w my-new-website add link "http://example.com"
 
-Before the command `add` is executed the website is created. In this 
+Before the command `add link` is executed the website is created. In this 
 case a website called 'my-new-website' is created in the default directory at
 `~/.syc/syclink/websites/my-new-website.website
 
@@ -73,7 +73,7 @@ to the default command, the user is asked whether to set the selected
 website as the default one.
 
 Commands that require a website are `add`, `update`, `delete`, `list`, `find`,
-merge and `website create`.
+merge, import, export and `website create`.
 
 If no website is specified the default website is used.
 
@@ -112,7 +112,7 @@ Remove a Link
 -------------
 To remove one or more links the URLs have to be provided.
 
-    $ syclink delete http://example.com,http://challenge.com
+    $ syclink delete http://example.com http://challenge.com
 
 List links
 ----------
@@ -126,18 +126,29 @@ listed. It is possible to specify the columns to print. Possible columns are
     -------------------+---------------------
     http://example.com | For testing purposes
 
+The is a switch `--expand` and a flag `--width`. If no width is specified list
+will print the complete content and probably mess up the table. With a width
+specified the the columns are scaled so the overall width of the table will be
+the size of width specified. The expand switch will expand the table to the 
+specified width if the table would be smaller than width.
+
+    $ syclink list --tag TEST --columns `url,description` --width 70 --expand
+
 Find links
 ----------
 It is also possible to search for links based on a search string. The find
 command searches all attributes of the links and is searching for the occurance
-of the search string within the attributes. So the search is not list only 
-exact matches.
+of the search string within the attributes. So the search does not list exact 
+matches only.
 
     $ syclink find --columns 'url,tag' 'example' 
 
     url                | tag
     -------------------+-----
     http://example.com | TEST
+
+The `--expand` switch and the `--width` flag are also available with the 
+`find` command. Details see at [List links](#list-links)
 
 List websites
 -------------
