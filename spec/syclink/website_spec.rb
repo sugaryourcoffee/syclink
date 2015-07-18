@@ -109,6 +109,12 @@ module SycLink
       expect(links.first.tag).to         eq "One"
     end
 
+    it "should group links on tags and separated multiple tags" do
+      @website.add_link(@link)
+      @website.add_link(@link4)
+      expect(@website.links_group_by_separated(:tag, ',').size).to eq 3
+    end
+
     it "should list all tags" do
       @website.add_link(@link)
       @website.add_link(@link)
@@ -116,6 +122,12 @@ module SycLink
       expect(@website.link_attribute_list(:tag)).to eq target
     end
 
+    it "should list allt tags and multiple tags separated to single tags" do
+      @website.add_link(@link)
+      @website.add_link(@link4)
+      target = [@link.tag, @link4.tag.split(',')].flatten.sort
+      expect(@website.link_attribute_list(:tag, ',')).to eq target
+    end
   end
 
 end

@@ -65,11 +65,19 @@ module SycLink
             end
     end
 
-    # Groups the links on the provided attribute
-    def links_group_by(attribute)
-      links.map      { |link| { key: link.send(attribute), link: link } }
+    # Groups the links on the provided attribute. If no links array is provided
+    # the links from self are used
+    def links_group_by(attribute, linkz = links)
+      linkz.map      { |link| { key: link.send(attribute), link: link } }
            .group_by { |entry| entry[:key] }
            .each     { |key, link| link.map! { |l| l[:link] }}
+    end
+
+    # Groups the links on the provided attribute. If the attribute's value
+    # contains the provided separator, the value is split up and each of the
+    # values is used as group key
+    def links_group_by_separated(attribute, separator)
+      links_group_by(attribute, links_duplicate_on(attribute, separator))
     end
 
     # Create multiple Links based on the attribute provided. The specified 
@@ -89,8 +97,8 @@ module SycLink
     end
 
     # List all attributes of the links
-    def link_attribute_list(attribute)
-      links.map { |link| link.send(attribute) }.uniq.sort
+    def link_attribute_list(attribute, separator = nil)
+      links.map {|link| link.send(attribute).split(separator)}.flatten.uniq.sort
     end
   end
 
