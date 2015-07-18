@@ -77,6 +77,8 @@
     
     <li ><a href="#method-i-print_table">#print_table</a>
     
+    <li ><a href="#method-i-scale_widths">#scale_widths</a>
+    
     <li ><a href="#method-i-table">#table</a>
     
   </ul>
@@ -92,6 +94,12 @@
 
   <section class="description">
     
+<p>Methods to print data in a formatted way</p>
+
+<p>Methods to print data in a formatted way</p>
+
+<p>Methods to print data in a formatted way</p>
+
 <p>Methods to print data in a formatted way</p>
 
   </section>
@@ -134,7 +142,7 @@
 
           
           <div class="method-source-code" id="cut-source">
-            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 66</span>
+            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">cut</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">size</span>)
   <span class="ruby-identifier">string</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">size</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -168,7 +176,7 @@ names</p>
 
           
           <div class="method-source-code" id="extract_columns-source">
-            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 19</span>
+            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">extract_columns</span>(<span class="ruby-identifier">rows</span>, <span class="ruby-identifier">header</span>)
   <span class="ruby-identifier">columns</span> = []
   <span class="ruby-identifier">header</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">h</span><span class="ruby-operator">|</span>
@@ -207,10 +215,10 @@ names</p>
 
           
           <div class="method-source-code" id="formatter_string-source">
-            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 44</span>
+            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">formatter_string</span>(<span class="ruby-identifier">widhts</span>, <span class="ruby-identifier">separator</span>)
   <span class="ruby-identifier">widhts</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">width</span><span class="ruby-operator">|</span>
-    <span class="ruby-node">&quot;%-#{width}s&quot;</span>
+    <span class="ruby-node">&quot;%-#{width}.#{width}s&quot;</span>
   <span class="ruby-keyword">end</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">separator</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -227,7 +235,7 @@ names</p>
         
         <div class="method-heading">
           <span class="method-name">max_column_widths</span><span
-            class="method-args">(columns, header)</span>
+            class="method-args">(columns, header, opts = {})</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -237,23 +245,25 @@ names</p>
         <div class="method-description">
           
           <p>Determines max column widths for each column based on the data and header
-columns</p>
+columns.</p>
           
           
 
           
           <div class="method-source-code" id="max_column_widths-source">
-            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 31</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">max_column_widths</span>(<span class="ruby-identifier">columns</span>, <span class="ruby-identifier">header</span>)
+            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">max_column_widths</span>(<span class="ruby-identifier">columns</span>, <span class="ruby-identifier">header</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-identifier">row_column_widths</span> = <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> 
-    <span class="ruby-identifier">c</span>.<span class="ruby-identifier">reduce</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">m</span>, <span class="ruby-identifier">v</span>.<span class="ruby-identifier">length</span>].<span class="ruby-identifier">max</span> }
+    <span class="ruby-identifier">c</span>.<span class="ruby-identifier">reduce</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">m</span>, <span class="ruby-identifier">v</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">length</span>].<span class="ruby-identifier">max</span> }
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-identifier">header_column_widths</span> = <span class="ruby-identifier">header</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">h</span><span class="ruby-operator">|</span> <span class="ruby-identifier">h</span>.<span class="ruby-identifier">length</span> }
 
-  <span class="ruby-identifier">row_column_widths</span>.<span class="ruby-identifier">zip</span>(<span class="ruby-identifier">header_column_widths</span>).<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">column</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">widths</span> = <span class="ruby-identifier">row_column_widths</span>.<span class="ruby-identifier">zip</span>(<span class="ruby-identifier">header_column_widths</span>).<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">column</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">column</span>.<span class="ruby-identifier">reduce</span>(<span class="ruby-value">0</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">m</span>, <span class="ruby-identifier">v</span>].<span class="ruby-identifier">max</span> }
   <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">scale_widths</span>(<span class="ruby-identifier">widths</span>, <span class="ruby-identifier">opts</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -284,9 +294,9 @@ columns</p>
 
           
           <div class="method-source-code" id="print_header-source">
-            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 51</span>
+            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">print_header</span>(<span class="ruby-identifier">header</span>, <span class="ruby-identifier">formatter</span>)
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">cut</span>(<span class="ruby-identifier">sprintf</span>(<span class="ruby-identifier">formatter</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">header</span>), <span class="ruby-value">80</span>)
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">sprintf</span>(<span class="ruby-identifier">formatter</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">header</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -317,9 +327,9 @@ columns</p>
 
           
           <div class="method-source-code" id="print_horizontal_line-source">
-            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 56</span>
+            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">print_horizontal_line</span>(<span class="ruby-identifier">line</span>, <span class="ruby-identifier">separator</span>, <span class="ruby-identifier">widths</span>)
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">cut</span>(<span class="ruby-identifier">widths</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">width</span><span class="ruby-operator">|</span> <span class="ruby-identifier">line</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">width</span> }.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">separator</span>), <span class="ruby-value">80</span>)
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">widths</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">width</span><span class="ruby-operator">|</span> <span class="ruby-identifier">line</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">width</span> }.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">separator</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -350,9 +360,53 @@ columns</p>
 
           
           <div class="method-source-code" id="print_table-source">
-            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 61</span>
+            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 67</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">print_table</span>(<span class="ruby-identifier">columns</span>, <span class="ruby-identifier">formatter</span>)
-  <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">transpose</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-identifier">cut</span>(<span class="ruby-identifier">sprintf</span>(<span class="ruby-identifier">formatter</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">row</span>), <span class="ruby-value">80</span>) }
+  <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">transpose</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-identifier">sprintf</span>(<span class="ruby-identifier">formatter</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">row</span>) }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-scale_widths" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">scale_widths</span><span
+            class="method-args">(widths, opts = {})</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Scales the widths in regard to <a href=":width">opts</a> and <a
+href=":expand">opts</a>. If :expand is true and :width is set the rows are
+expanded to the :width if the rows are shorter than width. If the rows are
+larger than :width the rows are scaled to not exceed the  :width. If :width
+is not set the rows are not scaled.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="scale_widths-source">
+            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 81</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">scale_widths</span>(<span class="ruby-identifier">widths</span>, <span class="ruby-identifier">opts</span> = {})
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">widths</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:width</span>]
+
+  <span class="ruby-identifier">row_width</span> = <span class="ruby-identifier">widths</span>.<span class="ruby-identifier">inject</span>(<span class="ruby-value">:+</span>)
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">widths</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">opts</span>[<span class="ruby-value">:expand</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">row_width</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:width</span>]
+
+  <span class="ruby-identifier">scale</span> = <span class="ruby-value">1.0</span><span class="ruby-operator">*</span><span class="ruby-identifier">opts</span>[<span class="ruby-value">:width</span>]<span class="ruby-operator">/</span><span class="ruby-identifier">row_width</span>
+  <span class="ruby-identifier">widths</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">width</span><span class="ruby-operator">|</span> (<span class="ruby-identifier">scale</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">width</span>).<span class="ruby-identifier">round</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -368,7 +422,7 @@ columns</p>
         
         <div class="method-heading">
           <span class="method-name">table</span><span
-            class="method-args">(rows, header)</span>
+            class="method-args">(rows, header, opts = {})</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -377,16 +431,20 @@ columns</p>
 
         <div class="method-description">
           
-          <p>Based on the rows provided and the header values a table is printed</p>
+          <p>Based on the rows provided and the header values a table is printed. If the
+options :expand and or :width are specified the rows are  scaled
+accordingly. If :expand is false the rows will be cut so they fit  the
+:width. Otherwise if the rows are less than :width  the rows are expanded
+to :width.</p>
           
           
 
           
           <div class="method-source-code" id="table-source">
-            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 8</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">table</span>(<span class="ruby-identifier">rows</span>, <span class="ruby-identifier">header</span>)
+            <pre><span class="ruby-comment"># File lib/syclink/formatter.rb, line 12</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">table</span>(<span class="ruby-identifier">rows</span>, <span class="ruby-identifier">header</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-identifier">columns</span> = <span class="ruby-identifier">extract_columns</span>(<span class="ruby-identifier">rows</span>, <span class="ruby-identifier">header</span>)
-  <span class="ruby-identifier">widths</span>  = <span class="ruby-identifier">max_column_widths</span>(<span class="ruby-identifier">columns</span>, <span class="ruby-identifier">header</span>)
+  <span class="ruby-identifier">widths</span>  = <span class="ruby-identifier">max_column_widths</span>(<span class="ruby-identifier">columns</span>, <span class="ruby-identifier">header</span>, <span class="ruby-identifier">opts</span>)
   <span class="ruby-identifier">formatter</span> = <span class="ruby-identifier">formatter_string</span>(<span class="ruby-identifier">widths</span>, <span class="ruby-string">&quot; | &quot;</span>)
   <span class="ruby-identifier">print_header</span>(<span class="ruby-identifier">header</span>, <span class="ruby-identifier">formatter</span>)
   <span class="ruby-identifier">print_horizontal_line</span>(<span class="ruby-string">&quot;-&quot;</span>, <span class="ruby-string">&quot;-+-&quot;</span>, <span class="ruby-identifier">widths</span>)

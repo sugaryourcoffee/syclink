@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module SycLink::Exporter - RDoc Documentation</title>
+<title>class SycLink::Chrome - RDoc Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -18,7 +18,7 @@
 
 
 
-<body id="top" role="document" class="module">
+<body id="top" role="document" class="class">
 <nav role="navigation">
   <div id="project-navigation">
     <div id="home-section" role="region" title="Quick navigation" class="nav-section">
@@ -54,7 +54,14 @@
 
   <div id="class-metadata">
     
-    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link">Importer
+  
+</div>
+
     
     
     <!-- Method Quickref -->
@@ -63,9 +70,7 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-to_csv">#to_csv</a>
-    
-    <li ><a href="#method-i-to_html">#to_html</a>
+    <li ><a href="#method-i-read">#read</a>
     
   </ul>
 </div>
@@ -73,20 +78,21 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="module-SycLink::Exporter">
-  <h1 id="module-SycLink::Exporter" class="module">
-    module SycLink::Exporter
+<main role="main" aria-labelledby="class-SycLink::Chrome">
+  <h1 id="class-SycLink::Chrome" class="class">
+    class SycLink::Chrome
   </h1>
 
   <section class="description">
     
-<p>Methods to export data into specific formats</p>
+<p><a href="Importer.html">Importer</a> for Google <a
+href="Chrome.html">Chrome</a> links</p>
 
-<p>Methods to export data into specific formats</p>
+<p><a href="Importer.html">Importer</a> for Google <a
+href="Chrome.html">Chrome</a> links</p>
 
-<p>Methods to export data into specific formats</p>
-
-<p>Methods to export data into specific formats</p>
+<p><a href="Importer.html">Importer</a> for Google <a
+href="Chrome.html">Chrome</a> links</p>
 
   </section>
 
@@ -109,10 +115,10 @@
        </header>
 
     
-      <div id="method-i-to_csv" class="method-detail ">
+      <div id="method-i-read" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">to_csv</span><span
+          <span class="method-name">read</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -122,50 +128,17 @@
 
         <div class="method-description">
           
-          <p>Takes an array of row values and converts them to a csv string. Expects
-that the importing class is having a method rows.</p>
+          <p>Reads the content of the Google <a href="Chrome.html">Chrome</a> bookmarks
+file</p>
           
           
 
           
-          <div class="method-source-code" id="to_csv-source">
-            <pre><span class="ruby-comment"># File lib/syclink/exporter.rb, line 17</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_csv</span>
-  <span class="ruby-identifier">rows</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;;&#39;</span>) }.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>)
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-to_html" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">to_html</span><span
-            class="method-args">(template)</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>Creates an html file based on an erb template</p>
-          
-          
-
-          
-          <div class="method-source-code" id="to_html-source">
-            <pre><span class="ruby-comment"># File lib/syclink/exporter.rb, line 10</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_html</span>(<span class="ruby-identifier">template</span>)
-  <span class="ruby-identifier">renderer</span> = <span class="ruby-constant">ERB</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">template</span>)
-  <span class="ruby-identifier">renderer</span>.<span class="ruby-identifier">result</span>(<span class="ruby-identifier">binding</span>)
+          <div class="method-source-code" id="read-source">
+            <pre><span class="ruby-comment"># File lib/syclink/chrome.rb, line 10</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">read</span>
+  <span class="ruby-identifier">serialized</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-identifier">extract_links</span>(<span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">serialized</span>)).<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">each_slice</span>(<span class="ruby-value">4</span>).<span class="ruby-identifier">to_a</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

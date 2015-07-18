@@ -71,6 +71,10 @@
     <li><a class="include" href="Exporter.html">SycLink::Exporter</a>
   
   
+  
+    <li><a class="include" href="Formatter.html">SycLink::Formatter</a>
+  
+  
   </ul>
 </div>
 
@@ -89,11 +93,19 @@
     
     <li ><a href="#method-i-link_attribute_list">#link_attribute_list</a>
     
+    <li ><a href="#method-i-links_duplicate_on">#links_duplicate_on</a>
+    
     <li ><a href="#method-i-links_group_by">#links_group_by</a>
+    
+    <li ><a href="#method-i-links_group_by_separated">#links_group_by_separated</a>
     
     <li ><a href="#method-i-list_links">#list_links</a>
     
+    <li ><a href="#method-i-merge_links_on">#merge_links_on</a>
+    
     <li ><a href="#method-i-remove_link">#remove_link</a>
+    
+    <li ><a href="#method-i-rows">#rows</a>
     
   </ul>
 </div>
@@ -108,6 +120,21 @@
 
   <section class="description">
     
+<p>A <a href="Website.html">Website</a> is organizing a link list. The links
+can be added, updated and  removed. It is also possible to search for
+links. And finally an html  representation of the <a
+href="Website.html">Website</a> can be created.</p>
+
+<p>A <a href="Website.html">Website</a> is organizing a link list. The links
+can be added, updated and  removed. It is also possible to search for
+links. And finally an html  representation of the <a
+href="Website.html">Website</a> can be created.</p>
+
+<p>A <a href="Website.html">Website</a> is organizing a link list. The links
+can be added, updated and  removed. It is also possible to search for
+links. And finally an html  representation of the <a
+href="Website.html">Website</a> can be created.</p>
+
 <p>A <a href="Website.html">Website</a> is organizing a link list. The links
 can be added, updated and  removed. It is also possible to search for
 links. And finally an html  representation of the <a
@@ -187,7 +214,7 @@ href="Website.html">Website</a> can be created.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 20</span>
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">title</span> = <span class="ruby-string">&quot;Link List&quot;</span>)
   <span class="ruby-ivar">@links</span> = []
   <span class="ruby-ivar">@title</span> = <span class="ruby-identifier">title</span>
@@ -229,7 +256,7 @@ href="Website.html">Website</a> can be created.</p>
 
           
           <div class="method-source-code" id="add_link-source">
-            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_link</span>(<span class="ruby-identifier">link</span>)
   <span class="ruby-identifier">links</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">link</span>
 <span class="ruby-keyword">end</span></pre>
@@ -262,7 +289,7 @@ href="Website.html">Website</a> can be created.</p>
 
           
           <div class="method-source-code" id="find_links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">find_links</span>(<span class="ruby-identifier">search</span>)
   <span class="ruby-identifier">links</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">link</span>.<span class="ruby-identifier">contains?</span> <span class="ruby-identifier">search</span> }
 <span class="ruby-keyword">end</span></pre>
@@ -280,7 +307,7 @@ href="Website.html">Website</a> can be created.</p>
         
         <div class="method-heading">
           <span class="method-name">link_attribute_list</span><span
-            class="method-args">(attribute)</span>
+            class="method-args">(attribute, separator = nil)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -295,9 +322,48 @@ href="Website.html">Website</a> can be created.</p>
 
           
           <div class="method-source-code" id="link_attribute_list-source">
-            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 57</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">link_attribute_list</span>(<span class="ruby-identifier">attribute</span>)
-  <span class="ruby-identifier">links</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">link</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>) }.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">sort</span>
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 100</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">link_attribute_list</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">separator</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">links</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">link</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>).<span class="ruby-identifier">split</span>(<span class="ruby-identifier">separator</span>)}.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">sort</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-links_duplicate_on" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">links_duplicate_on</span><span
+            class="method-args">(attribute, separator)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create multiple Links based on the attribute provided. The specified 
+spearator will splitt the attribute value in distinct values and for each
+different value a <a href="Link.html">Link</a> will be created</p>
+          
+          
+
+          
+          <div class="method-source-code" id="links_duplicate_on-source">
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 86</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">links_duplicate_on</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">separator</span>)
+  <span class="ruby-identifier">links</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span>  <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">link</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>).<span class="ruby-identifier">split</span>(<span class="ruby-identifier">separator</span>).<span class="ruby-identifier">collect</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">link</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">update</span>(<span class="ruby-constant">Hash</span>[<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">value</span>])
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>.<span class="ruby-identifier">flatten</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -313,7 +379,7 @@ href="Website.html">Website</a> can be created.</p>
         
         <div class="method-heading">
           <span class="method-name">links_group_by</span><span
-            class="method-args">(attribute)</span>
+            class="method-args">(attribute, linkz = links)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -322,17 +388,53 @@ href="Website.html">Website</a> can be created.</p>
 
         <div class="method-description">
           
-          <p>Groups the links on the provided attribute</p>
+          <p>Groups the links on the provided attribute. If no links array is provided
+the links from self are used</p>
           
           
 
           
           <div class="method-source-code" id="links_group_by-source">
-            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 50</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">links_group_by</span>(<span class="ruby-identifier">attribute</span>)
-  <span class="ruby-identifier">links</span>.<span class="ruby-identifier">map</span>      { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> { <span class="ruby-identifier">key</span><span class="ruby-operator">:</span> <span class="ruby-identifier">link</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>), <span class="ruby-identifier">link</span><span class="ruby-operator">:</span> <span class="ruby-identifier">link</span> } }
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 70</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">links_group_by</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">linkz</span> = <span class="ruby-identifier">links</span>)
+  <span class="ruby-identifier">linkz</span>.<span class="ruby-identifier">map</span>      { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> { <span class="ruby-identifier">key</span><span class="ruby-operator">:</span> <span class="ruby-identifier">link</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>), <span class="ruby-identifier">link</span><span class="ruby-operator">:</span> <span class="ruby-identifier">link</span> } }
        .<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">entry</span><span class="ruby-operator">|</span> <span class="ruby-identifier">entry</span>[<span class="ruby-value">:key</span>] }
        .<span class="ruby-identifier">each</span>     { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">link</span>.<span class="ruby-identifier">map!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">l</span><span class="ruby-operator">|</span> <span class="ruby-identifier">l</span>[<span class="ruby-value">:link</span>] }}
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-links_group_by_separated" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">links_group_by_separated</span><span
+            class="method-args">(attribute, separator)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Groups the links on the provided attribute. If the attribute&#39;s value
+contains the provided separator, the value is split up and each of the
+values is used as group key</p>
+          
+          
+
+          
+          <div class="method-source-code" id="links_group_by_separated-source">
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 79</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">links_group_by_separated</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">separator</span>)
+  <span class="ruby-identifier">links_group_by</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">links_duplicate_on</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">separator</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -363,13 +465,58 @@ href="Website.html">Website</a> can be created.</p>
 
           
           <div class="method-source-code" id="list_links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 36</span>
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">list_links</span>(<span class="ruby-identifier">args</span> = {})
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span>
     <span class="ruby-identifier">links</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">links</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">link</span>.<span class="ruby-identifier">match?</span> <span class="ruby-identifier">args</span> }
   <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-merge_links_on" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">merge_links_on</span><span
+            class="method-args">(attribute, concat_string = ',')</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Merge links based on the provided attribue to one link by combining the 
+values. The first link will be updated and the obsolete links are deleted
+and will be returned</p>
+          
+          
+
+          
+          <div class="method-source-code" id="merge_links_on-source">
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">merge_links_on</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">concat_string</span> = <span class="ruby-string">&#39;,&#39;</span>)
+  <span class="ruby-identifier">links_group_by</span>(<span class="ruby-identifier">attribute</span>)
+       .<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">link_list</span><span class="ruby-operator">|</span> <span class="ruby-identifier">links</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> }
+       .<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">link_list</span><span class="ruby-operator">|</span> 
+          <span class="ruby-identifier">merge_attributes</span> = <span class="ruby-constant">Link</span><span class="ruby-operator">::</span><span class="ruby-constant">ATTRS</span> <span class="ruby-operator">-</span> [<span class="ruby-identifier">attribute</span>]
+          <span class="ruby-identifier">link_list</span>.<span class="ruby-identifier">first</span>
+               .<span class="ruby-identifier">update</span>(<span class="ruby-constant">Hash</span>[<span class="ruby-identifier">extract_columns</span>(<span class="ruby-identifier">link_list</span>, <span class="ruby-identifier">merge_attributes</span>)
+                            .<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">concat_string</span>) }
+                            .<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">merge_attributes</span>.<span class="ruby-identifier">shift</span>, <span class="ruby-identifier">v</span>] }])
+          <span class="ruby-identifier">link_list</span>.<span class="ruby-identifier">shift</span>
+          <span class="ruby-identifier">link_list</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">links</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">link</span>) }
+        <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -400,9 +547,42 @@ href="Website.html">Website</a> can be created.</p>
 
           
           <div class="method-source-code" id="remove_link-source">
-            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 31</span>
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_link</span>(<span class="ruby-identifier">link</span>)
   <span class="ruby-identifier">links</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">link</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-rows" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rows</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return an array of all link values as rows</p>
+          
+          
+
+          
+          <div class="method-source-code" id="rows-source">
+            <pre><span class="ruby-comment"># File lib/syclink/website.rb, line 95</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">rows</span>
+  <span class="ruby-identifier">links</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">link</span>.<span class="ruby-identifier">row</span> }
 <span class="ruby-keyword">end</span></pre>
           </div>
           

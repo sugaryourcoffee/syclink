@@ -91,6 +91,8 @@
     
     <li ><a href="#method-i-print_links">#print_links</a>
     
+    <li ><a href="#method-i-set_default_website">#set_default_website</a>
+    
   </ul>
 </div>
 
@@ -143,7 +145,7 @@
         
         <div class="method-heading">
           <span class="method-name">print_links</span><span
-            class="method-args">(links, columns)</span>
+            class="method-args">(links, columns, opts = {})</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -152,17 +154,59 @@
 
         <div class="method-description">
           
-          
+          <p>Print links in table format</p>
           
           
 
           
           <div class="method-source-code" id="print_links-source">
-            <pre><span class="ruby-comment"># File bin/syclink, line 284</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">print_links</span>(<span class="ruby-identifier">links</span>, <span class="ruby-identifier">columns</span>)
+            <pre><span class="ruby-comment"># File bin/syclink, line 473</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">print_links</span>(<span class="ruby-identifier">links</span>, <span class="ruby-identifier">columns</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-identifier">allowed_cols</span> = <span class="ruby-node">%w{ url name description tag }</span> 
   <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;,&#39;</span>) <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">allowed_cols</span>
-  <span class="ruby-constant">SycLink</span><span class="ruby-operator">::</span><span class="ruby-constant">Formatter</span>.<span class="ruby-identifier">table</span>(<span class="ruby-identifier">links</span>, <span class="ruby-identifier">cols</span>)
+  <span class="ruby-constant">SycLink</span><span class="ruby-operator">::</span><span class="ruby-constant">Formatter</span>.<span class="ruby-identifier">table</span>(<span class="ruby-identifier">links</span>, <span class="ruby-identifier">cols</span>, <span class="ruby-identifier">opts</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-set_default_website" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_default_website</span><span
+            class="method-args">(current, default)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>If current website and default website are different ask whether current
+website should be set as default website</p>
+          
+          
+
+          
+          <div class="method-source-code" id="set_default_website-source">
+            <pre><span class="ruby-comment"># File bin/syclink, line 460</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_default_website</span>(<span class="ruby-identifier">current</span>, <span class="ruby-identifier">default</span>)
+  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">current</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">default</span>)
+    <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;Want to make &#39;#{current}&#39; the default (y/n)? &quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-constant">STDIN</span>.<span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/y/i</span>
+      <span class="ruby-identifier">puts</span>; <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Making &#39;#{current}&#39; the default website&quot;</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-ivar">@syclink_file</span>, <span class="ruby-string">&#39;w&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> 
+        <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">dump</span>({ <span class="ruby-identifier">default_website</span><span class="ruby-operator">:</span> <span class="ruby-identifier">current</span> }, <span class="ruby-identifier">f</span>) 
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

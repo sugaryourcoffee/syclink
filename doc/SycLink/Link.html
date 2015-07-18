@@ -76,6 +76,8 @@
     
     <li ><a href="#method-i-match-3F">#match?</a>
     
+    <li ><a href="#method-i-row">#row</a>
+    
     <li ><a href="#method-i-update">#update</a>
     
   </ul>
@@ -91,6 +93,12 @@
 
   <section class="description">
     
+<p>Creates a link with url, name, description and tag</p>
+
+<p>Creates a link with url, name, description and tag</p>
+
+<p>Creates a link with url, name, description and tag</p>
+
 <p>Creates a link with url, name, description and tag</p>
 
   </section>
@@ -195,9 +203,9 @@ attributes. If the search string is found true is returned otherwise false</p>
 
           
           <div class="method-source-code" id="contains-3F-source">
-            <pre><span class="ruby-comment"># File lib/syclink/link.rb, line 42</span>
+            <pre><span class="ruby-comment"># File lib/syclink/link.rb, line 44</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">contains?</span>(<span class="ruby-identifier">search</span>)
-  <span class="ruby-identifier">search</span> = <span class="ruby-identifier">search</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39; &#39;</span>)
+  <span class="ruby-identifier">search</span> = <span class="ruby-identifier">search</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">downcase</span>
   <span class="ruby-identifier">target</span> = <span class="ruby-identifier">instance_variables</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_variable_get</span> <span class="ruby-identifier">v</span> }.<span class="ruby-identifier">join</span>
   <span class="ruby-identifier">target</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">scan</span>(<span class="ruby-identifier">search</span>).<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
@@ -231,11 +239,44 @@ true if so otherwise false</p>
 
           
           <div class="method-source-code" id="match-3F-source">
-            <pre><span class="ruby-comment"># File lib/syclink/link.rb, line 33</span>
+            <pre><span class="ruby-comment"># File lib/syclink/link.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">match?</span>(<span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">select_defined</span>(<span class="ruby-identifier">args</span>).<span class="ruby-identifier">reduce</span>(<span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sum</span>, <span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">sum</span> = <span class="ruby-identifier">sum</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>[<span class="ruby-value">0</span>]) <span class="ruby-operator">==</span> <span class="ruby-identifier">attribute</span>[<span class="ruby-value">1</span>])
   <span class="ruby-keyword">end</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-row" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">row</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return the values of the link in an array</p>
+          
+          
+
+          
+          <div class="method-source-code" id="row-source">
+            <pre><span class="ruby-comment"># File lib/syclink/link.rb, line 51</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">row</span>
+  [ <span class="ruby-identifier">url</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">description</span>, <span class="ruby-identifier">tag</span> ]
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -260,17 +301,19 @@ true if so otherwise false</p>
 
         <div class="method-description">
           
-          <p>Updates the attributes of the link specified by args</p>
+          <p>Updates the attributes of the link specified by args and returns the
+updated link</p>
           
           
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File lib/syclink/link.rb, line 25</span>
+            <pre><span class="ruby-comment"># File lib/syclink/link.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>(<span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">select_defined</span>(<span class="ruby-identifier">args</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{attribute}=&quot;</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">self</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

@@ -2,6 +2,6 @@
 module SycLink
 
   # Version of the application
-  VERSION = '0.1.0'
+  VERSION = '0.1.1'
 
 end
