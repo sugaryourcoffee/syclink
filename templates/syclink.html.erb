@@ -12,7 +12,7 @@
     </header>
     <div class="container">
       <section id="tags">
-        <% links_group_by(:tag).each do |tag, links| %>
+        <% links_group_by_separated(:tag, ',').each do |tag, links| %>
           <article class="tag">
             <header>
               <h2 id="tag_<%= tag %>"><%= tag %></h2>
@@ -41,7 +41,7 @@
             <h2>Tags</h2>
           </header>
           <ul>
-            <% link_attribute_list(:tag).each do |tag| %>
+            <% link_attribute_list(:tag, ',').each do |tag| %>
               <li><a href="#tag_<%= tag %>"><%= tag %></a>
             <% end %>
           </ul>
