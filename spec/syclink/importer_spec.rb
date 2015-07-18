@@ -206,7 +206,7 @@ module SycLink
 
       it "should specify tags during import" do
         fi = FileImporter.new(File.join(@file_dir, "**/*"), 
-                              level: 1, tags: "Prime,Second")
+                              level: 2, tags: "Prime,Second")
         expect(fi.read).to eq @pdf_tags
       end
     end
