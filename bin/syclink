@@ -350,6 +350,10 @@ command :import do |c|
     s.arg_name 'LEVEL 0..N'
     s.flag [:l, :level], :type => Integer
 
+    s.desc 'Tags to set for all imported links'
+    s.arg_name 'TAG[,TAG,TAG]'
+    s.flag [:t, :tags]
+
     s.action do |global_options,options,args|
       unless File.exists? args[0]
         STDERR.puts <<-HERE.gsub(/^ {10}/, '')
@@ -391,6 +395,10 @@ command :import do |c|
     HERE
     s.arg_name 'LEVEL 0..N'
     s.flag [:l, :level], :type => Integer
+
+    s.desc 'Tags to set for all imported links'
+    s.arg_name 'TAG[,TAG,TAG]'
+    s.flag [:t, :tags]
 
     s.action do |global_options,options,args|
       @designer.import_links(SycLink::FileImporter.new(args.shift,
