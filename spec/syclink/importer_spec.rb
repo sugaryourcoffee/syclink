@@ -118,6 +118,18 @@ module SycLink
                        "one.pdf", "", ""]]
         @txt_files = [["/home/pierre/Work/syclink/spec/syclink/fi/a.txt",
                        "a.txt", "", ""]]
+        @any_files = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
+                       "three.pdf", "", "b"],
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
+                       "four.pdf", "", "b,a"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
+                       "two.pdf", "", "a"], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/a.txt", 
+                       "a.txt", "", ""], 
+                      ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
+                       "one.pdf", "", ""], 
+                      ["http://www.example.com/", 
+                       "ie", "", "c"]]     
       end
 
       it "should import pdf filenames" do
@@ -130,12 +142,17 @@ module SycLink
         expect(fi.read).to eq @txt_files
       end
 
-      it "should read rows" do
+      it "should import any file" do
+        fi = FileImporter.new(File.join(@file_dir, "**/*"))
+        expect(fi.read).to eq @any_files
+      end
+
+      it "should read rows from pdf" do
         fi = FileImporter.new(File.join(@file_dir, "**/*.pdf"))
         expect(fi.rows).to eq @pdf_files
       end
 
-      it "should create links" do
+      it "should create links from pdf" do
         fi = FileImporter.new(File.join(@file_dir, "**/*.pdf"))
         links = fi.links
 
