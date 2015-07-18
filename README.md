@@ -77,6 +77,9 @@ merge, import, export and `website create`.
 
 If no website is specified the default website is used.
 
+Link Commands
+=============
+
 Add a link
 ----------
 A link may have a title, a description and a tag. Title, description and tag
@@ -108,9 +111,9 @@ the changes are made in the csv file and finally the update command is called.
     edit the links
     $ syclink update file exported-links
 
-Remove a Link
+Delete a Link
 -------------
-To remove one or more links the URLs have to be provided.
+To delete one or more links the URLs have to be provided.
 
     $ syclink delete http://example.com http://challenge.com
 
@@ -148,25 +151,138 @@ matches only.
     http://example.com | TEST
 
 The `--expand` switch and the `--width` flag are also available with the 
-`find` command. Details see at [List links](#list-links)
+`find` command. Details see at [List links](#list-links).
 
-List websites
+Merge Links
+-----------
+If there are multiple links with the same URL, these links can be merged. During a merge the first link found will be updated with the join of the values of the other links. 
+
+    $ syclink add link --tag "Day" --name "Work" --description "Busy time" \
+                       http://example.com
+    $ syclink add link --tag "Night" --name "Fun" --description "Fun time" \
+                       http://example.com
+    $ syclink merge 
+    $ syclink list
+
+    url                | name      | description        | tag
+    -------------------|-----------|--------------------|---------
+    http://example.com | Day,Night | Busy time,Fun time | Work,Fun
+
+Import Commands
+===============
+Bookmarks can be imported from _Mozilla Firefox_, _Google Chrome_, 
+_Internet Explorer_ and from directories.
+
+The command is `syclink import` followed by a sub-command indicating from which
+web browser to import, or from which directory.
+
+In case of importing from Internet Explorer and from a directory the parent
+directories are used as tags beginning below the path to the Internet Explorer
+directory or the standard directory.
+
+Firefox
+-------
+Firefox stores its bookmarks in a SQLite3 database called places.sqlite. With 
+Ubuntu this database is usually located in 
+
+    '~/.mozilla/firefox/*.default/places.sqlite'. 
+
+If you are on Windows the file is located in the user's home directory 
+
+    '~/AppData/Roaming/Mozilla/Profiles/*.default/places.sqlite'.
+
+The bookmarks on Ubuntu can be imported with 
+
+    $ syclink import mf ~/.mozilla/SOME_CRYPTIC_NAME.default/places.sqlite
+
+Chrome
+------
+Google Chrome stores its bookmarks in a JSON file called Bookmarks. With Ubuntu
+this file is usually located in 
+
+    '~/.config/chromium/Default/Bookmarks'. 
+
+If you are on Windows the file is located in the user's home directory 
+
+    '~/AppData/Local/Google/Chrome/User Data/Bookmarks'.
+
+The bookmarks on Ubuntu can be imported with 
+
+    $ syclink import gc ~/.config/chromium/Default/Bookmarks
+
+Internet Explorer
+-----------------
+Internet Explorer stores its bookmarks in a directory structure. The bookmarks 
+are located in the user's home directory 
+
+    '~/AppData/Favorites'
+
+The bookmarks (of course on Windows) can be imported with
+
+    $ syclink import ie ~/Appdata/Favorites
+
+Directory
+---------
+The PATH\_TO\_DIRECTORY can have patterns that allows to import specific
+files.
+
+Examples:
+
+    PATH_TO_DIRECTORY/**/*.pdf 
+    
+will import all pdf-files in the directories and sub-directory
+
+    PATH_TO_DIRECTORY/**/* 
+    
+will import all files in the specified directory and sub-directories
+
+To import all files from `some-directory` call
+
+    $ syclink import dir ~/some-directory/**/*
+
+If on Windows and the directory contains .URL-files the URL within the .URL-file
+will be used as the link target.
+
+Export Commands
+===============
+If links have to be changed in a buld then it is easier to do so in a file and
+when done updating the links from the file.
+
+The links can be exported with
+
+    $ syclink export csv
+
+This will print to the standard output. To save it to a file can be done as
+follows
+
+    $ syclink export csv > my-links
+
+Now we can edit the links in the file and when done updating them like so
+
+    $ sylinks update file my-links
+
+Website Commands
+================
+
+Show websites
 -------------
 The websites are saved to `~/.syc/syclink/websites/` and the html 
 representations are saved to `~/.syc/syclink/html/`. When listing websites
 both _webstites_ and _html_ files are listed.
 
-The following command will list all websites
+The following command will list all websites indicating the default website
 
     $ syclink website show
+    [default] ~/.syc/syclink/website/one.website
+              ~/.syc/syclink/website/two.website
 
 To list websites based on a search string the search string has to be send to
-the list command
+the show command
 
-    $ syclink website find "example"
+    $ syclink website show "example"
 
-If the `--exact` switch is given the command is only listing exact matches of
-the search string
+If the `--exact` switch is given the command is listing exact matches of the 
+search string only
 
     $ syclink website find -e "http://example.com"
 
@@ -229,67 +345,4 @@ Following is showing the above sequence in commands
     $ syclink -w example add link "http://example.com" --tag EXAMPLE
     $ syclink add link "http://github.com" --tag DEVELOPMENT
     $ syclink website create
-
-Importing Bookmarks from Webrowsers
-===================================
-
-Firefox
--------
-The bookmarks of _Firefox_ are located in the user's home folder in
-`~/.mozilla/SOME_CRYPTIC_NAME.default/places.sqlite`.
-
-The database can be explored with _sqlite3_ from the command line
-
-    $ cd ~/.mozilla/SOME_CRYPTIC_NAME.default/
-    $ sqlite3 places.sqlite
-    >
-
-We want to retrieve url, title, description, tag, key and bookmark. tag, key 
-and bookmark are good candidates for tags for the application.
-
-At the command prompt of SQLite3 We can issue the query
-
-````
-sqlite> select p.id, p.url, p.title, b.id, b.fk, b.parent, b.title, 
-   ...> k.keyword, a.content, b_t.title from moz_bookmarks b 
-   ...> left outer join moz_keywords k on b.keyword_id = k.id 
-   ...> left outer join moz_items_annos a on a.item_id = b.id 
-   ...> left outer join moz_bookmarks b_t on b.parent = b_t.id 
-   ...> join moz_places p on p.id = b.fk where p.url like "http%";
-1|https://www.mozilla.org/en-US/firefox/central/||6|1|3|Getting Started|||\
-Bookmarks Toolbar
-2|http://www.ubuntu.com/||8|2|7|Ubuntu|||Ubuntu and Free Software links
-3|http://wiki.ubuntu.com/||9|3|7|Ubuntu Wiki (community-edited website)|||\
-Ubuntu and Free Software links
-4|https://answers.launchpad.net/ubuntu/+addquestion||10|4|7|Make a Support \
-Request to the Ubuntu Community|||Ubuntu and Free Software links
-5|http://www.debian.org/||11|5|7|Debian (Ubuntu is based on Debian)|||Ubuntu \
-and Free Software links
-6|https://one.ubuntu.com/||12|6|7|Ubuntu One - The personal cloud that brings\
-your digital life together|||Ubuntu and Free Software links
-7|https://www.mozilla.org/en-US/firefox/help/||14|7|13|Help and Tutorials|||\
-Mozilla Firefox
-8|https://www.mozilla.org/en-US/firefox/customize/||15|8|13|Customize \
-Firefox|||Mozilla Firefox
-9|https://www.mozilla.org/en-US/contribute/||16|9|13|Get Involved|||Mozilla \
-Firefox
-10|https://www.mozilla.org/en-US/about/||17|10|13|About Us|||Mozilla Firefox
-4717|http://codekata.com/|CodeKata|30|4717|5|CodeKata|liklo|How do you get \
-to be a great musician? It helps to know the theory,
-and to understand the mechanics of your instrument. It helps to have
-talent. But …|Unsorted Bookmarks
-399|http://localhost:3000/|Secondhand | Home|34|399|2|Secondhand | Home|||\
-Bookmarks Menu
-12870|https://www.sqlite.org/cli.html|Command Line Shell For SQLite|35|12870|\
-5|Command Line Shell For SQLite|dark|What is this sqlite all about?|Unsorted \
-Bookmarks
-4717|http://codekata.com/|CodeKata|37|4717|36||||wenga
-12870|https://www.sqlite.org/cli.html|Command Line Shell For SQLite|39|12870|\
-38||||lite
-12883|http://ruby.bastardsbook.com/chapters/sql/#h-2-5|SQL | The Bastards \
-Book of Ruby|40|12883|5|SQL | The Bastards Book of Ruby|||Unsorted Bookmarks
-12883|http://ruby.bastardsbook.com/chapters/sql/#h-2-5|SQL | The Bastards \
-Book of Ruby|42|12883|41||||Ruby
-sqlite> 
-````
 
