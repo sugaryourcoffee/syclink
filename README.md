@@ -178,7 +178,12 @@ web browser to import, or from which directory.
 
 In case of importing from Internet Explorer and from a directory the parent
 directories are used as tags beginning below the path to the Internet Explorer
-directory or the standard directory.
+directory or the standard directory. To control to which level the directory
+should be used a `level` switch can be used.
+
+    $ syclink import dir --level 2
+
+Will only use two parent directories as tags.
 
 Firefox
 -------

@@ -41,7 +41,7 @@ module SycLink
         ie_directory = File.join(File.dirname(__FILE__), 'ie/')
         @result = [ [ "http://www.example.com/", "ie", "", "one" ],
                     [ "http://www.example.com/", "ie", "", "one,two"],
-                    [ "http://www.example.com/", "ie", "", ""] ]
+                    [ "http://www.example.com/", "ie", "", "Default"] ]
 
         @ie = InternetExplorer.new(ie_directory)
       end
@@ -115,15 +115,15 @@ module SycLink
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
                        "two.pdf", "", "a"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
-                       "one.pdf", "", ""]]
+                       "one.pdf", "", "Default"]]
         @pdf_zero = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf", 
-                       "three.pdf", "", ""], 
+                       "three.pdf", "", "Default"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
-                       "four.pdf", "", ""], 
+                       "four.pdf", "", "Default"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
-                       "two.pdf", "", ""], 
+                       "two.pdf", "", "Default"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
-                       "one.pdf", "", ""]]
+                       "one.pdf", "", "Default"]]
         @txt_files = [["/home/pierre/Work/syclink/spec/syclink/fi/a.txt",
                        "a.txt", "", ""]]
         @any_files = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
@@ -133,9 +133,9 @@ module SycLink
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
                        "two.pdf", "", "a"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a.txt", 
-                       "a.txt", "", ""], 
+                       "a.txt", "", "Default"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
-                       "one.pdf", "", ""], 
+                       "one.pdf", "", "Default"], 
                       ["http://www.example.com/", 
                        "ie", "", "c"]]     
         @any_level = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
@@ -145,9 +145,9 @@ module SycLink
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
                        "two.pdf", "", "a"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a.txt", 
-                       "a.txt", "", ""], 
+                       "a.txt", "", "Default"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
-                       "one.pdf", "", ""], 
+                       "one.pdf", "", "Default"], 
                       ["http://www.example.com/", 
                        "ie", "", "c"]]     
       end

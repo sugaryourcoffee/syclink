@@ -348,7 +348,7 @@ command :import do |c|
       level flag. A level of 0 will import no tags.
     HERE
     s.arg_name 'LEVEL 0..N'
-    s.flag [:l, :level]
+    s.flag [:l, :level], :type => Integer
 
     s.action do |global_options,options,args|
       unless File.exists? args[0]
@@ -390,11 +390,11 @@ command :import do |c|
       level of 0 will import no tags.
     HERE
     s.arg_name 'LEVEL 0..N'
-    s.flag [:l, :level]
+    s.flag [:l, :level], :type => Integer
 
     s.action do |global_options,options,args|
-      @designer.import_links(SycLink::FileImporter.new(args.shift),
-                                                       options)
+      @designer.import_links(SycLink::FileImporter.new(args.shift,
+                                                       options))
     end
   end
 end
@@ -425,26 +425,15 @@ pre do |global,command,options,args|
       set_default_website(global[:website], config[:default_website])
 
     else
-      print "Website #{global[:website]} doesn't exist. Create it (y/n)? "
+      print "Website '#{global[:website]}' doesn't exist. Create it (y/n)? "
       if STDIN.gets.chomp =~ /y/i 
-        puts; puts "Creating #{global[:website]}"
+        puts; puts "Creating '#{global[:website]}'"
         @designer.new_website(global[:website])
       else
         exit(0)
       end
 
-      set_default_website(global[:webstite], config[:default_website])
-
-#      if (global[:website] != config[:default_website])
-#        print "Want to make #{global[:website]} the default (y/n)? "
-#        if STDIN.gets.chomp =~ /y/i
-#          puts; puts "Making #{global[:website]} the default website"
-#          File.open(syclink_file, 'w') do |f| 
-#            YAML.dump({ default_website: global[:website] }, f) 
-#          end
-#        end
-#      end
-      
+      set_default_website(global[:website], config[:default_website])
     end
     
   end

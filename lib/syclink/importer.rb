@@ -46,7 +46,7 @@ module SycLink
     # on the level value
     def extract_tags(tag_string)
       if tag_string.empty? || opts[:level] == 0
-        ""
+        "Default"
       else
         tags = tag_string.first.split('/')
         level = [opts[:level] || tags.size, tags.size].min
