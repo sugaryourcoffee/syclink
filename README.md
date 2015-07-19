@@ -28,7 +28,6 @@ _Website commands_
 * website remove  - Remove website
 * website create  - Create a HTML representation of the website
 * website check   - Check from links that are not active anymore (pending)
-* website edit    - Open the YAML file for editing (pending)
 
 _Link commands_
 * add link    - Add a link
@@ -301,6 +300,19 @@ If the `--exact` switch is given the command is listing exact matches of the
 search string only
 
     $ syclink website find -e "http://example.com"
+
+Check websites
+--------------
+The `website check` command checks the availability of the urls and files. The 
+result can be printed to the STDOUT in a table format or as CSV.
+
+    $ syclink website check --table --width 70 --available --unavailable
+
+Available URLs or Files show a response "200" and unavailable show "Error". It 
+is also possible to choose upon the columns to print. Available columns are
+`url` and `response`. If no columns flag is provided both columns are printed.
+
+    $ syclink website check --columns "url,response" --table
 
 Remove websites
 ---------------
