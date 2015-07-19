@@ -9,9 +9,9 @@ module SycLink
   # Creates a designer that acts as a proxy between the user and the website.
   # The designer will create a website with the provided title.
   class Designer
-    extend Forwardable
+#    extend Forwardable
 
-    def_delegators :@website, :report_links_availability
+#    def_delegators :@website, :report_links_availability
 
     include Infrastructure
 
@@ -65,6 +65,26 @@ module SycLink
     # Finds links based on a search string
     def find_links(search)
       website.find_links(search)
+    end
+
+    # Check links availability. Takes a filter which values to return and
+    # whether to return available, unavailable or available and unavailable
+    # links. In the following example only unavailable links' url and response
+    # would be returned
+    #   report_links_availability(available: false, 
+    #                             unavailable: false,
+    #                             columns: "url,response")
+    def report_links_availability(opts)
+      cols = opts[:columns].gsub(/ /, "").split(',')
+      website.report_links_availability.map do |url, response|
+        result = if response == "200" and opts[:available]
+                   { "url" => url, "response" => response }
+                 elsif response != "200" and opts[:unavailable]
+                   { "url" => url, "response" => response }
+                 end
+        next if result.nil?
+        cols.inject([]) { |res, c| p c;p res;res << result[c.downcase] }
+      end.compact
     end
 
     # Updates a link. The link is identified by the URL. If there is more than

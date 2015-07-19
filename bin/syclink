@@ -256,8 +256,34 @@ command :website do |c|
 
   c.desc 'Check the availability of the links and show report'
   c.command :check do |s|
+
+    s.desc 'Report available links'
+    s.default_value false
+    s.switch [:a, :available]
+    
+    s.desc 'Report unavailable links'
+    s.default_value true
+    s.switch [:u, :unavailable]
+
+    s.desc 'Columns to print'
+    s.default_value 'url,response'
+    s.arg_name 'URL,RESPONSE'
+    s.flag [:c, :columns]
+
+    s.desc 'Print in table format'
+    s.default_value false
+    s.switch [:t, :table]
+
+    s.desc 'Table width (only with table switch)'
+    s.arg_name 'WIDTH'
+    s.flag [:w, :width], :type => Integer
+
+    s.desc 'Expand table to full specified WIDTH (only with table switch)'
+    s.default_value true
+    s.switch [:e, :expand]
+
     s.action do |global_options,options,args|
-      puts @designer.report_links_availability
+      p @designer.report_links_availability(options)
     end
   end
 
