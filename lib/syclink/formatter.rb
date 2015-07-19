@@ -4,13 +4,49 @@ module SycLink
   # Methods to print data in a formatted way
   module Formatter
 
-    # Based on the rows provided and the header values a table is printed. If
-    # the options :expand and or :width are specified the rows are 
-    # scaled accordingly. If :expand is false the rows will be cut so they fit 
-    # the :width. Otherwise if the rows are less than :width 
-    # the rows are expanded to :width.
+    # Based on the rows (an array of Links) provided and the header values a 
+    # table is printed. If the options :expand and or :width are specified the 
+    # rows are scaled accordingly. If :expand is false the rows will be cut so 
+    # they fit the :width. Otherwise if the rows are less than :width the rows 
+    # are expanded to :width.
+    #
+    # Example
+    # =======
+    #   table(rows, header, width: 80, expand: true)
+    #
+    # Params
+    # ======
+    # rows::   array of Links with row values
+    # header:: array of string with header values
+    # width::  width of the table
+    # expand:: whether to expand the table to width if rows are less than width
     def table(rows, header, opts = {})
       columns = extract_columns(rows, header)
+      widths  = max_column_widths(columns, header, opts)
+      formatter = formatter_string(widths, " | ")
+      print_header(header, formatter)
+      print_horizontal_line("-", "-+-", widths)
+      print_table(columns, formatter)
+    end
+
+    # Based on the rows (an array of values) provided and the header values a 
+    # table is printed. If the options :expand and or :width are specified the 
+    # rows are scaled accordingly. If :expand is false the rows will be cut so 
+    # they fit the :width. Otherwise if the rows are less than :width the rows 
+    # are expanded to :width.
+    #
+    # Example
+    # =======
+    #   table(rows, header, width: 80, expand: true)
+    #
+    # Params
+    # ======
+    # rows::   array of row values
+    # header:: array of string with header values
+    # width::  width of the table
+    # expand:: whether to expand the table to width if rows are less than width
+    def table_of_array(rows, header, opts = {})
+      columns = rows.transpose
       widths  = max_column_widths(columns, header, opts)
       formatter = formatter_string(widths, " | ")
       print_header(header, formatter)
