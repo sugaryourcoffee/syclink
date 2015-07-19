@@ -15,7 +15,7 @@ include SycLink::Formatter
 
 # Commands that need to have a website and a designer object
 WEBSITE_COMMANDS = [ :create, :link, :file, :update, :delete, :list, :find,
-                     :dir, :mf, :gc, :ie, :csv, :merge ]
+                     :dir, :mf, :gc, :ie, :csv, :merge, :check ]
 
 # syclink's configuration directory
 syclink_directory             = File.expand_path("~/.syc/syclink")
@@ -251,6 +251,13 @@ command :website do |c|
             puts "          #{f}"
         end
       end
+    end
+  end
+
+  c.desc 'Check the availability of the links and show report'
+  c.command :check do |s|
+    s.action do |global_options,options,args|
+      puts @designer.report_links_availability
     end
   end
 

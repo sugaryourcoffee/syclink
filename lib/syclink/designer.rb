@@ -9,6 +9,9 @@ module SycLink
   # Creates a designer that acts as a proxy between the user and the website.
   # The designer will create a website with the provided title.
   class Designer
+    extend Forwardable
+
+    def_delegators :@website, :report_links_availability
 
     include Infrastructure
 
