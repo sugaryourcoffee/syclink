@@ -8,8 +8,8 @@ module SycLink
     # otherwise 'Error'
     # #response expects that the including class has an attribute 'url'
     def response
-      uri = URI.parse(url)
-      uri.host.nil? ? response_of_file(url) : response_of_uri(uri)
+      uri = to_uri(url)
+      uri ? response_of_uri(uri) : response_of_file(url)
     end
 
     # Checks whether the uri is reachable. If so it returns '200' otherwise
@@ -28,6 +28,17 @@ module SycLink
     # 'error'
     def response_of_file(file)
       File.exists?(file) ? "200" : "Error"
+    end
+
+    # Transforms an URL (String) to an URI. If URL is not valid false is 
+    # returned
+    def to_uri(url)
+      uri = URI.parse(url)
+      uri.host.nil? ? false : uri
+    rescue URI::BadURIError
+      false
+    rescue URI::InvalidURIError
+      false
     end
   end
 
