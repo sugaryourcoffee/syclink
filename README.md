@@ -9,6 +9,8 @@ The application is installed with _RubyGems_
 
     $ gem install syclink
 
+[![Gem Version](https://badge.fury.io/rb/syclink.svg)](http://badge.fury.io/rb/syclink)
+
 Command Line Interface
 ======================
 _syclink_ comes with a default website template and a CSS file. This can be
