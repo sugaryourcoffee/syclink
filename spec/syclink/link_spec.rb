@@ -12,6 +12,12 @@ module SycLink
                                   tag:         "Test" })
     end
 
+    it "should respond to LinkChecker methods" do
+      expect(@link).to respond_to :response
+      expect(@link).to respond_to :response_of_uri
+      expect(@link).to respond_to :response_of_file
+    end
+
     it "should create a link" do
       expect(@link.url).to eq "http://example.com"
       expect(@link.name).to eq "http://example.com"

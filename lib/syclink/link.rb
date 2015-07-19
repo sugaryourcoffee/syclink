@@ -1,8 +1,12 @@
+require_relative 'link_checker'
+
 # Module that creates a link list and generates an html representation
 module SycLink
 
   # Creates a link with url, name, description and tag
   class Link
+
+    include LinkChecker
 
     # Attributes that are accessible
     ATTRS = [:url, :name, :description, :tag]
