@@ -83,7 +83,7 @@ module SycLink
                    { "url" => url, "response" => response }
                  end
         next if result.nil?
-        cols.inject([]) { |res, c| p c;p res;res << result[c.downcase] }
+        cols.inject([]) { |res, c| res << result[c.downcase] }
       end.compact
     end
 
