@@ -515,6 +515,7 @@ end
 def print_links(links, columns, opts = {})
   allowed_cols = %w{ url name description tag } 
   cols = columns.delete(' ').downcase.split(',') & allowed_cols
+  cols = allowed_cols if cols.empty?
   SycLink::Formatter.table(links, cols, opts)
 end
 
@@ -524,6 +525,7 @@ def print_availability_result(result, opts)
   if opts[:table]
     allowed_cols = %w{ url response }
     cols = opts[:columns].delete(' ').downcase.split(',') & allowed_cols
+    cols = allowed_cols if cols.empty?
     SycLink::Formatter.table_of_array(result, cols, opts)
   else
     result.each { |r| puts r.join(';') }

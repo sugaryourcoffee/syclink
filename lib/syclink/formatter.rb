@@ -75,11 +75,13 @@ module SycLink
 
       header_column_widths = header.map { |h| h.length }
 
+      row_column_widths = header_column_widths if row_column_widths.empty?
+
       widths = row_column_widths.zip(header_column_widths).map do |column|
         column.reduce(0) { |m, v| [m, v].max }
       end
 
-      scale_widths(widths, opts)
+      widths.empty? ? [] : scale_widths(widths, opts)
     end
 
     # Creates a formatter string based on the widths and the column separator
