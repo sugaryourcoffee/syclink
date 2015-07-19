@@ -13,6 +13,20 @@ module SycLink
     # Create a new link with url and params. If params are not provided 
     # defaults are used for name the url is used, description is empty and
     # tag is set to 'untagged'
+    #
+    # Usage
+    # =====
+    #
+    #   Link.new("http://example.com", name: "example",
+    #                                  description: "For testing purposes",
+    #                                  tag:         "Test,Example")
+    #
+    # Params
+    # ======
+    # url::         the URL of the link
+    # name::        the name of the link. If not given the URL is used
+    # description:: the description of the link (optional)
+    # tag::         if not given it is set to 'untagged'
     def initialize(url, params = {})
       @url         = url
       params       = defaults(url).merge(select_defined(params))
@@ -23,6 +37,7 @@ module SycLink
 
     # Updates the attributes of the link specified by args and returns the
     # updated link
+    #   link.update(name: "Example website for testing purposes")
     def update(args)
       select_defined(args).each do |attribute, value|
         send("#{attribute}=", value)
@@ -32,6 +47,7 @@ module SycLink
 
     # Checks whether the link matches the values provided by args and returns
     # true if so otherwise false
+    #   link.match?(name: "Example", tag: "Test")
     def match?(args)
       select_defined(args).reduce(true) do |sum, attribute|
         sum = sum && (send(attribute[0]) == attribute[1])
@@ -41,6 +57,7 @@ module SycLink
     # Checks whether the search string is contained in one or more of the
     # attributes. If the search string is found true is returned otherwise
     # false
+    #   link.contains?("example.com")
     def contains?(search)
       search = search.delete(' ').downcase
       target = instance_variables.map { |v| instance_variable_get v }.join
@@ -48,6 +65,7 @@ module SycLink
     end
 
     # Return the values of the link in an array
+    #   link.row
     def row
       [ url, name, description, tag ]
     end
