@@ -283,7 +283,8 @@ command :website do |c|
     s.switch [:e, :expand]
 
     s.action do |global_options,options,args|
-      p @designer.report_links_availability(options)
+      print_availability_result(@designer.report_links_availability(options),
+                                options)
     end
   end
 
@@ -515,6 +516,18 @@ def print_links(links, columns, opts = {})
   allowed_cols = %w{ url name description tag } 
   cols = columns.delete(' ').downcase.split(',') & allowed_cols
   SycLink::Formatter.table(links, cols, opts)
+end
+
+# Print result of links availability check eather to STDOUT or in a table
+# format
+def print_availability_result(result, opts)
+  if opts[:table]
+    allowed_cols = %w{ url response }
+    cols = opts[:columns].delete(' ').downcase.split(',') & allowed_cols
+    SycLink::Formatter.table_of_array(result, cols, opts)
+  else
+    result.each { |r| puts r.join(';') }
+  end
 end
 
 exit run(ARGV)
