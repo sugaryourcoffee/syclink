@@ -43,6 +43,12 @@ module SycLink
       end
     end
 
+    # Check availability of links. Returns the links' url  with code '200' if 
+    # reachable other wise with code 'Error'.
+    def report_links_availability
+      links.map { |link| [link.url, link.response] }
+    end
+
     # Finds all links that contain the search string
     def find_links(search)
       links.select { |link| link.contains? search }
