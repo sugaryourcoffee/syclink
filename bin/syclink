@@ -20,7 +20,7 @@ WEBSITE_COMMANDS = [ :create, :link, :file, :update, :delete, :list, :find,
 # syclink's configuration directory
 syclink_directory             = File.expand_path("~/.syc/syclink")
 # syclink's configuration file
-syclink_file                  = File.join(syclink_directory, "syclink.rc")
+@syclink_file                  = File.join(syclink_directory, "syclink.rc")
 # syclink's template directory
 syclink_template_directory    = File.join(syclink_directory, "templates/")
 # syclink's html template"
@@ -53,7 +53,7 @@ copy_file_if_missing(File.join(File.dirname(__FILE__),
                                '../templates/stylesheets/style.css.scss'),
                      syclink_stylesheets_directory)
 
-config = load_config(syclink_file)
+config = load_config(@syclink_file)
 
 program_desc 'Create a link-list and display it as an html page'
 
@@ -228,7 +228,7 @@ end
 
 desc "Operate on websites"
 command :website do |c|
-  c.desc 'Show all websites or search for websites'
+  c.desc 'Show all websites or search for websites with indication of default'
   c.arg_name 'WEBSITE'
   c.skips_pre
   c.skips_post
@@ -238,10 +238,18 @@ command :website do |c|
     s.switch [:e, :exact]
 
     s.action do |global_options,options,args|
-      if options[:e]
-        puts Dir.glob(yaml_file(syclink_website_directory, args[0]))
+      websites = if options[:e]
+        Dir.glob(yaml_file(syclink_website_directory, args[0]))
       else
-        puts Dir.glob(File.join(syclink_website_directory, "*.website"))
+        Dir.glob(File.join(syclink_website_directory, "*.website"))
+      end
+      
+      websites.each do |f|
+          if File.basename(f) =~ /#{config[:default_website]}\.website/
+            puts "[default] #{f}" 
+          else
+            puts "          #{f}"
+        end
       end
     end
   end
@@ -391,6 +399,9 @@ pre do |global,command,options,args|
     if File.exists? yaml_file(syclink_website_directory, global[:website])
       @designer.load_website(yaml_file(syclink_website_directory, 
                                        global[:website]))
+
+      set_default_website(global[:website], config[:default_website])
+
     else
       print "Website #{global[:website]} doesn't exist. Create it (y/n)? "
       if STDIN.gets.chomp =~ /y/i 
@@ -400,15 +411,17 @@ pre do |global,command,options,args|
         exit(0)
       end
 
-      if (global[:website] != config[:default_website])
-        print "Want to make #{global[:website]} the default (y/n)? "
-        if STDIN.gets.chomp =~ /y/i
-          puts; puts "Making #{global[:website]} the default website"
-          File.open(syclink_file, 'w') do |f| 
-            YAML.dump({ default_website: global[:website] }, f) 
-          end
-        end
-      end
+      set_default_website(global[:webstite], config[:default_website])
+
+#      if (global[:website] != config[:default_website])
+#        print "Want to make #{global[:website]} the default (y/n)? "
+#        if STDIN.gets.chomp =~ /y/i
+#          puts; puts "Making #{global[:website]} the default website"
+#          File.open(syclink_file, 'w') do |f| 
+#            YAML.dump({ default_website: global[:website] }, f) 
+#          end
+#        end
+#      end
       
     end
     
@@ -431,6 +444,21 @@ on_error do |exception|
   end
 end
 
+# If current website and default website are different ask whether current
+# website should be set as default website
+def set_default_website(current, default)
+  if (current != default)
+    print "Want to make '#{current}' the default (y/n)? "
+    if STDIN.gets.chomp =~ /y/i
+      puts; puts "Making '#{current}' the default website"
+      File.open(@syclink_file, 'w') do |f| 
+        YAML.dump({ default_website: current }, f) 
+      end
+    end
+  end
+end
+
+# Print links in table format
 def print_links(links, columns, opts = {})
   allowed_cols = %w{ url name description tag } 
   cols = columns.delete(' ').downcase.split(',') & allowed_cols
