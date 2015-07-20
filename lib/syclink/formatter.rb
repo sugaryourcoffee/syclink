@@ -49,7 +49,7 @@ module SycLink
     # Creates a formatter string based on the widths and the column separator
     def formatter_string(widhts, separator)
       widhts.map do |width|
-        "%-#{width}s"
+        "%-#{width}.#{width}s"
       end.join(separator)
     end
 
