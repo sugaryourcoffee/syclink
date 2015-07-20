@@ -68,8 +68,12 @@ Before the command `add` is executed the website is created. In this
 case a website called 'my-new-website' is created in the default directory at
 `~/.syc/syclink/websites/my-new-website.website
 
-Commands that require a website are `add`, `update`, `delete`, `list`, `find`
-and `website create`.
+If an existing website is specified by the `-w` command and it is different
+to the default command, the user is asked whether to set the selected 
+website as the default one.
+
+Commands that require a website are `add`, `update`, `delete`, `list`, `find`,
+merge and `website create`.
 
 If no website is specified the default website is used.
 
@@ -79,19 +83,30 @@ A link may have a title, a description and a tag. Title, description and tag
 are optional but a link obviously has to be provided. If no title is given the
 link is used as the title.
   
-    $ syclink add --title "Test page" --tag TEST \
-                  --description 'For testing purposes' http://example.com 
+    $ syclink add link --title "Test page" --tag TEST \
+                       --description 'For testing purposes' http://example.com 
 
 It is also possible to add links from a file
 
-    $ syclink file file-with-links
+    $ syclink add file file-with-links
 
 Update a link
 -------------
 To update a link the URL has to be specified. If more than one link has the 
 same URL only the first link is updated.
 
-    $ syclink update --title "Example" http://example.com 
+    $ syclink update link --title "Example" http://example.com 
+
+It is also possible to update links with links saved to a file
+
+    $ syclink update file file-with-links
+
+If many links have to be updated they can be exported to a csv file. Then
+the changes are made in the csv file and finally the update command is called.
+
+    $ syclink export csv > exported-links
+    edit the links
+    $ syclink update file exported-links
 
 Remove a Link
 -------------
@@ -132,17 +147,17 @@ both _webstites_ and _html_ files are listed.
 
 The following command will list all websites
 
-    $ syclink website list
+    $ syclink website show
 
 To list websites based on a search string the search string has to be send to
 the list command
 
-    $ syclink website list "example"
+    $ syclink website find "example"
 
 If the `--exact` switch is given the command is only listing exact matches of
 the search string
 
-    $ syclink website list -e "http://example.com"
+    $ syclink website find -e "http://example.com"
 
 Remove websites
 ---------------
@@ -200,8 +215,8 @@ To create a website the steps are as follows
 
 Following is showing the above sequence in commands
 
-    $ syclink -w example add "http://example.com" --tag EXAMPLE
-    $ syclink add "http://github.com" --tag DEVELOPMENT
+    $ syclink -w example add link "http://example.com" --tag EXAMPLE
+    $ syclink add link "http://github.com" --tag DEVELOPMENT
     $ syclink website create
 
 Importing Bookmarks from Webrowsers
