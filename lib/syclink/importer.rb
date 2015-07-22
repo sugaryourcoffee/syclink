@@ -48,7 +48,10 @@ module SycLink
     # the tag_string. If a level is provided these tags are considered first
     def extract_tags(tag_string)
       opts[:tags].gsub!(',', '/') if opts[:tags]
-      tags = (tag_string << opts[:tags]).compact.join('/').split('/')
+      tags = (tag_string << opts[:tags]).compact
+                                        .join('/')
+                                        .squeeze(" -")
+                                        .split('/')
 
       if tags.empty? || opts[:level] == 0
         "Default"
