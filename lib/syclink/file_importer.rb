@@ -8,8 +8,12 @@ module SycLink
       Dir.glob(path).map do |file|
         next if File.directory? file
         url, name = if File.extname(file).upcase == ".URL"
-                      [File.read(file).scan(/(?<=\nURL=)(.*)$/).flatten.first,
-                       name = File.basename(file, ".*")]
+                      begin
+                        [File.read(file).scan(/(?<=\nURL=)(.*)$/).flatten.first,
+                         name = File.basename(file, ".*")]
+                      rescue
+                        [file, file.basename(file)]
+                      end
                     else
                       [file, File.basename(file)]
                     end
