@@ -10,5 +10,5 @@ require 'syclink/firefox'
 require 'syclink/chrome'
 require 'syclink/internet_explorer'
 require 'syclink/file_importer'
-
+require 'syclink/link_checker'
 
