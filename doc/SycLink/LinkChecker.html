@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>module SycLink::LinkChecker - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script src="../js/jquery.js"></script>
+<script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-response">#response</a>
+    
+    <li ><a href="#method-i-response_of_file">#response_of_file</a>
+    
+    <li ><a href="#method-i-response_of_uri">#response_of_uri</a>
+    
+    <li ><a href="#method-i-to_uri">#to_uri</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="module-SycLink::LinkChecker">
+  <h1 id="module-SycLink::LinkChecker" class="module">
+    module SycLink::LinkChecker
+  </h1>
+
+  <section class="description">
+    
+<p>Methods to check links for availability. A link may be an URI or a file</p>
+
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-response" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">response</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Checks whether a link is reachable. If so code &#39;200&#39; is returned
+otherwise &#39;Error&#39; <a
+href="LinkChecker.html#method-i-response">response</a> expects that the
+including class has an attribute &#39;url&#39;</p>
+          
+          
+
+          
+          <div class="method-source-code" id="response-source">
+            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 10</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">response</span>
+  <span class="ruby-identifier">uri</span> = <span class="ruby-identifier">to_uri</span>(<span class="ruby-identifier">url</span>)
+  <span class="ruby-identifier">uri</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">response_of_uri</span>(<span class="ruby-identifier">uri</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">response_of_file</span>(<span class="ruby-identifier">url</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-response_of_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">response_of_file</span><span
+            class="method-args">(file)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Checks whether a file exists. If so it returns &#39;200&#39; otherwise
+&#39;error&#39;</p>
+          
+          
+
+          
+          <div class="method-source-code" id="response_of_file-source">
+            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 29</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">response_of_file</span>(<span class="ruby-identifier">file</span>)
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">file</span>) <span class="ruby-operator">?</span> <span class="ruby-string">&quot;200&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;Error&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-response_of_uri" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">response_of_uri</span><span
+            class="method-args">(uri)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Checks whether the uri is reachable. If so it returns &#39;200&#39;
+otherwise &#39;Error&#39;. uri has to have a host, that is uri.host should
+not be nil</p>
+          
+          
+
+          
+          <div class="method-source-code" id="response_of_uri-source">
+            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">response_of_uri</span>(<span class="ruby-identifier">uri</span>)
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTP</span>.<span class="ruby-identifier">start</span>(<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">host</span>, <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">port</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">http</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">http</span>.<span class="ruby-identifier">head</span>(<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">path</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">path</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;/&quot;</span>).<span class="ruby-identifier">code</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+    <span class="ruby-string">&quot;Error&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-to_uri" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_uri</span><span
+            class="method-args">(url)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Transforms an URL (String) to an URI. If URL is not valid false is 
+returned</p>
+          
+          
+
+          
+          <div class="method-source-code" id="to_uri-source">
+            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_uri</span>(<span class="ruby-identifier">url</span>)
+  <span class="ruby-identifier">uri</span> = <span class="ruby-constant">URI</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">url</span>)
+  <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">host</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">false</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">uri</span>
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">URI</span><span class="ruby-operator">::</span><span class="ruby-constant">BadURIError</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">URI</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidURIError</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

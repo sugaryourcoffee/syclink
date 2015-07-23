@@ -105,6 +105,8 @@
     
     <li ><a href="#method-i-remove_links">#remove_links</a>
     
+    <li ><a href="#method-i-report_links_availability">#report_links_availability</a>
+    
     <li ><a href="#method-i-save_website">#save_website</a>
     
     <li ><a href="#method-i-update_link">#update_link</a>
@@ -124,15 +126,6 @@
 
   <section class="description">
     
-<p>Creates a designer that acts as a proxy between the user and the website.
-The designer will create a website with the provided title.</p>
-
-<p>Creates a designer that acts as a proxy between the user and the website.
-The designer will create a website with the provided title.</p>
-
-<p>Creates a designer that acts as a proxy between the user and the website.
-The designer will create a website with the provided title.</p>
-
 <p>Creates a designer that acts as a proxy between the user and the website.
 The designer will create a website with the provided title.</p>
 
@@ -197,7 +190,7 @@ The designer will create a website with the provided title.</p>
 
           
           <div class="method-source-code" id="add_link-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 24</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_link</span>(<span class="ruby-identifier">url</span>, <span class="ruby-identifier">args</span> = {})
   <span class="ruby-identifier">website</span>.<span class="ruby-identifier">add_link</span>(<span class="ruby-constant">Link</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">url</span>, <span class="ruby-identifier">args</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -231,7 +224,7 @@ are added to the websie</p>
 
           
           <div class="method-source-code" id="add_links_from_file-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 30</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_links_from_file</span>(<span class="ruby-identifier">file</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">foreach</span>(<span class="ruby-identifier">file</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp</span>.<span class="ruby-identifier">empty?</span>
@@ -273,7 +266,7 @@ templates/syclink.html.erb</p>
 
           
           <div class="method-source-code" id="create_website-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 121</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create_website</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">template_filename</span>)
   <span class="ruby-identifier">template</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">template_filename</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">html_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">website</span>.<span class="ruby-identifier">title</span>), <span class="ruby-string">&#39;w&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -309,7 +302,7 @@ templates/syclink.html.erb</p>
 
           
           <div class="method-source-code" id="delete_website-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 111</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 134</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_website</span>(<span class="ruby-identifier">directory</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-identifier">yaml_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">website</span>.<span class="ruby-identifier">title</span>)
     <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">rm</span>(<span class="ruby-identifier">yaml_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">website</span>.<span class="ruby-identifier">title</span>)) 
@@ -344,7 +337,7 @@ templates/syclink.html.erb</p>
 
           
           <div class="method-source-code" id="export-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 48</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 51</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">export</span>(<span class="ruby-identifier">format</span>)
   <span class="ruby-identifier">message</span> = <span class="ruby-node">&quot;to_#{format.downcase}&quot;</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">website</span>.<span class="ruby-identifier">respond_to?</span> <span class="ruby-identifier">message</span>
@@ -382,7 +375,7 @@ templates/syclink.html.erb</p>
 
           
           <div class="method-source-code" id="find_links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 63</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">find_links</span>(<span class="ruby-identifier">search</span>)
   <span class="ruby-identifier">website</span>.<span class="ruby-identifier">find_links</span>(<span class="ruby-identifier">search</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -416,7 +409,7 @@ and add them to the website</p>
 
           
           <div class="method-source-code" id="import_links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 41</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 44</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">import_links</span>(<span class="ruby-identifier">importer</span>)
   <span class="ruby-identifier">importer</span>.<span class="ruby-identifier">links</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">website</span>.<span class="ruby-identifier">add_link</span>(<span class="ruby-identifier">link</span>)
@@ -451,7 +444,7 @@ and add them to the website</p>
 
           
           <div class="method-source-code" id="list_links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 58</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">list_links</span>(<span class="ruby-identifier">args</span> = {})
   <span class="ruby-identifier">website</span>.<span class="ruby-identifier">list_links</span>(<span class="ruby-identifier">args</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -485,7 +478,7 @@ designer to operate on</p>
 
           
           <div class="method-source-code" id="load_website-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 106</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 129</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_website</span>(<span class="ruby-identifier">website</span>)
   <span class="ruby-ivar">@website</span> = <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">website</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -518,7 +511,7 @@ designer to operate on</p>
 
           
           <div class="method-source-code" id="merge_links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 84</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 107</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">merge_links</span>
   <span class="ruby-identifier">website</span>.<span class="ruby-identifier">merge_links_on</span>(<span class="ruby-value">:url</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -551,7 +544,7 @@ designer to operate on</p>
 
           
           <div class="method-source-code" id="new_website-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 19</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new_website</span>(<span class="ruby-identifier">title</span> = <span class="ruby-string">&quot;SYC LINK&quot;</span>)
   <span class="ruby-ivar">@website</span> = <span class="ruby-constant">Website</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">title</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -585,11 +578,61 @@ Expects the links provided in an array</p>
 
           
           <div class="method-source-code" id="remove_links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 90</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 113</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_links</span>(<span class="ruby-identifier">urls</span>)
   <span class="ruby-identifier">urls</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">url</span><span class="ruby-operator">|</span> <span class="ruby-identifier">list_links</span>({ <span class="ruby-identifier">url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">url</span> }) }.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">website</span>.<span class="ruby-identifier">remove_link</span>(<span class="ruby-identifier">link</span>)
   <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-report_links_availability" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">report_links_availability</span><span
+            class="method-args">(opts)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Check links availability. Takes a filter which values to return and whether
+to return available, unavailable or available and unavailable links. In the
+following example only unavailable links&#39; url and response would be
+returned</p>
+
+<pre class="ruby"><span class="ruby-identifier">report_links_availability</span>(<span class="ruby-identifier">available</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>, 
+                          <span class="ruby-identifier">unavailable</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>,
+                          <span class="ruby-identifier">columns</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;url,response&quot;</span>)
+</pre>
+          
+          
+
+          
+          <div class="method-source-code" id="report_links_availability-source">
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 77</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">report_links_availability</span>(<span class="ruby-identifier">opts</span>)
+  <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:columns</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/ /</span>, <span class="ruby-string">&quot;&quot;</span>).<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;,&#39;</span>)
+  <span class="ruby-identifier">website</span>.<span class="ruby-identifier">report_links_availability</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">url</span>, <span class="ruby-identifier">response</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">result</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;200&quot;</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:available</span>]
+               { <span class="ruby-string">&quot;url&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">url</span>, <span class="ruby-string">&quot;response&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">response</span> }
+             <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">response</span> <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;200&quot;</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:unavailable</span>]
+               { <span class="ruby-string">&quot;url&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">url</span>, <span class="ruby-string">&quot;response&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">response</span> }
+             <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">inject</span>([]) { <span class="ruby-operator">|</span><span class="ruby-identifier">res</span>, <span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">res</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">result</span>[<span class="ruby-identifier">c</span>.<span class="ruby-identifier">downcase</span>] }
+  <span class="ruby-keyword">end</span>.<span class="ruby-identifier">compact</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -621,7 +664,7 @@ website and the extension &#39;website&#39;. The website is save as YAML</p>
 
           
           <div class="method-source-code" id="save_website-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 98</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 121</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">save_website</span>(<span class="ruby-identifier">directory</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">yaml_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">website</span>.<span class="ruby-identifier">title</span>), <span class="ruby-string">&#39;w&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
     <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">website</span>, <span class="ruby-identifier">f</span>)
@@ -657,7 +700,7 @@ one link with the same URL, only the first link is updated</p>
 
           
           <div class="method-source-code" id="update_link-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 69</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 92</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update_link</span>(<span class="ruby-identifier">url</span>, <span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">website</span>.<span class="ruby-identifier">find_links</span>(<span class="ruby-identifier">url</span>).<span class="ruby-identifier">first</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">args</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -690,7 +733,7 @@ one link with the same URL, only the first link is updated</p>
 
           
           <div class="method-source-code" id="update_links_from_file-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 73</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 96</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update_links_from_file</span>(<span class="ruby-identifier">file</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">foreach</span>(<span class="ruby-identifier">file</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp</span>.<span class="ruby-identifier">empty?</span>

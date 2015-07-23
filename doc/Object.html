@@ -89,6 +89,8 @@
 
   <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-print_availability_result">#print_availability_result</a>
+    
     <li ><a href="#method-i-print_links">#print_links</a>
     
     <li ><a href="#method-i-set_default_website">#set_default_website</a>
@@ -141,6 +143,47 @@
        </header>
 
     
+      <div id="method-i-print_availability_result" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">print_availability_result</span><span
+            class="method-args">(result, opts)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Print result of links availability check eather to STDOUT or in a table
+format</p>
+          
+          
+
+          
+          <div class="method-source-code" id="print_availability_result-source">
+            <pre><span class="ruby-comment"># File bin/syclink, line 524</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">print_availability_result</span>(<span class="ruby-identifier">result</span>, <span class="ruby-identifier">opts</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:table</span>]
+    <span class="ruby-identifier">allowed_cols</span> = <span class="ruby-node">%w{ url response }</span>
+    <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:columns</span>].<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;,&#39;</span>) <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">allowed_cols</span>
+    <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">allowed_cols</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-constant">SycLink</span><span class="ruby-operator">::</span><span class="ruby-constant">Formatter</span>.<span class="ruby-identifier">table_of_array</span>(<span class="ruby-identifier">result</span>, <span class="ruby-identifier">cols</span>, <span class="ruby-identifier">opts</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">result</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;;&#39;</span>) }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-print_links" class="method-detail ">
         
         <div class="method-heading">
@@ -160,10 +203,11 @@
 
           
           <div class="method-source-code" id="print_links-source">
-            <pre><span class="ruby-comment"># File bin/syclink, line 473</span>
+            <pre><span class="ruby-comment"># File bin/syclink, line 515</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">print_links</span>(<span class="ruby-identifier">links</span>, <span class="ruby-identifier">columns</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-identifier">allowed_cols</span> = <span class="ruby-node">%w{ url name description tag }</span> 
   <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;,&#39;</span>) <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">allowed_cols</span>
+  <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">allowed_cols</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cols</span>.<span class="ruby-identifier">empty?</span>
   <span class="ruby-constant">SycLink</span><span class="ruby-operator">::</span><span class="ruby-constant">Formatter</span>.<span class="ruby-identifier">table</span>(<span class="ruby-identifier">links</span>, <span class="ruby-identifier">cols</span>, <span class="ruby-identifier">opts</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -196,7 +240,7 @@ website should be set as default website</p>
 
           
           <div class="method-source-code" id="set_default_website-source">
-            <pre><span class="ruby-comment"># File bin/syclink, line 460</span>
+            <pre><span class="ruby-comment"># File bin/syclink, line 502</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_default_website</span>(<span class="ruby-identifier">current</span>, <span class="ruby-identifier">default</span>)
   <span class="ruby-keyword">if</span> (<span class="ruby-identifier">current</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">default</span>)
     <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;Want to make &#39;#{current}&#39; the default (y/n)? &quot;</span>

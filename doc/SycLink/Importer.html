@@ -95,10 +95,6 @@
     
 <p>To be subclassed for link importers.</p>
 
-<p>To be subclassed for link importers.</p>
-
-<p>To be subclassed for link importers.</p>
-
   </section>
 
   
@@ -169,13 +165,13 @@
           
           <p>Creates a new <a href="Importer.html">Importer</a> and sets the path to the
 bookmarks file. Opts may be :level which indicates to which levels tags
-should be imported.</p>
+should be imported and :tags to set tags during import.</p>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 16</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">path_to_bookmarks</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-ivar">@path</span> = <span class="ruby-identifier">path_to_bookmarks</span>
   <span class="ruby-ivar">@opts</span> = <span class="ruby-identifier">opts</span>
@@ -217,7 +213,7 @@ should be imported.</p>
 
           
           <div class="method-source-code" id="links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 35</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 36</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">links</span>
   <span class="ruby-identifier">rows</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">attributes</span> = <span class="ruby-constant">Link</span><span class="ruby-operator">::</span><span class="ruby-constant">ATTRS</span>.<span class="ruby-identifier">dup</span> <span class="ruby-operator">-</span> [<span class="ruby-value">:url</span>]
@@ -254,7 +250,7 @@ file has to be provided during initialization with initialize</p>
 
           
           <div class="method-source-code" id="read-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 24</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">read</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>
 <span class="ruby-keyword">end</span></pre>
@@ -288,7 +284,7 @@ from <a href="Importer.html#method-i-read">read</a>.</p>
 
           
           <div class="method-source-code" id="rows-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 30</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">rows</span>
   <span class="ruby-identifier">read</span>
 <span class="ruby-keyword">end</span></pre>
@@ -325,21 +321,29 @@ from <a href="Importer.html#method-i-read">read</a>.</p>
           
           <p>Extracts the tags from a tag string. If a level is provided during 
 initialization the level is restricting the count of tags imported based on
-the level value</p>
+the level value. If tags are provided these are added to the end of the
+tag_string. If a level is provided these tags are considered first</p>
           
           
 
           
           <div class="method-source-code" id="extract_tags-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 47</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">extract_tags</span>(<span class="ruby-identifier">tag_string</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">tag_string</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:level</span>] <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+  <span class="ruby-identifier">opts</span>[<span class="ruby-value">:tags</span>].<span class="ruby-identifier">gsub!</span>(<span class="ruby-string">&#39;,&#39;</span>, <span class="ruby-string">&#39;/&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:tags</span>]
+  <span class="ruby-identifier">tags</span> = (<span class="ruby-identifier">tag_string</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:tags</span>]).<span class="ruby-identifier">compact</span>
+                                    .<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;/&#39;</span>)
+                                    .<span class="ruby-identifier">gsub</span>(<span class="ruby-node">/[^a-zA-Zäöu&amp;#\/, ]/</span>, <span class="ruby-string">&quot; &quot;</span>)
+                                    .<span class="ruby-identifier">squeeze</span>(<span class="ruby-string">&quot; &quot;</span>)
+                                    .<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;/&#39;</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:level</span>] <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
     <span class="ruby-string">&quot;Default&quot;</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">tags</span> = <span class="ruby-identifier">tag_string</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;/&#39;</span>)
     <span class="ruby-identifier">level</span> = [<span class="ruby-identifier">opts</span>[<span class="ruby-value">:level</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">size</span>, <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">size</span>].<span class="ruby-identifier">min</span>
     <span class="ruby-identifier">tags</span>[<span class="ruby-operator">-</span><span class="ruby-identifier">level</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>].<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;,&#39;</span>)
   <span class="ruby-keyword">end</span>
+
 <span class="ruby-keyword">end</span></pre>
           </div>
           
