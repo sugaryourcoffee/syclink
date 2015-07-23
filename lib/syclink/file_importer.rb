@@ -9,7 +9,8 @@ module SycLink
         next if File.directory? file
         url, name = if File.extname(file).upcase == ".URL"
                       begin
-                        [File.read(file).scan(/(?<=\nURL=)(.*)$/).flatten.first,
+                        [File.read(file).scan(/(?<=\nURL=)(.*)$/)
+                                        .flatten.first.chomp,
                          name = File.basename(file, ".*")]
                       rescue
                         [file, file.basename(file)]

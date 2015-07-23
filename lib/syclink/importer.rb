@@ -50,7 +50,8 @@ module SycLink
       opts[:tags].gsub!(',', '/') if opts[:tags]
       tags = (tag_string << opts[:tags]).compact
                                         .join('/')
-                                        .squeeze(" -")
+                                        .gsub(/[^a-zA-Zäöu&#\/, ]/, " ")
+                                        .squeeze(" ")
                                         .split('/')
 
       if tags.empty? || opts[:level] == 0
