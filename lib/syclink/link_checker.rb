@@ -1,3 +1,5 @@
+require 'uri'
+
 # Module that creates a link list and generates an html representation
 module SycLink
 
