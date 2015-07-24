@@ -29,7 +29,7 @@ _Website commands_
 * website show    - show all websites or search for websites
 * website remove  - Remove website
 * website create  - Create a HTML representation of the website
-* website check   - Check from links that are not active anymore (pending)
+* website check   - Check links for availability
 
 _Link commands_
 * add link    - Add a link
