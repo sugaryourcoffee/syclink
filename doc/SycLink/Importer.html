@@ -80,6 +80,8 @@
     
     <li ><a href="#method-i-rows">#rows</a>
     
+    <li ><a href="#method-i-url_name">#url_name</a>
+    
   </ul>
 </div>
 
@@ -95,6 +97,8 @@
     
 <p>To be subclassed for link importers.</p>
 
+<p>To be subclassed for link importers.</p>
+
   </section>
 
   
@@ -105,6 +109,20 @@
 
     
 
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="CLEANER">CLEANER
+        
+        <dd><p>REGEX to clean tags and url names</p>
+        
+      
+      </dl>
+    </section>
     
 
     
@@ -171,7 +189,7 @@ should be imported and :tags to set tags during import.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 17</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">path_to_bookmarks</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-ivar">@path</span> = <span class="ruby-identifier">path_to_bookmarks</span>
   <span class="ruby-ivar">@opts</span> = <span class="ruby-identifier">opts</span>
@@ -213,7 +231,7 @@ should be imported and :tags to set tags during import.</p>
 
           
           <div class="method-source-code" id="links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 36</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">links</span>
   <span class="ruby-identifier">rows</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">attributes</span> = <span class="ruby-constant">Link</span><span class="ruby-operator">::</span><span class="ruby-constant">ATTRS</span>.<span class="ruby-identifier">dup</span> <span class="ruby-operator">-</span> [<span class="ruby-value">:url</span>]
@@ -250,7 +268,7 @@ file has to be provided during initialization with initialize</p>
 
           
           <div class="method-source-code" id="read-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 25</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">read</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">NotImplementedError</span>
 <span class="ruby-keyword">end</span></pre>
@@ -284,7 +302,7 @@ from <a href="Importer.html#method-i-read">read</a>.</p>
 
           
           <div class="method-source-code" id="rows-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 31</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">rows</span>
   <span class="ruby-identifier">read</span>
 <span class="ruby-keyword">end</span></pre>
@@ -328,12 +346,12 @@ tag_string. If a level is provided these tags are considered first</p>
 
           
           <div class="method-source-code" id="extract_tags-source">
-            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 49</span>
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 51</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">extract_tags</span>(<span class="ruby-identifier">tag_string</span>)
   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:tags</span>].<span class="ruby-identifier">gsub!</span>(<span class="ruby-string">&#39;,&#39;</span>, <span class="ruby-string">&#39;/&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:tags</span>]
   <span class="ruby-identifier">tags</span> = (<span class="ruby-identifier">tag_string</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:tags</span>]).<span class="ruby-identifier">compact</span>
                                     .<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;/&#39;</span>)
-                                    .<span class="ruby-identifier">gsub</span>(<span class="ruby-node">/[^a-zA-Zäöu&amp;#\/, ]/</span>, <span class="ruby-string">&quot; &quot;</span>)
+                                    .<span class="ruby-identifier">gsub</span>(<span class="ruby-node">/[^a-zA-Zäöü&amp;#\/, ]/</span>, <span class="ruby-string">&quot; &quot;</span>)
                                     .<span class="ruby-identifier">squeeze</span>(<span class="ruby-string">&quot; &quot;</span>)
                                     .<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;/&#39;</span>)
 
@@ -344,6 +362,39 @@ tag_string. If a level is provided these tags are considered first</p>
     <span class="ruby-identifier">tags</span>[<span class="ruby-operator">-</span><span class="ruby-identifier">level</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>].<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;,&#39;</span>)
   <span class="ruby-keyword">end</span>
 
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-url_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">url_name</span><span
+            class="method-args">(name_source)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a name from the url if no name is given.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="url_name-source">
+            <pre><span class="ruby-comment"># File lib/syclink/importer.rb, line 69</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">url_name</span>(<span class="ruby-identifier">name_source</span>)
+  <span class="ruby-identifier">name_source</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">CLEANER</span>, <span class="ruby-string">&quot; &quot;</span>).<span class="ruby-identifier">squeeze</span>(<span class="ruby-string">&quot; &quot;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

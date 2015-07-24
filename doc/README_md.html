@@ -103,6 +103,46 @@
   
     <li><a href="./Rakefile.html">Rakefile</a>
   
+    <li><a href="./pkg/syclink-0_1_2/Gemfile.html">Gemfile</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/Gemfile_lock.html">Gemfile.lock</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/LICENSE.html">LICENSE</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/README_md.html">README</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/README_rdoc.html">README</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/Rakefile.html">Rakefile</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/setup_md.html">setup</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/spec/syclink/fi/a_txt.html">a</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/spec/syclink/fi/c/ie_url.html">ie.url</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/spec/syclink/gc/Bookmarks.html">Bookmarks</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/spec/syclink/ie/ie_url.html">ie.url</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/spec/syclink/ie/one/ie_url.html">ie.url</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/spec/syclink/ie/one/two/ie_url.html">ie.url</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/syclink_gemspec.html">syclink.gemspec</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/syclink_rdoc.html">syclink</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/templates/links.html">links</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/templates/stylesheets/style_css.html">style.css</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/templates/stylesheets/style_css_map.html">style.css.map</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/templates/stylesheets/style_css_scss.html">style.css.scss</a>
+  
+    <li><a href="./pkg/syclink-0_1_2/templates/syc-link_html.html">syc-link.html</a>
+  
     <li><a href="./setup_md.html">setup</a>
   
     <li><a href="./spec/syclink/fi/a_txt.html">a</a>
@@ -171,12 +211,12 @@ or completely replaced.</p>
 
 <p><em>Website commands</em>  website show - show all websites or search for
 websites  website remove - Remove website  website create - Create a HTML
-representation of the website  website check - Check from links that are
-not active anymore (pending)</p>
+representation of the website  website check - Check links for availability</p>
 
-<p><em>Link commands</em>  add link - Add a link  add file - Add links from a
-file  update link - Update a link  update file - Update links saved to a
-file  delete - Delete one or more links  list - List all links with an
+<p><em>Link commands</em>  add link - Add a link  add file - Add links read
+from a file  update link - Update a link  update file - Update links read
+from a file  delete link - Delete one or more links  delete file - Delete
+links based on URLs read from a file  list - List all links with an
 optional filter  find - Find links based on a search string  merge - Merge
 multiple links with same URL</p>
 
@@ -253,7 +293,19 @@ $ syclink update file exported-links</pre>
 
 <p>To delete one or more links the URLs have to be provided.</p>
 
-<pre>$ syclink delete http://example.com http://challenge.com</pre>
+<pre>$ syclink delete link http://example.com http://challenge.com</pre>
+
+<p>It is also possible to delete links based on URLs saved in a file. Asume we
+have a file <em>urls</em> with following content</p>
+
+<pre class="ruby"><span class="ruby-identifier">http</span>:<span class="ruby-operator">/</span><span class="ruby-regexp">/example.com
+http:/</span><span class="ruby-operator">/</span><span class="ruby-identifier">challenge</span>.<span class="ruby-identifier">com</span>
+</pre>
+
+<p>Then we can delete the links with the URLs stored in the <em>urls</em> file
+with</p>
+
+<pre>$ syclink delete file urls</pre>
 
 <h2 id="label-List+links">List links<span><a href="#label-List+links">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
@@ -313,9 +365,9 @@ http://example.com | Day,Night | Busy time,Fun time | Work,Fun</pre>
 
 <h1 id="label-Import+Commands">Import Commands<span><a href="#label-Import+Commands">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
-<p><a href="spec/syclink/gc/Bookmarks.html">Bookmarks</a> can be imported from
-<em>Mozilla Firefox</em>, <em>Google Chrome</em>, <em>Internet
-Explorer</em> and from directories.</p>
+<p><a href="pkg/syclink-0_1_2/spec/syclink/gc/Bookmarks.html">Bookmarks</a>
+can be imported from <em>Mozilla Firefox</em>, <em>Google Chrome</em>,
+<em>Internet Explorer</em> and from directories.</p>
 
 <p>The command is <code>syclink import</code> followed by a sub-command
 indicating from which web browser to import, or from which directory.</p>
@@ -359,8 +411,8 @@ With Ubuntu this database is usually located in</p>
 <h2 id="label-Chrome">Chrome<span><a href="#label-Chrome">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>Google Chrome stores its bookmarks in a JSON file called <a
-href="spec/syclink/gc/Bookmarks.html">Bookmarks</a>. With Ubuntu this file
-is usually located in</p>
+href="pkg/syclink-0_1_2/spec/syclink/gc/Bookmarks.html">Bookmarks</a>. With
+Ubuntu this file is usually located in</p>
 
 <pre>&#39;~/.config/chromium/Default/Bookmarks&#39;.</pre>
 

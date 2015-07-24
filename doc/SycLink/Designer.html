@@ -105,6 +105,8 @@
     
     <li ><a href="#method-i-remove_links">#remove_links</a>
     
+    <li ><a href="#method-i-remove_links_from_file">#remove_links_from_file</a>
+    
     <li ><a href="#method-i-report_links_availability">#report_links_availability</a>
     
     <li ><a href="#method-i-save_website">#save_website</a>
@@ -126,6 +128,9 @@
 
   <section class="description">
     
+<p>Creates a designer that acts as a proxy between the user and the website.
+The designer will create a website with the provided title.</p>
+
 <p>Creates a designer that acts as a proxy between the user and the website.
 The designer will create a website with the provided title.</p>
 
@@ -266,7 +271,7 @@ templates/syclink.html.erb</p>
 
           
           <div class="method-source-code" id="create_website-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 144</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create_website</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">template_filename</span>)
   <span class="ruby-identifier">template</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">template_filename</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">html_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">website</span>.<span class="ruby-identifier">title</span>), <span class="ruby-string">&#39;w&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
@@ -302,7 +307,7 @@ templates/syclink.html.erb</p>
 
           
           <div class="method-source-code" id="delete_website-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 134</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 142</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_website</span>(<span class="ruby-identifier">directory</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-identifier">yaml_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">website</span>.<span class="ruby-identifier">title</span>)
     <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">rm</span>(<span class="ruby-identifier">yaml_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">website</span>.<span class="ruby-identifier">title</span>)) 
@@ -478,7 +483,7 @@ designer to operate on</p>
 
           
           <div class="method-source-code" id="load_website-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 129</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 137</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_website</span>(<span class="ruby-identifier">website</span>)
   <span class="ruby-ivar">@website</span> = <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-identifier">website</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -511,7 +516,7 @@ designer to operate on</p>
 
           
           <div class="method-source-code" id="merge_links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 107</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 108</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">merge_links</span>
   <span class="ruby-identifier">website</span>.<span class="ruby-identifier">merge_links_on</span>(<span class="ruby-value">:url</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -578,11 +583,46 @@ Expects the links provided in an array</p>
 
           
           <div class="method-source-code" id="remove_links-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 113</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 114</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_links</span>(<span class="ruby-identifier">urls</span>)
   <span class="ruby-identifier">urls</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">url</span><span class="ruby-operator">|</span> <span class="ruby-identifier">list_links</span>({ <span class="ruby-identifier">url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">url</span> }) }.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">website</span>.<span class="ruby-identifier">remove_link</span>(<span class="ruby-identifier">link</span>)
   <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-remove_links_from_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove_links_from_file</span><span
+            class="method-args">(file)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Deletes links based on URLs that are provided in a file. Each URL has to be
+in one line</p>
+          
+          
+
+          
+          <div class="method-source-code" id="remove_links_from_file-source">
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 122</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_links_from_file</span>(<span class="ruby-identifier">file</span>)
+  <span class="ruby-identifier">urls</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">foreach</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">url</span><span class="ruby-operator">|</span> <span class="ruby-identifier">url</span>.<span class="ruby-identifier">chomp</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">url</span>.<span class="ruby-identifier">empty?</span> }
+  <span class="ruby-identifier">remove_links</span>(<span class="ruby-identifier">urls</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -664,7 +704,7 @@ website and the extension &#39;website&#39;. The website is save as YAML</p>
 
           
           <div class="method-source-code" id="save_website-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 121</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 129</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">save_website</span>(<span class="ruby-identifier">directory</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">yaml_file</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">website</span>.<span class="ruby-identifier">title</span>), <span class="ruby-string">&#39;w&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
     <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">website</span>, <span class="ruby-identifier">f</span>)
@@ -727,13 +767,13 @@ one link with the same URL, only the first link is updated</p>
 
         <div class="method-description">
           
-          
+          <p>Updates links read from a file</p>
           
           
 
           
           <div class="method-source-code" id="update_links_from_file-source">
-            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 96</span>
+            <pre><span class="ruby-comment"># File lib/syclink/designer.rb, line 97</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update_links_from_file</span>(<span class="ruby-identifier">file</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">foreach</span>(<span class="ruby-identifier">file</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp</span>.<span class="ruby-identifier">empty?</span>

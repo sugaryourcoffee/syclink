@@ -163,7 +163,7 @@ format</p>
 
           
           <div class="method-source-code" id="print_availability_result-source">
-            <pre><span class="ruby-comment"># File bin/syclink, line 524</span>
+            <pre><span class="ruby-comment"># File bin/syclink, line 536</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">print_availability_result</span>(<span class="ruby-identifier">result</span>, <span class="ruby-identifier">opts</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:table</span>]
     <span class="ruby-identifier">allowed_cols</span> = <span class="ruby-node">%w{ url response }</span>
@@ -203,7 +203,7 @@ format</p>
 
           
           <div class="method-source-code" id="print_links-source">
-            <pre><span class="ruby-comment"># File bin/syclink, line 515</span>
+            <pre><span class="ruby-comment"># File bin/syclink, line 527</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">print_links</span>(<span class="ruby-identifier">links</span>, <span class="ruby-identifier">columns</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-identifier">allowed_cols</span> = <span class="ruby-node">%w{ url name description tag }</span> 
   <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;,&#39;</span>) <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">allowed_cols</span>
@@ -240,7 +240,7 @@ website should be set as default website</p>
 
           
           <div class="method-source-code" id="set_default_website-source">
-            <pre><span class="ruby-comment"># File bin/syclink, line 502</span>
+            <pre><span class="ruby-comment"># File bin/syclink, line 514</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_default_website</span>(<span class="ruby-identifier">current</span>, <span class="ruby-identifier">default</span>)
   <span class="ruby-keyword">if</span> (<span class="ruby-identifier">current</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">default</span>)
     <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;Want to make &#39;#{current}&#39; the default (y/n)? &quot;</span>

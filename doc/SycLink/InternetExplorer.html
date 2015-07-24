@@ -87,6 +87,8 @@
     
 <p><a href="Importer.html">Importer</a> for Internet Explorer</p>
 
+<p><a href="Importer.html">Importer</a> for Internet Explorer</p>
+
   </section>
 
   
@@ -135,8 +137,8 @@
 
   <span class="ruby-identifier">files</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">unless</span> ((<span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-identifier">file</span>) <span class="ruby-operator">||</span> (<span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">upcase</span> <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;.URL&quot;</span>))
-      <span class="ruby-identifier">url</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/(?&lt;=\nURL=)(.*)$/</span>).<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">first</span>
-      <span class="ruby-identifier">name</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>, <span class="ruby-string">&quot;.*&quot;</span>)
+      <span class="ruby-identifier">url</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/(?&lt;=\nURL=)(.*)$/</span>).<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">chomp</span>
+      <span class="ruby-identifier">name</span> = <span class="ruby-identifier">url_name</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>, <span class="ruby-string">&quot;.*&quot;</span>))
       <span class="ruby-identifier">description</span> = <span class="ruby-string">&quot;&quot;</span>
       <span class="ruby-identifier">tag</span>         = <span class="ruby-identifier">extract_tags</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">scan</span>(<span class="ruby-identifier">regex</span>))
       [<span class="ruby-identifier">url</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">description</span>, <span class="ruby-identifier">tag</span>]

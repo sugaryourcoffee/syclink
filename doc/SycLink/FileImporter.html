@@ -135,9 +135,9 @@
                   <span class="ruby-keyword">begin</span>
                     [<span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/(?&lt;=\nURL=)(.*)$/</span>)
                                     .<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">chomp</span>,
-                     <span class="ruby-identifier">name</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>, <span class="ruby-string">&quot;.*&quot;</span>)]
+                     <span class="ruby-identifier">url_name</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>, <span class="ruby-string">&quot;.*&quot;</span>))]
                   <span class="ruby-keyword">rescue</span>
-                    [<span class="ruby-identifier">file</span>, <span class="ruby-identifier">file</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>)]
+                    [<span class="ruby-identifier">file</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>)]
                   <span class="ruby-keyword">end</span>
                 <span class="ruby-keyword">else</span>
                   [<span class="ruby-identifier">file</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">file</span>)]

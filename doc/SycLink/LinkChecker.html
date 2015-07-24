@@ -86,6 +86,8 @@
     
 <p>Methods to check links for availability. A link may be an URI or a file</p>
 
+<p>Methods to check links for availability. A link may be an URI or a file</p>
+
   </section>
 
   
@@ -129,7 +131,7 @@ including class has an attribute &#39;url&#39;</p>
 
           
           <div class="method-source-code" id="response-source">
-            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 10</span>
+            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">response</span>
   <span class="ruby-identifier">uri</span> = <span class="ruby-identifier">to_uri</span>(<span class="ruby-identifier">url</span>)
   <span class="ruby-identifier">uri</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">response_of_uri</span>(<span class="ruby-identifier">uri</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">response_of_file</span>(<span class="ruby-identifier">url</span>)
@@ -164,7 +166,7 @@ including class has an attribute &#39;url&#39;</p>
 
           
           <div class="method-source-code" id="response_of_file-source">
-            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 29</span>
+            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">response_of_file</span>(<span class="ruby-identifier">file</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">file</span>) <span class="ruby-operator">?</span> <span class="ruby-string">&quot;200&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;Error&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -199,7 +201,7 @@ not be nil</p>
 
           
           <div class="method-source-code" id="response_of_uri-source">
-            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 17</span>
+            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">response_of_uri</span>(<span class="ruby-identifier">uri</span>)
   <span class="ruby-keyword">begin</span>
     <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTP</span>.<span class="ruby-identifier">start</span>(<span class="ruby-identifier">uri</span>.<span class="ruby-identifier">host</span>, <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">port</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">http</span><span class="ruby-operator">|</span>
@@ -239,7 +241,7 @@ returned</p>
 
           
           <div class="method-source-code" id="to_uri-source">
-            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 35</span>
+            <pre><span class="ruby-comment"># File lib/syclink/link_checker.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_uri</span>(<span class="ruby-identifier">url</span>)
   <span class="ruby-identifier">uri</span> = <span class="ruby-constant">URI</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">url</span>)
   <span class="ruby-identifier">uri</span>.<span class="ruby-identifier">host</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">false</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">uri</span>
