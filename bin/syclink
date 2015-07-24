@@ -178,13 +178,25 @@ command :find do |c|
   end
 end
 
-desc 'Remove one or more links'
-arg_name 'URL [URL URL]'
+desc 'Remove links from command line or from a file'
 command :delete do |c|
-  c.action do |global_options,options,args|
-    p args
-    @designer.remove_links(args)
+
+  c.desc 'Remove one or more links'
+  c.arg_name 'URL [URL URL]'
+  c.command :link do |s|
+    s.action do |global_options,options,args|
+      @designer.remove_links(args)
+    end
   end
+
+  c.desc 'Remove links read from a file'
+  c.arg_name 'FILE'
+  c.command :file do |s|
+    s.action do |global_options,options,args|
+      @designer.remove_links_from_file(args[0])
+    end
+  end
+
 end
 
 desc 'List and optionally filter links'

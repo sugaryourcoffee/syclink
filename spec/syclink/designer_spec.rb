@@ -109,6 +109,29 @@ module SycLink
       expect(@designer.list_links.size).to eq 1
     end
 
+    it "should delete links from a file" do
+      links = [ "http://example.com;Example;An example website;Test",
+                "http://test.de;test;A test website;Test",
+                "http://challenge.org;challenge;A challenge website;Challenge" ]
+      File.write("links.tmp", links.join("\n"))
+
+      @designer.add_links_from_file("links.tmp")
+      expect(@designer.website.links.size).to eq 3
+
+      links = [ "http://example.com",
+                "",
+                "http://challenge.org" ]
+      File.write("links.tmp", links.join("\n"))
+
+      @designer.remove_links_from_file("links.tmp")
+      expect(@designer.website.links.size).to eq 1
+      expect(@designer.website.links[0].name).to        eq "test"
+      expect(@designer.website.links[0].tag).to         eq "Test"
+      expect(@designer.website.links[0].description).to eq "A test website"
+
+      FileUtils.rm("links.tmp")
+    end
+
     it "should save, load and delete a website" do
       @designer.add_link("http://example.com",
                          { tag: "Loader" })

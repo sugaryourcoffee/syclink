@@ -33,10 +33,11 @@ _Website commands_
 
 _Link commands_
 * add link    - Add a link
-* add file    - Add links from a file
+* add file    - Add links read from a file
 * update link - Update a link
-* update file - Update links saved to a file
-* delete      - Delete one or more links
+* update file - Update links read from a file
+* delete link - Delete one or more links
+* delete file - Delete links based on URLs read from a file
 * list        - List all links with an optional filter
 * find        - Find links based on a search string
 * merge       - Merge multiple links with same URL
@@ -116,7 +117,17 @@ Delete a Link
 -------------
 To delete one or more links the URLs have to be provided.
 
-    $ syclink delete http://example.com http://challenge.com
+    $ syclink delete link http://example.com http://challenge.com
+
+It is also possible to delete links based on URLs saved in a file. Asume we 
+have a file _urls_ with following content
+
+    http://example.com
+    http://challenge.com
+
+Then we can delete the links with the URLs stored in the _urls_ file with
+
+    $ syclink delete file urls
 
 List links
 ----------

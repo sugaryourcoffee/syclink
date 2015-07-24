@@ -93,6 +93,7 @@ module SycLink
       website.find_links(url).first.update(args)
     end
 
+    # Updates links read from a file
     def update_links_from_file(file)
       File.foreach(file) do |line|
         next if line.chomp.empty?
@@ -114,6 +115,13 @@ module SycLink
       urls.map { |url| list_links({ url: url }) }.flatten.compact.each do |link|
         website.remove_link(link)
       end
+    end
+
+    # Deletes links based on URLs that are provided in a file. Each URL has to
+    # be in one line
+    def remove_links_from_file(file)
+      urls = File.foreach(file).map { |url| url.chomp unless url.empty? }
+      remove_links(urls)
     end
 
     # Saves the website to the specified directory with the downcased name of
