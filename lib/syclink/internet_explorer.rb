@@ -14,7 +14,7 @@ module SycLink
 
       files.map do |file|
         unless ((File.directory? file) || (File.extname(file).upcase != ".URL"))
-          url = File.read(file).scan(/(?<=\nURL=)(.*)$/).flatten.first
+          url = File.read(file).scan(/(?<=\nURL=)(.*)$/).flatten.first.chomp
           name = File.basename(file, ".*")
           description = ""
           tag         = extract_tags(File.dirname(file).scan(regex))
