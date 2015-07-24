@@ -11,9 +11,9 @@ module SycLink
                       begin
                         [File.read(file).scan(/(?<=\nURL=)(.*)$/)
                                         .flatten.first.chomp,
-                         name = File.basename(file, ".*")]
+                         url_name(File.basename(file, ".*"))]
                       rescue
-                        [file, file.basename(file)]
+                        [file, File.basename(file)]
                       end
                     else
                       [file, File.basename(file)]
