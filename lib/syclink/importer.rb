@@ -6,6 +6,8 @@ module SycLink
   # To be subclassed for link importers.
   class Importer
     
+    # REGEX to clean tags and url names
+    CLEANER = /[^a-zA-Zäöü& ]/
     # Path to bookmarks file
     attr_accessor :path
     # Options for importing
@@ -50,7 +52,7 @@ module SycLink
       opts[:tags].gsub!(',', '/') if opts[:tags]
       tags = (tag_string << opts[:tags]).compact
                                         .join('/')
-                                        .gsub(/[^a-zA-Zäöu&#\/, ]/, " ")
+                                        .gsub(/[^a-zA-Zäöü&#\/, ]/, " ")
                                         .squeeze(" ")
                                         .split('/')
 
@@ -61,6 +63,11 @@ module SycLink
         tags[-level..-1].join(',')
       end
 
+    end
+
+    # Create a name from the url if no name is given.
+    def url_name(name_source)
+      name_source.gsub(CLEANER, " ").squeeze(" ")
     end
   end
 
