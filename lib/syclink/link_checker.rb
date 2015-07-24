@@ -10,6 +10,7 @@ module SycLink
     # otherwise 'Error'
     # #response expects that the including class has an attribute 'url'
     def response
+      return "Error" unless url
       uri = to_uri(url)
       uri ? response_of_uri(uri) : response_of_file(url)
     end
