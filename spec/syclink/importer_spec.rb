@@ -39,19 +39,20 @@ module SycLink
 
       before do
         ie_directory = File.join(File.dirname(__FILE__), 'ie/')
+
         @result = [ [ "http://www.example.com/", "ie", "", "one" ],
                     [ "http://www.example.com/", "ie", "", "one,two"],
-                    [ "http://www.example.com/", "ie", "", "Default"] ]
+                    [ "http://www.example.com/", "ie", "", "Default"] ].sort
 
         @ie = InternetExplorer.new(ie_directory)
       end
 
       it "should import bookmarks" do
-        expect(@ie.read).to eq @result
+        expect(@ie.read.sort).to eq @result
       end
 
       it "should read rows" do
-        expect(@ie.rows).to eq @result
+        expect(@ie.rows.sort).to eq @result
       end
 
       it "should create links" do
@@ -115,7 +116,7 @@ module SycLink
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
                        "two.pdf", "", "a"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
-                       "one.pdf", "", "Default"]]
+                       "one.pdf", "", "Default"]].sort
         @pdf_zero = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf", 
                        "three.pdf", "", "Default"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
@@ -123,7 +124,7 @@ module SycLink
                       ["/home/pierre/Work/syclink/spec/syclink/fi/a/two.pdf", 
                        "two.pdf", "", "Default"], 
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
-                       "one.pdf", "", "Default"]]
+                       "one.pdf", "", "Default"]].sort
         @txt_files = [["/home/pierre/Work/syclink/spec/syclink/fi/a.txt",
                        "a.txt", "", "Default"]]
         @any_files = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
@@ -137,7 +138,7 @@ module SycLink
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
                        "one.pdf", "", "Default"], 
                       ["http://www.example.com/", 
-                       "ie", "", "c"]]     
+                       "ie", "", "c"]].sort
         @any_level = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
                        "three.pdf", "", "b"],
                       ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
@@ -149,7 +150,7 @@ module SycLink
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
                        "one.pdf", "", "Default"], 
                       ["http://www.example.com/", 
-                       "ie", "", "c"]]     
+                       "ie", "", "c"]].sort
         @pdf_tags  = [["/home/pierre/Work/syclink/spec/syclink/fi/b/three.pdf",
                        "three.pdf", "", "Prime,Second"],
                       ["/home/pierre/Work/syclink/spec/syclink/fi/b/a/four.pdf",
@@ -161,12 +162,12 @@ module SycLink
                       ["/home/pierre/Work/syclink/spec/syclink/fi/one.pdf", 
                        "one.pdf", "", "Prime,Second"], 
                       ["http://www.example.com/", 
-                       "ie", "", "Prime,Second"]]     
+                       "ie", "", "Prime,Second"]].sort
       end
 
       it "should import pdf filenames" do
         fi = FileImporter.new(File.join(@file_dir, "**/*.pdf"))
-        expect(fi.read).to eq @pdf_files
+        expect(fi.read.sort).to eq @pdf_files
       end
 
       it "should import a fully qualified text-file" do
@@ -176,7 +177,7 @@ module SycLink
 
       it "should import any file" do
         fi = FileImporter.new(File.join(@file_dir, "**/*"))
-        expect(fi.read).to eq @any_files
+        expect(fi.read.sort).to eq @any_files
       end
 
       it "should read rows from pdf" do
@@ -196,18 +197,18 @@ module SycLink
 
       it "should use only the parent directory as the tag" do
         fi = FileImporter.new(File.join(@file_dir, "**/*"), level: 1)
-        expect(fi.read).to eq @any_level
+        expect(fi.read.sort).to eq @any_level
       end
 
       it "should not import tags" do
         fi = FileImporter.new(File.join(@file_dir, "**/*.pdf"), level: 0)
-        expect(fi.read).to eq @pdf_zero
+        expect(fi.read.sort).to eq @pdf_zero
       end
 
       it "should specify tags during import" do
         fi = FileImporter.new(File.join(@file_dir, "**/*"), 
                               level: 2, tags: "Prime,Second")
-        expect(fi.read).to eq @pdf_tags
+        expect(fi.read.sort).to eq @pdf_tags
       end
     end
 
