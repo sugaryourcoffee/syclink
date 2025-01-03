@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 require 'gli'
+require 'fileutils' 
+
 begin # XXX: Remove this begin/rescue before distributing your app
 require 'syclink'
 rescue LoadError
@@ -343,7 +345,7 @@ command :import do |c|
   c.command :mf do |s|
 
     s.action do |global_options,options,args|
-      unless File.exists? args[0]
+      unless File.exist? args[0]
         STDERR.puts <<-HERE.gsub(/^ {10}/, '')
           Error: #{args[0]} doesn't exist!
           Firefox stores its bookmarks in a SQLite3 database called
@@ -365,7 +367,7 @@ command :import do |c|
   c.command :gc do |s|
 
     s.action do |global_options,options,args|
-      unless File.exists? args[0]
+      unless File.exist? args[0]
         STDERR.puts <<-HERE.gsub(/^ {10}/, '')
           Error: #{args[0]} doesn't exist!
           Google Chrome stores its bookmarks in a JSON file called
@@ -401,7 +403,7 @@ command :import do |c|
     s.flag [:t, :tags]
 
     s.action do |global_options,options,args|
-      unless File.exists? args[0]
+      unless File.exist? args[0]
         STDERR.puts <<-HERE.gsub(/^ {10}/, '')
           Error: #{args[0]} doesn't exist!
           Internet Explorer stores its bookmarks in a directory structure.
@@ -472,7 +474,7 @@ pre do |global,command,options,args|
     @designer = SycLink::Designer.new
     global[:website] ||= config[:default_website]
 
-    if File.exists? yaml_file(syclink_website_directory, global[:website])
+    if File.exist? yaml_file(syclink_website_directory, global[:website])
       @designer.load_website(yaml_file(syclink_website_directory, 
                                        global[:website]))
 
