@@ -2,6 +2,7 @@ require_relative 'website'
 require_relative 'link'
 require_relative 'infrastructure'
 require 'yaml'
+require 'fileutils'
 
 # Module that creates a link list and generates an html representation
 module SycLink
@@ -135,12 +136,12 @@ module SycLink
     # Loads a website based on the provided YAML-file and asigns it to the
     # designer to operate on
     def load_website(website)
-      @website = YAML.load_file(website)
+      @website = YAML.safe_load_file(website, permitted_classes: [SycLink::Website, SycLink::Link])
     end
 
     # Deletes the website if it already exists
     def delete_website(directory)
-      if File.exists? yaml_file(directory, website.title)
+      if File.exist? yaml_file(directory, website.title)
         FileUtils.rm(yaml_file(directory, website.title)) 
       end
     end
