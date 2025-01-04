@@ -56,6 +56,8 @@ module SycLink
                                         .squeeze(" ")
                                         .split('/')
 
+      tags.reject! { |tag| tag.empty? }
+
       if tags.empty? || opts[:level] == 0
         "Default"
       else
