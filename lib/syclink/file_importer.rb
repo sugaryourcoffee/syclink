@@ -2,10 +2,11 @@ module SycLink
 
   class FileImporter < Importer
 
+    GLOB_PATTERN = /^[^\*\?\[\]\{\}]*/
+
     def read
-      root_dir = File.dirname(path).scan(/^[^\*|\?]*/).first
-      regex = Regexp.new("(?<=#{root_dir}).*")
-      Dir.glob(path).map do |file|
+      regex = Regexp.new("(?<=#{root_dir(path)}).*")
+      files(path).map do |file|
         next if File.directory? file
         url, name = if File.extname(file).upcase == ".URL"
                       begin
@@ -24,6 +25,27 @@ module SycLink
       end.compact
     end
 
+    private
+
+    def files(path)
+      if path.is_a?(String)
+        Dir.glob(path)
+      elsif path.is_a?(Array)
+        path.size > 1 ? path : Dir.glob(path.first)
+      else
+        abort "Path #{path} is not a valid path"
+      end
+    end
+
+    def root_dir(path)
+      path = if path.is_a?(String) 
+               path 
+             else 
+               path.first
+             end.scan(GLOB_PATTERN).first
+
+      File.directory?(path) ? path : File.dirname(path)
+    end
   end
 
 end
