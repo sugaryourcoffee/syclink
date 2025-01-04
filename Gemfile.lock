@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    syclink (0.1.4)
+    syclink (0.2.0)
       gli (>= 2.22.0)
       sqlite3 (= 1.3.10)
 
