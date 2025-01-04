@@ -49,13 +49,18 @@ repository.
 Select the Ruby version
 =======================
 For a new project we want to use the newst Ruby version. At this writing it is
-verison 2.2.1. Suppose we use [RVM](https://rvm.io/). If not already installed
+verison 3.2.6. Suppose we use [RVM](https://rvm.io/). If not already installed
 we install it with
 
     $ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
     $ \curl -sSL https://get.rvm.io | bash -s stable
-    $ rvm install 2.2.1
-    $ rvm use 2.2.1
+    $ rvm install 3.2.6
+    $ rvm use 3.2.6
+
+Using [rbenv](https://github.com/rbenv/rbenv) we install ruby and select it for the directory 
+
+    $ rbenv install 3.2.6
+    $ rbenv local 3.2.6
 
 Install RSpec
 =============
