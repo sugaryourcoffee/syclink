@@ -429,6 +429,9 @@ command :import do |c|
     sub-directory
 
     PATH_TO_DIRECTORY/**/* will import all files and sub-directories
+
+    PATH_TO_DIRECTORY/ will be expanded to PATH_TO_DIRECTORY/* which will import
+    all files in the provided directory
   HERE
 
   c.arg_name 'PATH_TO_DIRECTORY'
@@ -449,8 +452,7 @@ command :import do |c|
     s.flag [:t, :tags]
 
     s.action do |global_options,options,args|
-      @designer.import_links(SycLink::FileImporter.new(args.shift,
-                                                       options))
+      @designer.import_links(SycLink::FileImporter.new(args, options))
     end
   end
 end
