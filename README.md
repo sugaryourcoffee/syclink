@@ -268,6 +268,9 @@ To import all files from `some-directory` call
 
     $ syclink import dir ~/some-directory/**/*
 
+A path given like ~/some-directory/ will be expanded to ~/some-directory/* which
+will read all files in the given directory, but not in sub-directories.
+
 If on Windows and the directory contains .URL-files the URL within the .URL-file
 will be used as the link target.
 
