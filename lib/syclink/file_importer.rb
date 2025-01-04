@@ -29,22 +29,24 @@ module SycLink
 
     def files(path)
       if path.is_a?(String)
-        Dir.glob(path)
+        Dir.glob(expand_to_glob(path))
       elsif path.is_a?(Array)
-        path.size > 1 ? path : Dir.glob(path.first)
+        path.size > 1 ? path : Dir.glob(expand_to_glob(path.first))
       else
         abort "Path #{path} is not a valid path"
       end
     end
 
-    def root_dir(path)
-      path = if path.is_a?(String) 
-               path 
-             else 
-               path.first
-             end.scan(GLOB_PATTERN).first
+    def expand_to_glob(path)
+      File.directory?(path) ? File.expand_path("*", path) : path
+    end
 
-      File.directory?(path) ? path : File.dirname(path)
+    def root_dir(path)
+      if path.is_a?(String) 
+        path 
+      else 
+        File.dirname(path.first)
+      end.scan(GLOB_PATTERN).first
     end
   end
 
