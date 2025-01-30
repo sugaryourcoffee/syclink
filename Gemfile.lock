@@ -25,6 +25,7 @@ GEM
     rspec-support (3.13.2)
     sass (3.4.15)
     sqlite3 (1.3.10)
+    sycersion (0.1.0)
 
 PLATFORMS
   ruby
@@ -32,6 +33,7 @@ PLATFORMS
 DEPENDENCIES
   rspec (>= 3.13)
   sass (= 3.4.15)
+  sycersion (= 0.1.0)
   syclink!
 
 BUNDLED WITH

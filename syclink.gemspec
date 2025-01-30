@@ -20,6 +20,7 @@ spec = Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0'
   s.add_development_dependency('rspec', '>= 3.13')
   s.add_development_dependency('sass', '3.4.15')
+  s.add_development_dependency('sycersion', '0.1.0')
   s.add_runtime_dependency('gli','>= 2.22.0')
   s.add_runtime_dependency('sqlite3','1.3.10')
 end
